@@ -50,14 +50,19 @@ def generate():
     if os_type not in ("windows", "macos", "remote"):
         abort(400, "Invalid OS type.")
 
-    pdf_bytes = build_pdf(
-        os_type=os_type,
-        company_name=company_name,
-        company_size=company_size,
-        software=software,
-        preparer=preparer,
-        employee=employee,
-    )
+    try:
+        pdf_bytes = build_pdf(
+            os_type=os_type,
+            company_name=company_name,
+            company_size=company_size,
+            software=software,
+            preparer=preparer,
+            employee=employee,
+        )
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return f"<pre>PDF generation failed:\n{e}</pre>", 500
 
     filename = f"IT-Onboarding-{os_type.capitalize()}-Checklist.pdf"
     return send_file(
