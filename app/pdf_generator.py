@@ -1,7 +1,8 @@
 import yaml
 import os
+from datetime import date
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from weasyprint import HTML
 
 CHECKLIST_DIR = Path(__file__).parent.parent / "checklists"
@@ -16,7 +17,6 @@ def load_checklist(os_type: str, software: list[str], company_size: str) -> list
     for section in data.get("sections", []):
         items = []
         for item in section.get("items", []):
-            # Items can be plain strings or dicts with optional filters
             if isinstance(item, str):
                 items.append(item)
             elif isinstance(item, dict):
@@ -43,7 +43,10 @@ def build_pdf(
 ) -> bytes:
     sections = load_checklist(os_type, software, company_size)
 
-    env = Environment(loader=FileSystemLoader(str(TEMPLATE_DIR)))
+    env = Environment(
+        loader=FileSystemLoader(str(TEMPLATE_DIR)),
+        autoescape=select_autoescape(["html"]),
+    )
     template = env.get_template("pdf_checklist.html")
 
     os_labels = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
@@ -56,6 +59,7 @@ def build_pdf(
         preparer=preparer,
         employee=employee,
         sections=sections,
+        generated_date=date.today().strftime("%B %d, %Y"),
     )
 
     return HTML(string=html_str).write_pdf()
