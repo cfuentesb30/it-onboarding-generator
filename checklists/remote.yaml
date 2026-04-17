@@ -1,0 +1,61 @@
+sections:
+  - title: "1. Equipment Confirmation"
+    items:
+      - Confirm employee has received company device or approved personal device
+      - Verify machine powers on and meets minimum specs
+      - Confirm reliable internet connection (minimum 25 Mbps download)
+      - Check headset / webcam is working for video calls
+
+  - title: "2. OS Setup"
+    items:
+      - Run all OS updates before proceeding
+      - Set computer hostname per company naming convention
+      - Create employee standard account (non-admin)
+      - Enable full-disk encryption (BitLocker / FileVault)
+      - Enable OS firewall
+      - Set screen lock to activate after 5 minutes of inactivity
+
+  - title: "3. Software Installation"
+    items:
+      - Install preferred web browser (Chrome / Edge / Firefox / Safari)
+      - { text: "Install Microsoft Office and activate license", requires_software: [microsoft_office] }
+      - { text: "Set up Google Workspace apps (Drive, Docs, Gmail)", requires_software: [google_workspace] }
+      - { text: "Install and configure Slack", requires_software: [slack] }
+      - { text: "Install and configure Zoom — test audio/video", requires_software: [zoom] }
+      - { text: "Install Microsoft Teams — test audio/video", requires_software: [teams] }
+      - { text: "Install antivirus — run initial scan", requires_software: [antivirus] }
+      - { text: "Install VPN client and verify connection", requires_software: [vpn] }
+      - { text: "Install password manager", requires_software: [password_manager, 1password, lastpass] }
+
+  - title: "4. Remote Access & Security"
+    items:
+      - { text: "Install and test VPN — confirm all company resources are accessible remotely", requires_software: [vpn] }
+      - Set up 2FA on all company accounts (authenticator app preferred over SMS)
+      - Confirm employee can access company intranet / internal tools via VPN
+      - Brief employee on acceptable use policy for remote work
+      - Confirm home network is password-protected (WPA2 or WPA3)
+      - { text: "Set up password manager — ensure all shared credentials are accessible", requires_software: [password_manager, 1password, lastpass] }
+
+  - title: "5. Accounts & Access"
+    items:
+      - Create company email account and verify login
+      - Grant access to shared drives and cloud storage (role-appropriate only)
+      - Add to relevant distribution lists and groups
+      - Set up access to project management and ticketing tools
+      - { text: "Add to Slack workspace and all relevant channels", requires_software: [slack] }
+      - { text: "Add to Microsoft Teams workspace and channels", requires_software: [teams] }
+      - { text: "Set up Google Workspace account and Drive sharing", requires_software: [google_workspace] }
+      - { text: "Add to company-wide Microsoft 365 tenant", requires_software: [microsoft_office] }
+      - Schedule virtual intro meetings with direct team members
+      - { text: "Set up shared calendars — invite to recurring team meetings", requires_size: [medium, large] }
+
+  - title: "6. Final Verification"
+    items:
+      - Employee can log in from their home network
+      - Email send and receive confirmed
+      - Video call test completed successfully (audio + video)
+      - VPN access confirmed for all required systems
+      - All required applications open without errors
+      - Backup solution configured and running
+      - Employee walkthrough complete via video call
+      - Remote onboarding sign-off sheet signed digitally by IT and employee

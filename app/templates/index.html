@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}IT Onboarding Checklist Generator{% endblock %}
+{% block content %}
+
+<div class="hero">
+  <h1>Stop setting up new employees from memory.</h1>
+  <p>Fill in the details below and get a custom IT onboarding checklist PDF — ready in seconds.</p>
+</div>
+
+<form action="/generate" method="POST" class="gen-form">
+
+  <!-- Company Info -->
+  <div class="form-section">
+    <h2>Company Info</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="company_name">Company Name</label>
+        <input type="text" id="company_name" name="company_name" placeholder="Acme Corp" maxlength="80"/>
+      </div>
+      <div class="form-group">
+        <label for="company_size">Company Size</label>
+        <select id="company_size" name="company_size">
+          {% for value, label in company_sizes %}
+          <option value="{{ value }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="employee">New Employee Name</label>
+        <input type="text" id="employee" name="employee" placeholder="Jane Smith" maxlength="80"/>
+      </div>
+      <div class="form-group">
+        <label for="preparer">IT Preparer Name</label>
+        <input type="text" id="preparer" name="preparer" placeholder="Your name" maxlength="80"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- OS Selection -->
+  <div class="form-section">
+    <h2>Operating System</h2>
+    <div class="os-cards">
+      {% for value, label in os_options %}
+      <label class="os-card">
+        <input type="radio" name="os_type" value="{{ value }}" {% if loop.first %}checked{% endif %}/>
+        <div class="os-card-inner">
+          <span class="os-icon">
+            {% if value == 'windows' %}🪟
+            {% elif value == 'macos' %}🍎
+            {% else %}🌐
+            {% endif %}
+          </span>
+          <span class="os-label">{{ label }}</span>
+        </div>
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Software -->
+  <div class="form-section">
+    <h2>Software to Install <span class="hint">Select all that apply</span></h2>
+    <div class="software-grid">
+      {% for value, label in software_options %}
+      <label class="sw-item">
+        <input type="checkbox" name="software" value="{{ value }}"/>
+        <span>{{ label }}</span>
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
+  <button type="submit" class="btn-generate">⬇ Generate PDF Checklist</button>
+
+</form>
+{% endblock %}

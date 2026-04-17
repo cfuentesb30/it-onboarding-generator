@@ -1,0 +1,64 @@
+sections:
+  - title: "1. Hardware Check"
+    items:
+      - Inspect machine condition — no visible damage
+      - Verify peripherals are present (mouse, keyboard, adapter, power cable)
+      - Confirm machine powers on and boots correctly
+      - Check available storage (minimum 20 GB free)
+      - Verify RAM meets role requirements
+
+  - title: "2. OS Setup"
+    items:
+      - Run Software Update — install all macOS updates and restart
+      - Set computer hostname via System Settings → General → Sharing
+      - Create or verify admin account
+      - Set up employee standard account (non-admin)
+      - Configure time zone and regional settings
+      - Enable FileVault disk encryption (save recovery key securely)
+      - Enable macOS Firewall
+      - Review Login Items and disable unnecessary startup apps
+
+  - title: "3. Software Installation"
+    items:
+      - Install preferred web browser (Chrome / Safari / Firefox)
+      - { text: "Install Microsoft Office (via company license)", requires_software: [microsoft_office] }
+      - { text: "Set up Google Workspace apps (Drive, Docs, Gmail)", requires_software: [google_workspace] }
+      - { text: "Install and configure Slack", requires_software: [slack] }
+      - { text: "Install and configure Zoom", requires_software: [zoom] }
+      - { text: "Install Microsoft Teams", requires_software: [teams] }
+      - { text: "Install antivirus — run initial scan", requires_software: [antivirus] }
+      - { text: "Install VPN client and verify connection", requires_software: [vpn] }
+      - { text: "Install password manager", requires_software: [password_manager, 1password, lastpass] }
+
+  - title: "4. Network & Security"
+    items:
+      - Connect to company Wi-Fi or configure wired connection
+      - { text: "Connect to VPN and verify access", requires_software: [vpn] }
+      - Enable Touch ID and/or strong login password
+      - Set up 2FA on all company accounts
+      - Verify Screen Lock activates after 5 minutes of inactivity
+      - Confirm Gatekeeper is enabled (allow apps from App Store and identified developers)
+
+  - title: "5. Accounts & Access"
+    items:
+      - Create company email account and verify login
+      - Grant access to shared drives and folders (role-appropriate only)
+      - Add to relevant distribution lists and groups
+      - Set up access to company project management tools
+      - { text: "Add to Slack workspace and relevant channels", requires_software: [slack] }
+      - { text: "Add to Microsoft Teams workspace", requires_software: [teams] }
+      - { text: "Set up Google Workspace account and sharing", requires_software: [google_workspace] }
+      - { text: "Configure password manager vault and share company credentials", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Add to company-wide Microsoft 365 tenant", requires_software: [microsoft_office] }
+      - { text: "Set up shared calendars and conference rooms", requires_size: [medium, large] }
+
+  - title: "6. Final Verification"
+    items:
+      - Employee can log in with their credentials
+      - Email send and receive confirmed
+      - All required applications open without errors
+      - VPN connection tested (if applicable)
+      - Printer access confirmed via AirPrint or driver (if applicable)
+      - Backup solution configured (Time Machine or company backup)
+      - Employee walkthrough complete — questions answered
+      - Sign-off sheet signed by IT and new employee
