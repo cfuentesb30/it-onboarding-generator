@@ -25,9 +25,11 @@ def load_checklist(os_type: str, software: list[str], company_size: str) -> list
                 sw_match   = not required_sw   or any(s in software     for s in required_sw)
                 size_match = not required_size or company_size in required_size
                 if sw_match and size_match:
-                    items.append(item["text"])
+                    text = item.get("text", "")
+                    if text:
+                        items.append(text)
         if items:
-            sections.append({"title": section["title"], "items": items})
+            sections.append({"title": section["title"], "steps": items})
 
     return sections
 
