@@ -68,7 +68,12 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   font-size: 15px; font-weight: 700; letter-spacing: -0.2px;
   cursor: pointer; transition: opacity .15s;
 }
-.btn-generate:hover { opacity: .85; }
+.btn-generate:hover:not(:disabled) { opacity: .85; }
+.btn-generate:disabled,
+.btn-generate.btn-loading {
+  opacity: .55;
+  cursor: not-allowed;
+}
 
 @media (max-width: 560px) {
   .form-row { grid-template-columns: 1fr; }
