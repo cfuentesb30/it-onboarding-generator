@@ -1,156 +1,226 @@
 {% extends "base.html" %}
 {% block title %}IT Onboarding Generator — Custom Checklists in Seconds{% endblock %}
+{% block main_class %}lp-main{% endblock %}
 {% block content %}
 
 <!-- Hero -->
-<section class="lp-hero">
-  <div class="lp-badge">Free &nbsp;·&nbsp; No account required &nbsp;·&nbsp; Instant PDF</div>
-  <h1>Stop onboarding new hires<br>from memory.</h1>
-  <p>Enter your setup details and get a print-ready IT onboarding checklist PDF — tailored to your OS, software, and company size. Done in under a minute.</p>
-  <a href="/generator" class="btn-cta">Generate your checklist &rarr;</a>
-</section>
+<div class="lp-container">
+  <section class="lp-hero">
+    <div class="lp-hero-text">
+      <div class="lp-badge">
+        <span class="badge-dot"></span>
+        Free &nbsp;·&nbsp; No account &nbsp;·&nbsp; Instant PDF
+      </div>
+      <h1>Stop onboarding<br>new hires from<br>memory.</h1>
+      <p>Fill in the form, click generate, download a print-ready IT checklist PDF — tailored to your OS, software, and company size. Done in under a minute.</p>
+      <div class="lp-hero-actions">
+        <a href="/generator" class="btn-cta btn-cta-lg">Generate your checklist &rarr;</a>
+        <span class="lp-hero-note">No signup required</span>
+      </div>
+    </div>
 
-<!-- Trust bar -->
-<div class="lp-trust">
-  <span>No signup</span>
-  <span class="trust-dot"></span>
-  <span>Windows, macOS &amp; Remote</span>
-  <span class="trust-dot"></span>
-  <span>Instant PDF download</span>
-  <span class="trust-dot"></span>
-  <span>Print-ready format</span>
-  <span class="trust-dot"></span>
-  <span>Free forever</span>
+    <!-- PDF preview mockup -->
+    <div class="lp-hero-visual" aria-hidden="true">
+      <div class="pdf-mockup">
+        <div class="pdf-header">
+          <div class="pdf-logo-line">
+            <span class="pdf-square"></span>
+            <span class="pdf-company">Acme Corp</span>
+          </div>
+          <div class="pdf-title-line">IT Onboarding Checklist</div>
+          <div class="pdf-meta">
+            <span>Employee: Jane Smith</span>
+            <span>Windows &middot; Mid-size</span>
+          </div>
+        </div>
+        <div class="pdf-body">
+          <div class="pdf-section-label">Account Setup</div>
+          <div class="pdf-row checked">
+            <span class="pdf-check">✓</span>
+            <span>Create Microsoft 365 account</span>
+          </div>
+          <div class="pdf-row checked">
+            <span class="pdf-check">✓</span>
+            <span>Enable Multi-Factor Authentication</span>
+          </div>
+          <div class="pdf-row">
+            <span class="pdf-check-empty"></span>
+            <span>Configure email signature</span>
+          </div>
+          <div class="pdf-section-label" style="margin-top:12px">Software Install</div>
+          <div class="pdf-row">
+            <span class="pdf-check-empty"></span>
+            <span>Install Microsoft Office 365</span>
+          </div>
+          <div class="pdf-row">
+            <span class="pdf-check-empty"></span>
+            <span>Install Slack</span>
+          </div>
+          <div class="pdf-row">
+            <span class="pdf-check-empty"></span>
+            <span>Install VPN client &amp; test connection</span>
+          </div>
+          <div class="pdf-section-label" style="margin-top:12px">Security</div>
+          <div class="pdf-row">
+            <span class="pdf-check-empty"></span>
+            <span>Install &amp; configure antivirus</span>
+          </div>
+          <div class="pdf-row">
+            <span class="pdf-check-empty"></span>
+            <span>Set up password manager</span>
+          </div>
+        </div>
+        <div class="pdf-footer">Generated &middot; Apr 18, 2026</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Trust bar — full width -->
+<div class="lp-trust-wrap">
+  <div class="lp-trust">
+    <span class="trust-item"><span class="trust-check">✓</span> Windows, macOS &amp; Remote</span>
+    <span class="trust-item"><span class="trust-check">✓</span> Instant PDF download</span>
+    <span class="trust-item"><span class="trust-check">✓</span> Print-ready format</span>
+    <span class="trust-item"><span class="trust-check">✓</span> Security steps included</span>
+    <span class="trust-item"><span class="trust-check">✓</span> Free forever</span>
+  </div>
 </div>
 
 <!-- How it works -->
-<section class="lp-section">
-  <div class="lp-section-header">
-    <div class="lp-eyebrow">How it works</div>
-    <h2>Three steps. Zero friction.</h2>
-  </div>
-  <div class="lp-steps">
-    <div class="lp-step">
-      <div class="step-num">1</div>
-      <div class="step-body">
-        <strong>Describe your setup</strong>
-        <p>Enter the company name, employee name, operating system, and which software they need installed.</p>
+<div class="lp-container">
+  <section class="lp-section">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">How it works</div>
+      <h2>Three steps. Under a minute.</h2>
+    </div>
+    <div class="lp-steps">
+      <div class="lp-step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Describe your setup</strong>
+          <p>Enter the company name, new employee, OS, and which software they need. Nothing else required.</p>
+        </div>
+      </div>
+      <div class="lp-step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Click generate</strong>
+          <p>We build a checklist for your exact configuration — not a generic template, not a blank form.</p>
+        </div>
+      </div>
+      <div class="lp-step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Download &amp; hand it off</strong>
+          <p>Get a clean PDF ready to print or share. Use it yourself or give it to the person doing the setup.</p>
+        </div>
       </div>
     </div>
-    <div class="lp-step-connector"></div>
-    <div class="lp-step">
-      <div class="step-num">2</div>
-      <div class="step-body">
-        <strong>Click generate</strong>
-        <p>We build a checklist tailored to your exact configuration — nothing generic, nothing extra.</p>
-      </div>
-    </div>
-    <div class="lp-step-connector"></div>
-    <div class="lp-step">
-      <div class="step-num">3</div>
-      <div class="step-body">
-        <strong>Download &amp; hand it off</strong>
-        <p>Get a clean PDF ready to print or share. Use it yourself or give it to IT.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- Features -->
-<section class="lp-section lp-section-alt">
-  <div class="lp-section-header">
-    <div class="lp-eyebrow">What's included</div>
-    <h2>Everything you need. Nothing you don't.</h2>
+<!-- Features — full-width alt background -->
+<div class="lp-section-alt">
+  <div class="lp-container">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">What's included</div>
+      <h2>Everything you need. Nothing you don't.</h2>
+    </div>
+    <div class="lp-feature-grid">
+      <div class="lp-feature">
+        <div class="feature-icon-wrap">🖥️</div>
+        <div>
+          <strong>OS-specific steps</strong>
+          <p>Separate checklists for Windows, macOS, and remote employees. No copy-paste jobs.</p>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="feature-icon-wrap">📦</div>
+        <div>
+          <strong>Software install tasks</strong>
+          <p>Select what you use — Office, Slack, Zoom, VPN, password managers — only those appear.</p>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="feature-icon-wrap">🔐</div>
+        <div>
+          <strong>Security built in</strong>
+          <p>Account creation, MFA, password policy, antivirus — security steps in every checklist.</p>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="feature-icon-wrap">📄</div>
+        <div>
+          <strong>Professional PDF</strong>
+          <p>Company name, employee info, generation date. Looks intentional, not improvised.</p>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="feature-icon-wrap">⚡</div>
+        <div>
+          <strong>Instant — no waiting</strong>
+          <p>Fill the form and download in seconds. No account, no email, no friction.</p>
+        </div>
+      </div>
+      <div class="lp-feature">
+        <div class="feature-icon-wrap">🏢</div>
+        <div>
+          <strong>Scales with your team</strong>
+          <p>Different output for small, mid-size, and large companies. Adapts to your context.</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="lp-feature-grid">
-    <div class="lp-feature">
-      <div class="feature-icon-wrap">🖥️</div>
-      <div>
-        <strong>OS-specific steps</strong>
-        <p>Separate, purpose-built checklists for Windows, macOS, and remote employees. No copy-paste jobs.</p>
-      </div>
-    </div>
-    <div class="lp-feature">
-      <div class="feature-icon-wrap">📦</div>
-      <div>
-        <strong>Software installation tasks</strong>
-        <p>Select exactly what you use — Office, Google Workspace, Slack, Zoom, VPN, password managers, and more.</p>
-      </div>
-    </div>
-    <div class="lp-feature">
-      <div class="feature-icon-wrap">🔐</div>
-      <div>
-        <strong>Security steps built in</strong>
-        <p>Account creation, MFA setup, password policy, antivirus — security essentials are part of every checklist.</p>
-      </div>
-    </div>
-    <div class="lp-feature">
-      <div class="feature-icon-wrap">📄</div>
-      <div>
-        <strong>Professional PDF output</strong>
-        <p>Clean layout with company name, employee info, and generation date. Looks like you made it yourself.</p>
-      </div>
-    </div>
-    <div class="lp-feature">
-      <div class="feature-icon-wrap">⚡</div>
-      <div>
-        <strong>Instant — no waiting</strong>
-        <p>Fill the form and download in seconds. No account, no email, no onboarding flow to get through first.</p>
-      </div>
-    </div>
-    <div class="lp-feature">
-      <div class="feature-icon-wrap">🏢</div>
-      <div>
-        <strong>Works at any size</strong>
-        <p>Tailored output for small, mid-size, and large companies. The checklist adapts to your context.</p>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 <!-- Who it's for -->
-<section class="lp-section">
-  <div class="lp-section-header">
-    <div class="lp-eyebrow">Who it's for</div>
-    <h2>Built for the people doing the work.</h2>
-  </div>
-  <div class="lp-personas">
-    <div class="lp-persona">
-      <div class="persona-icon">💼</div>
-      <div>
-        <strong>Small business IT teams</strong>
-        <p>You're onboarding people without a dedicated system. This gets you consistent, repeatable setup without the overhead.</p>
+<div class="lp-container">
+  <section class="lp-section">
+    <div class="lp-section-header">
+      <div class="lp-eyebrow">Who it's for</div>
+      <h2>Built for the people doing the work.</h2>
+    </div>
+    <div class="lp-personas">
+      <div class="lp-persona">
+        <div class="persona-icon">💼</div>
+        <div>
+          <strong>Small business IT teams</strong>
+          <p>You're onboarding people without a dedicated system. This gives you consistent, repeatable setup without the overhead.</p>
+        </div>
+      </div>
+      <div class="lp-persona">
+        <div class="persona-icon">🧩</div>
+        <div>
+          <strong>Office managers handling IT</strong>
+          <p>You didn't sign up to be IT. This makes the technical part easy to follow — or to hand off.</p>
+        </div>
+      </div>
+      <div class="lp-persona">
+        <div class="persona-icon">🛠️</div>
+        <div>
+          <strong>MSPs and IT consultants</strong>
+          <p>Onboarding a client's new hire? Generate in their name, for their tools, in their format. Done.</p>
+        </div>
+      </div>
+      <div class="lp-persona">
+        <div class="persona-icon">🚀</div>
+        <div>
+          <strong>Growing startups</strong>
+          <p>Hiring fast and can't afford to reinvent onboarding every time. This gives you a repeatable process now.</p>
+        </div>
       </div>
     </div>
-    <div class="lp-persona">
-      <div class="persona-icon">🧩</div>
-      <div>
-        <strong>Office managers handling IT</strong>
-        <p>You didn't sign up to be IT, but here you are. This makes the technical part easy to hand off or do yourself.</p>
-      </div>
-    </div>
-    <div class="lp-persona">
-      <div class="persona-icon">🛠️</div>
-      <div>
-        <strong>MSPs and IT consultants</strong>
-        <p>Onboarding a client's new hire? Generate a checklist in their name, for their tools, in their format. Done.</p>
-      </div>
-    </div>
-    <div class="lp-persona">
-      <div class="persona-icon">🚀</div>
-      <div>
-        <strong>Growing startups</strong>
-        <p>You're hiring fast and can't afford to reinvent onboarding every time. This gives you a repeatable process now.</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</div>
 
-<!-- Final CTA -->
+<!-- Final CTA — full width dark -->
 <section class="lp-final-cta">
-  <h2>Your next new hire deserves a proper setup.</h2>
-  <p>Generate a custom IT onboarding checklist in under a minute.<br>Free. No account. No friction.</p>
-  <a href="/generator" class="btn-cta btn-cta-lg">Generate your checklist &rarr;</a>
+  <div class="lp-final-cta-inner">
+    <h2>Your next new hire deserves a proper setup.</h2>
+    <p>Generate a custom IT onboarding checklist in under a minute.<br>Free. No account. No friction.</p>
+    <a href="/generator" class="btn-cta btn-cta-lg btn-cta-inverted">Generate your checklist &rarr;</a>
+  </div>
 </section>
 
 {% endblock %}
