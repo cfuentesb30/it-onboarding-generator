@@ -6,6 +6,13 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11pt; color: #1a1a1a; background: #fff; padding: 28px 32px; }
 
+  .preview-banner { background: #1a1a1a; color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: -28px -32px 28px -32px; font-size: 10pt; }
+  .preview-banner strong { font-weight: 600; }
+  .preview-banner .preview-actions { display: flex; gap: 10px; align-items: center; }
+  .preview-banner a { color: #fff; text-decoration: underline; font-size: 9pt; opacity: 0.8; }
+  .preview-banner a:hover { opacity: 1; }
+  @media print { .preview-banner { display: none; } }
+
   .header { border-bottom: 2.5px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 20px; }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
   .company { font-size: 18pt; font-weight: 700; letter-spacing: -0.3px; }
@@ -34,6 +41,15 @@
 </style>
 </head>
 <body>
+
+{% if preview_mode %}
+<div class="preview-banner">
+  <span><strong>Preview</strong> — This is exactly how your PDF will look.</span>
+  <div class="preview-actions">
+    <a href="javascript:history.back()">← Go back to edit</a>
+  </div>
+</div>
+{% endif %}
 
 <div class="header">
   <div class="header-top">

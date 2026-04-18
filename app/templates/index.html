@@ -258,6 +258,9 @@
 
   <!-- Generate -->
   <div class="gen-submit-area">
+    <button type="button" class="btn-preview" id="btn-preview" onclick="openPreview()">
+      &#128065; Preview Checklist
+    </button>
     <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">
       &#11015; Generate PDF Checklist
     </button>
@@ -411,6 +414,31 @@ function appendHidden(container, value) {
 
 function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Preview ─────────────────────────────────────────────
+function openPreview() {
+  const form = document.getElementById('gen-form');
+
+  // Populate hidden inputs first (same as submit)
+  const container = document.getElementById('checklist-hidden-inputs');
+  container.innerHTML = '';
+  checklistSections.forEach(section => {
+    section.steps.filter(s => !s.removed).forEach(step => {
+      appendHidden(container, JSON.stringify({ section: section.title, text: step.text }));
+    });
+  });
+  customItems.forEach(item => {
+    appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
+  });
+
+  const original = form.action;
+  const originalTarget = form.target;
+  form.action = '/preview';
+  form.target = '_blank';
+  form.submit();
+  form.action = original;
+  form.target = originalTarget;
 }
 
 // ── Step progress dots ──────────────────────────────────

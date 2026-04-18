@@ -318,6 +318,19 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   font-size: 12px; color: var(--muted); text-align: center; margin: 0;
 }
 
+/* ── Preview button ── */
+.btn-preview {
+  width: 100%; max-width: 400px;
+  padding: 14px 32px; background: transparent; color: var(--accent);
+  border: 2px solid var(--accent); border-radius: 12px; font-family: inherit;
+  font-size: 15px; font-weight: 600; letter-spacing: -0.3px;
+  cursor: pointer;
+  transition: background .18s, color .18s, transform .18s;
+}
+.btn-preview:hover {
+  background: var(--accent); color: #fff; transform: translateY(-1px);
+}
+
 /* ── Generate button ── */
 .btn-generate {
   width: 100%; max-width: 400px;

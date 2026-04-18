@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, send_file, abort, jsonify
-from .pdf_generator import build_pdf, load_checklist
+from .pdf_generator import build_pdf, load_checklist, sections_from_submitted
+from datetime import date
 import io
 
 main = Blueprint("main", __name__)
@@ -63,6 +64,45 @@ def items():
 
     sections = load_checklist(os_type, software, company_size, role)
     return jsonify(sections)
+
+@main.route("/preview", methods=["POST"])
+def preview():
+    os_type      = request.form.get("os_type")
+    role         = request.form.get("role", "general")
+    company_name = request.form.get("company_name", "").strip() or "Your Company"
+    company_size = request.form.get("company_size", "small")
+    software     = request.form.getlist("software")
+    preparer     = request.form.get("preparer", "").strip()
+    employee     = request.form.get("employee", "").strip()
+    submitted    = request.form.getlist("checklist_item")
+
+    if os_type not in ("windows", "macos", "remote"):
+        abort(400, "Invalid OS type.")
+    if role not in ("general", "developer", "designer", "sales", "hr"):
+        role = "general"
+
+    if submitted:
+        sections = sections_from_submitted(submitted)
+    else:
+        sections = load_checklist(os_type, software, company_size, role)
+
+    os_labels   = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
+    role_labels = {"general": "", "developer": "Developer", "designer": "Designer", "sales": "Sales", "hr": "HR"}
+
+    return render_template(
+        "pdf_checklist.html",
+        company_name=company_name,
+        os_label=os_labels.get(os_type, os_type),
+        role_label=role_labels.get(role, ""),
+        company_size=company_size,
+        software=software,
+        preparer=preparer,
+        employee=employee,
+        sections=sections,
+        generated_date=date.today().strftime("%B %d, %Y"),
+        preview_mode=True,
+    )
+
 
 @main.route("/generate", methods=["POST"])
 def generate():
