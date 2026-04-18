@@ -2,16 +2,37 @@
 {% block title %}IT Onboarding Checklist Generator{% endblock %}
 {% block content %}
 
-<div class="hero">
-  <h1 data-i18n="gen_h1">Stop setting up new employees from memory.</h1>
-  <p data-i18n="gen_p">Fill in the details below and get a custom IT onboarding checklist PDF — ready in seconds.</p>
+<!-- Generator hero -->
+<div class="gen-hero">
+  <a href="/" class="gen-back">&larr; Back to home</a>
+  <div class="gen-hero-inner">
+    <div>
+      <h1 data-i18n="gen_h1">Generate your IT onboarding checklist</h1>
+      <p data-i18n="gen_p">Fill in the four sections below. Your PDF downloads instantly.</p>
+    </div>
+    <div class="gen-steps-indicator">
+      <span class="gen-step-dot active"></span>
+      <span class="gen-step-line"></span>
+      <span class="gen-step-dot"></span>
+      <span class="gen-step-line"></span>
+      <span class="gen-step-dot"></span>
+      <span class="gen-step-line"></span>
+      <span class="gen-step-dot"></span>
+    </div>
+  </div>
 </div>
 
 <form action="/generate" method="POST" class="gen-form" id="gen-form">
 
-  <!-- Company Info -->
-  <div class="form-section">
-    <h2 data-i18n="gen_section_company">Company Info</h2>
+  <!-- Step 1: Company Info -->
+  <div class="form-section" data-step="1">
+    <div class="form-section-header">
+      <span class="step-badge">01</span>
+      <div>
+        <h2 data-i18n="gen_section_company">Company Info</h2>
+        <p class="step-desc">Who is this checklist for?</p>
+      </div>
+    </div>
     <div class="form-row">
       <div class="form-group">
         <label for="company_name" data-i18n="gen_label_company_name">Company Name</label>
@@ -44,67 +65,183 @@
     </div>
   </div>
 
-  <!-- OS Selection -->
-  <div class="form-section">
-    <h2 data-i18n="gen_section_os">Operating System</h2>
+  <!-- Step 2: OS -->
+  <div class="form-section" data-step="2">
+    <div class="form-section-header">
+      <span class="step-badge">02</span>
+      <div>
+        <h2 data-i18n="gen_section_os">Operating System</h2>
+        <p class="step-desc">What device is the employee receiving?</p>
+      </div>
+    </div>
     <div class="os-cards">
-      {% for value, label in os_options %}
       <label class="os-card">
-        <input type="radio" name="os_type" value="{{ value }}" {% if loop.first %}checked{% endif %}/>
+        <input type="radio" name="os_type" value="windows" checked/>
         <div class="os-card-inner">
-          <span class="os-icon">
-            {% if value == 'windows' %}🪟
-            {% elif value == 'macos' %}🍎
-            {% else %}🌐
-            {% endif %}
-          </span>
-          <span class="os-label">{{ label }}</span>
+          <span class="os-icon">🪟</span>
+          <span class="os-label">Windows</span>
+          <span class="os-desc">Windows 10 / 11</span>
+          <span class="card-check">✓</span>
         </div>
       </label>
-      {% endfor %}
+      <label class="os-card">
+        <input type="radio" name="os_type" value="macos"/>
+        <div class="os-card-inner">
+          <span class="os-icon">🍎</span>
+          <span class="os-label">macOS</span>
+          <span class="os-desc">MacBook / iMac</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="os-card">
+        <input type="radio" name="os_type" value="remote"/>
+        <div class="os-card-inner">
+          <span class="os-icon">🌐</span>
+          <span class="os-label">Remote</span>
+          <span class="os-desc">BYOD / work from home</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
     </div>
   </div>
 
-  <!-- Role Selection -->
-  <div class="form-section">
-    <h2 data-i18n="gen_section_role">Employee Role</h2>
+  <!-- Step 3: Role -->
+  <div class="form-section" data-step="3">
+    <div class="form-section-header">
+      <span class="step-badge">03</span>
+      <div>
+        <h2 data-i18n="gen_section_role">Employee Role</h2>
+        <p class="step-desc">Adds role-specific setup tasks to the checklist.</p>
+      </div>
+    </div>
     <div class="role-cards">
-      {% for value, label in role_options %}
       <label class="role-card">
-        <input type="radio" name="role" value="{{ value }}" {% if loop.first %}checked{% endif %}/>
+        <input type="radio" name="role" value="general" checked/>
         <div class="role-card-inner">
-          <span class="role-icon">
-            {% if value == 'general' %}🏢
-            {% elif value == 'developer' %}💻
-            {% elif value == 'designer' %}🎨
-            {% elif value == 'sales' %}📈
-            {% elif value == 'hr' %}👥
-            {% endif %}
-          </span>
-          <span class="role-label">{{ label }}</span>
+          <span class="role-icon">🏢</span>
+          <span class="role-label">General</span>
+          <span class="role-desc">Standard IT setup</span>
+          <span class="card-check">✓</span>
         </div>
       </label>
-      {% endfor %}
-    </div>
-  </div>
-
-  <!-- Software -->
-  <div class="form-section">
-    <h2 data-i18n="gen_section_software">Software to Install <span class="hint" data-i18n="gen_hint">Select all that apply</span></h2>
-    <div class="software-grid">
-      {% for value, label in software_options %}
-      <label class="sw-item">
-        <input type="checkbox" name="software" value="{{ value }}"/>
-        <span>{{ label }}</span>
+      <label class="role-card">
+        <input type="radio" name="role" value="developer"/>
+        <div class="role-card-inner">
+          <span class="role-icon">💻</span>
+          <span class="role-label">Developer</span>
+          <span class="role-desc">Git, IDE, cloud access</span>
+          <span class="card-check">✓</span>
+        </div>
       </label>
-      {% endfor %}
+      <label class="role-card">
+        <input type="radio" name="role" value="designer"/>
+        <div class="role-card-inner">
+          <span class="role-icon">🎨</span>
+          <span class="role-label">Designer</span>
+          <span class="role-desc">Figma, brand assets</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="role-card">
+        <input type="radio" name="role" value="sales"/>
+        <div class="role-card-inner">
+          <span class="role-icon">📈</span>
+          <span class="role-label">Sales</span>
+          <span class="role-desc">CRM, sales tools</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="role-card">
+        <input type="radio" name="role" value="hr"/>
+        <div class="role-card-inner">
+          <span class="role-icon">👥</span>
+          <span class="role-label">HR</span>
+          <span class="role-desc">HRIS, compliance</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
     </div>
   </div>
 
-  <!-- Editable Checklist Preview -->
-  <div class="form-section checklist-preview-section" id="checklist-preview-section">
-    <div class="checklist-preview-header">
-      <h2 data-i18n="gen_section_checklist">Checklist Preview <span class="hint" data-i18n="gen_hint_checklist">Remove or add items</span></h2>
+  <!-- Step 4: Software -->
+  <div class="form-section" data-step="4">
+    <div class="form-section-header">
+      <span class="step-badge">04</span>
+      <div>
+        <h2 data-i18n="gen_section_software">Software to Install</h2>
+        <p class="step-desc" data-i18n="gen_hint">Select all that apply</p>
+      </div>
+    </div>
+    <div class="sw-groups">
+      <div class="sw-group">
+        <div class="sw-group-label">Productivity</div>
+        <div class="sw-group-items">
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="microsoft_office"/>
+            <span>Microsoft Office</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="google_workspace"/>
+            <span>Google Workspace</span>
+          </label>
+        </div>
+      </div>
+      <div class="sw-group">
+        <div class="sw-group-label">Communication</div>
+        <div class="sw-group-items">
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="slack"/>
+            <span>Slack</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="zoom"/>
+            <span>Zoom</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="teams"/>
+            <span>Microsoft Teams</span>
+          </label>
+        </div>
+      </div>
+      <div class="sw-group">
+        <div class="sw-group-label">Security</div>
+        <div class="sw-group-items">
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="antivirus"/>
+            <span>Antivirus</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="vpn"/>
+            <span>VPN Client</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="password_manager"/>
+            <span>Password Manager</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="1password"/>
+            <span>1Password</span>
+          </label>
+          <label class="sw-item">
+            <input type="checkbox" name="software" value="lastpass"/>
+            <span>LastPass</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 5: Checklist Preview & Edit -->
+  <div class="form-section checklist-preview-section" id="checklist-preview-section" data-step="5">
+    <div class="form-section-header">
+      <span class="step-badge">05</span>
+      <div>
+        <h2 data-i18n="gen_section_checklist">Review &amp; Edit Checklist</h2>
+        <p class="step-desc" data-i18n="gen_hint_checklist">Remove items you don't need or add your own.</p>
+      </div>
+    </div>
+    <div class="checklist-toolbar">
+      <span class="cl-count" id="cl-count">— items</span>
       <button type="button" class="btn-refresh" id="btn-refresh" onclick="loadChecklist()">↻ Refresh</button>
     </div>
     <div id="checklist-body">
@@ -116,17 +253,23 @@
     </div>
   </div>
 
-  <!-- Hidden inputs populated by JS before submit -->
+  <!-- Hidden inputs populated by JS -->
   <div id="checklist-hidden-inputs"></div>
 
-  <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">&#11015; Generate PDF Checklist</button>
+  <!-- Generate -->
+  <div class="gen-submit-area">
+    <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">
+      &#11015; Generate PDF Checklist
+    </button>
+    <p class="gen-submit-note">Your PDF will download instantly. No data is stored.</p>
+  </div>
 
 </form>
 
 <script>
 // ── State ──────────────────────────────────────────────
-let checklistSections = []; // [{title, steps: [{text, removed}]}]
-let customItems       = []; // [{section: 'Custom', text}]
+let checklistSections = [];
+let customItems       = [];
 
 // ── Load checklist from /items ──────────────────────────
 async function loadChecklist() {
@@ -140,6 +283,7 @@ async function loadChecklist() {
 
   document.getElementById('checklist-body').innerHTML =
     '<div class="checklist-loading">Loading…</div>';
+  updateCount(null);
 
   try {
     const res = await fetch('/items?' + params);
@@ -156,25 +300,22 @@ async function loadChecklist() {
   }
 }
 
-// ── Render editable checklist ───────────────────────────
+// ── Render ──────────────────────────────────────────────
 function renderChecklist() {
   const body = document.getElementById('checklist-body');
-  if (!checklistSections.length && !customItems.length) {
-    body.innerHTML = '<div class="checklist-loading">No items for this configuration.</div>';
-    return;
-  }
-
   let html = '';
+  let total = 0;
 
   checklistSections.forEach((section, si) => {
     const visible = section.steps.filter(s => !s.removed);
     if (!visible.length) return;
-
+    total += visible.length;
     html += `<div class="cl-section">
-      <div class="cl-section-title">${escHtml(section.title)}</div>`;
+      <div class="cl-section-title">${escHtml(section.title)}<span class="cl-section-count">${visible.length}</span></div>`;
     section.steps.forEach((step, ii) => {
       if (step.removed) return;
       html += `<div class="cl-item" data-si="${si}" data-ii="${ii}">
+        <span class="cl-check-box">✓</span>
         <span class="cl-item-text">${escHtml(step.text)}</span>
         <button type="button" class="cl-remove" onclick="removeItem(${si},${ii})" title="Remove">×</button>
       </div>`;
@@ -183,10 +324,12 @@ function renderChecklist() {
   });
 
   if (customItems.length) {
-    html += `<div class="cl-section">
-      <div class="cl-section-title">Custom</div>`;
+    total += customItems.length;
+    html += `<div class="cl-section cl-section-custom">
+      <div class="cl-section-title">Custom<span class="cl-section-count">${customItems.length}</span></div>`;
     customItems.forEach((item, ci) => {
-      html += `<div class="cl-item custom-item" data-ci="${ci}">
+      html += `<div class="cl-item custom-item">
+        <span class="cl-check-box custom">+</span>
         <span class="cl-item-text">${escHtml(item.text)}</span>
         <button type="button" class="cl-remove" onclick="removeCustom(${ci})" title="Remove">×</button>
       </div>`;
@@ -194,7 +337,19 @@ function renderChecklist() {
     html += '</div>';
   }
 
-  body.innerHTML = html;
+  if (!html) {
+    body.innerHTML = '<div class="checklist-loading">No items for this configuration.</div>';
+  } else {
+    body.innerHTML = html;
+  }
+
+  updateCount(total);
+}
+
+function updateCount(n) {
+  const el = document.getElementById('cl-count');
+  if (!el) return;
+  el.textContent = n === null ? '—' : `${n} item${n !== 1 ? 's' : ''}`;
 }
 
 function removeItem(si, ii) {
@@ -216,16 +371,14 @@ function addCustomItem() {
   renderChecklist();
 }
 
-// Allow Enter key to add item
 document.getElementById('custom-item-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') { e.preventDefault(); addCustomItem(); }
 });
 
-// ── Populate hidden inputs before submit ────────────────
-document.getElementById('gen-form').addEventListener('submit', function(e) {
+// ── Submit ──────────────────────────────────────────────
+document.getElementById('gen-form').addEventListener('submit', function() {
   const container = document.getElementById('checklist-hidden-inputs');
   container.innerHTML = '';
-
   let hasItems = false;
 
   checklistSections.forEach(section => {
@@ -234,19 +387,16 @@ document.getElementById('gen-form').addEventListener('submit', function(e) {
       hasItems = true;
     });
   });
-
   customItems.forEach(item => {
     appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
     hasItems = true;
   });
 
-  // If no items survived (all removed), clear hidden inputs — let server use defaults
   if (!hasItems) container.innerHTML = '';
 
-  // Update button text
   const btn  = document.getElementById('btn-generate');
   const lang = window.currentLang || 'en';
-  btn.disabled  = true;
+  btn.disabled    = true;
   btn.textContent = lang === 'es' ? 'Generando…' : 'Generating…';
   btn.classList.add('btn-loading');
 });
@@ -263,20 +413,37 @@ function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-// ── Auto-reload on changes ──────────────────────────────
-function attachListeners() {
-  document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(el => {
-    el.addEventListener('change', loadChecklist);
+// ── Step progress dots ──────────────────────────────────
+function updateStepDots() {
+  const dots = document.querySelectorAll('.gen-step-dot');
+  const sections = document.querySelectorAll('.form-section[data-step]');
+  sections.forEach((section, i) => {
+    const inputs = section.querySelectorAll('input:not([type="hidden"]), select');
+    const filled = [...inputs].some(inp => {
+      if (inp.type === 'radio' || inp.type === 'checkbox') return inp.checked;
+      return inp.value.trim() !== '';
+    });
+    if (dots[i]) dots[i].classList.toggle('filled', filled);
   });
-  document.querySelectorAll('input[name="software"]').forEach(el => {
-    el.addEventListener('change', loadChecklist);
-  });
-  document.getElementById('company_size').addEventListener('change', loadChecklist);
 }
 
+// ── Listeners ───────────────────────────────────────────
+document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(el => {
+  el.addEventListener('change', loadChecklist);
+});
+document.querySelectorAll('input[name="software"]').forEach(el => {
+  el.addEventListener('change', loadChecklist);
+});
+document.getElementById('company_size').addEventListener('change', loadChecklist);
+
+document.querySelectorAll('input, select').forEach(el => {
+  el.addEventListener('change', updateStepDots);
+  el.addEventListener('input', updateStepDots);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
-  attachListeners();
   loadChecklist();
+  updateStepDots();
 });
 </script>
 {% endblock %}

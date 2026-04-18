@@ -65,8 +65,8 @@ const TRANSLATIONS = {
     final_p:  "Generate a custom IT onboarding checklist in under a minute.<br>Free. No account. No friction.",
 
     // Generator page
-    gen_h1:       "Stop setting up new employees from memory.",
-    gen_p:        "Fill in the details below and get a custom IT onboarding checklist PDF — ready in seconds.",
+    gen_h1:       "Generate your IT onboarding checklist",
+    gen_p:        "Fill in the four sections below. Your PDF downloads instantly.",
     gen_section_company: "Company Info",
     gen_label_company_name: "Company Name",
     gen_label_company_size: "Company Size",
@@ -153,8 +153,8 @@ const TRANSLATIONS = {
     final_p:  "Genera un checklist personalizado de incorporación IT en menos de un minuto.<br>Gratis. Sin cuenta. Sin fricción.",
 
     // Generator page
-    gen_h1:       "Deja de configurar empleados de memoria.",
-    gen_p:        "Completa los datos a continuación y obtén un checklist PDF personalizado — listo en segundos.",
+    gen_h1:       "Genera tu checklist de incorporación IT",
+    gen_p:        "Completa las cuatro secciones a continuación. Tu PDF se descarga al instante.",
     gen_section_company: "Información de la Empresa",
     gen_label_company_name: "Nombre de la Empresa",
     gen_label_company_size: "Tamaño de la Empresa",
