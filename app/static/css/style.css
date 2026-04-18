@@ -19,12 +19,25 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 .logo { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; text-decoration: none; color: var(--text); }
 .header-nav { margin-left: auto; }
 .nav-cta {
-  font-size: 13px; font-weight: 600; color: var(--text);
+  font-size: 13px; font-weight: 600;
   text-decoration: none; padding: 7px 14px;
   background: var(--accent); color: #fff;
   border-radius: 8px; transition: opacity .15s;
 }
 .nav-cta:hover { opacity: .82; }
+
+.btn-lang {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+  padding: 6px 12px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .15s, color .15s;
+}
+.btn-lang:hover { border-color: #999; color: var(--text); }
 
 footer { border-top: 1px solid var(--border); padding: 18px 0; text-align: center; font-size: 13px; color: var(--muted); margin-top: 48px; }
 

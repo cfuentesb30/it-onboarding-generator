@@ -13,6 +13,7 @@
     <div class="container header-inner">
       <a href="/" class="logo">⬛ IT Onboarding Generator</a>
       <nav class="header-nav">
+        <button id="lang-toggle" class="btn-lang" onclick="toggleLang()" aria-label="Switch language">ES</button>
         <a href="/generator" class="nav-cta">Generate PDF &rarr;</a>
       </nav>
     </div>
@@ -23,5 +24,6 @@
   <footer>
     <div class="container">Built for small business IT teams.</div>
   </footer>
+  <script src="{{ url_for('static', filename='js/i18n.js') }}"></script>
 </body>
 </html>

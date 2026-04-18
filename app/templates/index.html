@@ -3,22 +3,24 @@
 {% block content %}
 
 <div class="hero">
-  <h1>Stop setting up new employees from memory.</h1>
-  <p>Fill in the details below and get a custom IT onboarding checklist PDF — ready in seconds.</p>
+  <h1 data-i18n="gen_h1">Stop setting up new employees from memory.</h1>
+  <p data-i18n="gen_p">Fill in the details below and get a custom IT onboarding checklist PDF — ready in seconds.</p>
 </div>
 
 <form action="/generate" method="POST" class="gen-form" id="gen-form">
 
   <!-- Company Info -->
   <div class="form-section">
-    <h2>Company Info</h2>
+    <h2 data-i18n="gen_section_company">Company Info</h2>
     <div class="form-row">
       <div class="form-group">
-        <label for="company_name">Company Name</label>
-        <input type="text" id="company_name" name="company_name" placeholder="Acme Corp" maxlength="80" autofocus/>
+        <label for="company_name" data-i18n="gen_label_company_name">Company Name</label>
+        <input type="text" id="company_name" name="company_name"
+               placeholder="Acme Corp" data-i18n-ph="ph_company"
+               maxlength="80" autofocus/>
       </div>
       <div class="form-group">
-        <label for="company_size">Company Size</label>
+        <label for="company_size" data-i18n="gen_label_company_size">Company Size</label>
         <select id="company_size" name="company_size">
           {% for value, label in company_sizes %}
           <option value="{{ value }}">{{ label }}</option>
@@ -28,19 +30,23 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label for="employee">New Employee Name</label>
-        <input type="text" id="employee" name="employee" placeholder="Jane Smith" maxlength="80"/>
+        <label for="employee" data-i18n="gen_label_employee">New Employee Name</label>
+        <input type="text" id="employee" name="employee"
+               placeholder="Jane Smith" data-i18n-ph="ph_employee"
+               maxlength="80"/>
       </div>
       <div class="form-group">
-        <label for="preparer">IT Preparer Name</label>
-        <input type="text" id="preparer" name="preparer" placeholder="Your name" maxlength="80"/>
+        <label for="preparer" data-i18n="gen_label_preparer">IT Preparer Name</label>
+        <input type="text" id="preparer" name="preparer"
+               placeholder="Your name" data-i18n-ph="ph_preparer"
+               maxlength="80"/>
       </div>
     </div>
   </div>
 
   <!-- OS Selection -->
   <div class="form-section">
-    <h2>Operating System</h2>
+    <h2 data-i18n="gen_section_os">Operating System</h2>
     <div class="os-cards">
       {% for value, label in os_options %}
       <label class="os-card">
@@ -61,7 +67,7 @@
 
   <!-- Software -->
   <div class="form-section">
-    <h2>Software to Install <span class="hint">Select all that apply</span></h2>
+    <h2 data-i18n="gen_section_software">Software to Install <span class="hint" data-i18n="gen_hint">Select all that apply</span></h2>
     <div class="software-grid">
       {% for value, label in software_options %}
       <label class="sw-item">
@@ -72,15 +78,17 @@
     </div>
   </div>
 
-  <button type="submit" class="btn-generate" id="btn-generate">⬇ Generate PDF Checklist</button>
+  <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">&#11015; Generate PDF Checklist</button>
 
 </form>
 
 <script>
   document.getElementById('gen-form').addEventListener('submit', function() {
     var btn = document.getElementById('btn-generate');
+    var lang = window.currentLang || 'en';
+    var loadingText = lang === 'es' ? 'Generando\u2026' : 'Generating\u2026';
     btn.disabled = true;
-    btn.textContent = 'Generating…';
+    btn.textContent = loadingText;
     btn.classList.add('btn-loading');
   });
 </script>
