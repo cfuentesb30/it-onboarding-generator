@@ -75,6 +75,9 @@ const TRANSLATIONS = {
     gen_section_os:         "Operating System",
     gen_section_software:   "Software to Install",
     gen_hint:               "Select all that apply",
+    gen_section_role:       "Employee Role",
+    gen_section_checklist:  "Checklist Preview",
+    gen_hint_checklist:     "Remove or add items",
     gen_btn:                "&#11015; Generate PDF Checklist",
     gen_btn_loading:        "Generating\u2026",
 
@@ -160,6 +163,9 @@ const TRANSLATIONS = {
     gen_section_os:         "Sistema Operativo",
     gen_section_software:   "Software a Instalar",
     gen_hint:               "Selecciona todos los que apliquen",
+    gen_section_role:       "Rol del Empleado",
+    gen_section_checklist:  "Vista Previa del Checklist",
+    gen_hint_checklist:     "Elimina o agrega elementos",
     gen_btn:                "&#11015; Generar Checklist PDF",
     gen_btn_loading:        "Generando\u2026",
 

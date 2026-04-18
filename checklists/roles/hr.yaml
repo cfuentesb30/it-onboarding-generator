@@ -1,0 +1,30 @@
+sections:
+  - title: "HR Systems Access"
+    items:
+      - Set up HRIS account (BambooHR, Workday, Rippling, Gusto, etc.)
+      - Complete payroll system setup and verify direct deposit details
+      - Access benefits administration portal and review available plans
+      - Set up time tracking or leave management tool if applicable
+      - Verify access to ATS (Greenhouse, Lever, Workable, etc.)
+      - Access employee directory and org chart tool
+      - Set up access to learning management system (LMS) if applicable
+
+  - title: "Compliance & Documentation"
+    items:
+      - Complete all required policy acknowledgment forms
+      - Review and sign employee handbook
+      - Complete anti-harassment and compliance training
+      - Verify I-9 and tax documentation is complete and filed
+      - Review data privacy obligations and GDPR / CCPA responsibilities if applicable
+      - Complete HIPAA training if handling health-related data
+      - Review confidentiality and NDA obligations
+
+  - title: "People Ops Setup"
+    items:
+      - Get access to employee files and confirm access controls are appropriate
+      - Review current open roles and hiring pipeline
+      - Meet with hiring managers to understand team needs
+      - Review compensation bands and leveling framework
+      - Access employee engagement survey data and recent pulse results
+      - Review offboarding process and pending terminations if applicable
+      - Set up recurring 1:1s with department heads and people managers

@@ -74,12 +74,82 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 .os-icon { display: block; font-size: 28px; margin-bottom: 6px; }
 .os-label { font-size: 14px; font-weight: 600; }
 
+/* Role cards — 5 columns */
+.role-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.role-card input[type="radio"] { display: none; }
+.role-card-inner { border: 1.5px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all .15s; background: var(--bg); }
+.role-card-inner:hover { border-color: #999; }
+.role-card input:checked + .role-card-inner { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 2px var(--accent); }
+.role-icon { display: block; font-size: 24px; margin-bottom: 5px; }
+.role-label { font-size: 13px; font-weight: 600; }
+
 /* Software grid */
 .software-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .sw-item { display: flex; align-items: center; gap: 9px; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all .15s; font-size: 14px; background: var(--bg); }
 .sw-item:hover { border-color: #999; }
 .sw-item input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; }
 .sw-item:has(input:checked) { border-color: var(--accent); background: var(--surface); }
+
+/* Editable checklist preview */
+.checklist-preview-section { padding-bottom: 20px; }
+.checklist-preview-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.checklist-preview-header h2 { margin-bottom: 0; }
+.btn-refresh {
+  font-size: 12px; font-weight: 600; color: var(--muted);
+  background: none; border: 1px solid var(--border);
+  border-radius: 7px; padding: 5px 11px; cursor: pointer;
+  font-family: inherit; transition: border-color .15s, color .15s;
+}
+.btn-refresh:hover { border-color: #999; color: var(--text); }
+
+.checklist-loading {
+  font-size: 13px; color: var(--muted);
+  padding: 20px 0; text-align: center;
+}
+.checklist-error { color: #b91c1c; }
+
+.cl-section { margin-bottom: 16px; }
+.cl-section:last-child { margin-bottom: 0; }
+.cl-section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 6px;
+}
+.cl-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; margin-bottom: 5px;
+  font-size: 13px; color: var(--text);
+  transition: background .12s;
+}
+.cl-item.custom-item { border-color: #c8b6f5; background: #f7f4ff; }
+.cl-item-text { flex: 1; line-height: 1.4; }
+.cl-remove {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  background: none; border: 1px solid var(--border);
+  border-radius: 6px; color: var(--muted);
+  font-size: 16px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color .12s, color .12s, background .12s;
+  font-family: inherit;
+}
+.cl-remove:hover { border-color: #b91c1c; color: #b91c1c; background: #fff0f0; }
+
+.add-item-row {
+  display: flex; gap: 8px; margin-top: 14px;
+  padding-top: 14px; border-top: 1px solid var(--border);
+}
+.add-item-row input[type="text"] { flex: 1; margin: 0; }
+.btn-add-item {
+  flex-shrink: 0;
+  padding: 9px 16px; background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; font-family: inherit;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: opacity .15s; white-space: nowrap;
+}
+.btn-add-item:hover { opacity: .85; }
 
 /* Generate button */
 .btn-generate {
@@ -471,6 +541,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   /* Generator form */
   .form-row { grid-template-columns: 1fr; }
   .os-cards { grid-template-columns: 1fr; }
+  .role-cards { grid-template-columns: repeat(3, 1fr); }
   .software-grid { grid-template-columns: 1fr; }
   .hero h1 { font-size: 22px; }
 
