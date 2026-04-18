@@ -1,0 +1,32 @@
+sections:
+  - title: "Developer Environment"
+    items:
+      - Install Git and configure global username and email
+      - Generate SSH key and add public key to GitHub / GitLab / Bitbucket
+      - Clone primary repositories and verify access
+      - Install preferred IDE (VS Code, JetBrains, Cursor)
+      - Install relevant language runtimes (Node.js, Python, Go, Java, etc.)
+      - Install package managers (npm, pip, brew, etc.)
+      - Configure terminal and shell (zsh, bash, aliases, dotfiles)
+      - Install Docker Desktop and verify daemon runs
+      - Set up local environment variables and .env files
+      - Verify access to internal dev tools (Jira, Linear, Notion, Confluence)
+      - Set up code formatter and linter (Prettier, ESLint, Black, etc.)
+      - Configure SSH config for multiple hosts if needed
+
+  - title: "Source Control & CI/CD"
+    items:
+      - Confirm GitHub / GitLab organization membership
+      - Verify permissions on all relevant repositories
+      - Review branching strategy and commit conventions (git flow, trunk-based, etc.)
+      - Set up local pre-commit hooks or Husky
+      - Verify access to CI/CD pipeline (GitHub Actions, CircleCI, Jenkins)
+      - Review deployment process and environment overview (dev, staging, prod)
+
+  - title: "Cloud & Infrastructure Access"
+    items:
+      - Set up AWS / GCP / Azure CLI credentials if applicable
+      - Verify access to cloud console with role-appropriate permissions
+      - Install kubectl and verify cluster access if applicable
+      - Request access to internal dashboards (Datadog, Grafana, Sentry, etc.)
+      - Review infrastructure overview and architecture docs

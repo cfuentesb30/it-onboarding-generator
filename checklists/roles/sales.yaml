@@ -1,0 +1,31 @@
+sections:
+  - title: "CRM & Sales Tools"
+    items:
+      - Set up CRM account (Salesforce, HubSpot, Pipedrive, etc.)
+      - Complete CRM onboarding and data entry training
+      - Import or get assigned existing accounts and leads
+      - Set up LinkedIn Sales Navigator and connect CRM integration
+      - Configure email tracking tool (Outreach, Salesloft, Apollo, etc.)
+      - Set up call recording tool (Gong, Chorus, etc.) if applicable
+      - Install and configure meeting scheduling tool (Calendly, Chili Piper)
+      - Verify access to contract and e-signature tool (DocuSign, PandaDoc)
+
+  - title: "Sales Resources"
+    items:
+      - Access sales playbook and memorize key discovery questions
+      - Download and review latest product one-pagers and sales decks
+      - Review pricing sheet and understand discount approval process
+      - Set up access to competitive intelligence docs
+      - Access customer case studies and testimonials library
+      - Review demo environment and request sandbox credentials
+      - Complete product training and pass knowledge check if required
+
+  - title: "Territory & Pipeline Setup"
+    items:
+      - Review assigned territory, verticals, or account list
+      - Set up quota and pipeline tracking in CRM
+      - Book intro calls with SDR or BDR counterparts
+      - Schedule ride-along calls with senior AEs in first week
+      - Set up email sequences for outbound prospecting
+      - Review team KPIs, quota attainment benchmarks, and comp plan
+      - Get introduced to customer success counterparts for handoff process

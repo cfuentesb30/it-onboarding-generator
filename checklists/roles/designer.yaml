@@ -1,0 +1,29 @@
+sections:
+  - title: "Design Tools Setup"
+    items:
+      - Install Figma and log in with company credentials
+      - Accept Figma team invite and verify access to main design files
+      - Install Adobe Creative Cloud and activate company license
+      - Install Sketch if used by the team
+      - Install font management tool (Fontbase, Suitcase, or Adobe Fonts)
+      - Install all brand fonts and verify they render correctly
+      - Set up screen recording / annotation tool (Loom, CleanShot, etc.)
+      - Install image optimization tools (ImageOptim, Squoosh CLI, etc.)
+
+  - title: "Brand & Asset Access"
+    items:
+      - Download company brand kit (logos, color swatches, icon sets)
+      - Access shared Figma component library and design system
+      - Set up access to asset storage (Dropbox, Google Drive, brand.ai, etc.)
+      - Review brand guidelines document
+      - Verify access to company stock photo license (Unsplash, Getty, etc.)
+      - Set up access to user research files and past usability reports
+      - Confirm access to product roadmap and design backlog
+
+  - title: "Design Workflow"
+    items:
+      - Review handoff process with engineering team (Figma inspect, Zeplin, etc.)
+      - Set up access to project management board (Jira, Linear, Asana)
+      - Get added to design critique and review meeting schedule
+      - Review versioning and naming conventions for design files
+      - Confirm access to user feedback channels (Intercom, UserVoice, etc.)
