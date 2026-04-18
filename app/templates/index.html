@@ -65,6 +65,29 @@
     </div>
   </div>
 
+  <!-- Role Selection -->
+  <div class="form-section">
+    <h2 data-i18n="gen_section_role">Employee Role</h2>
+    <div class="role-cards">
+      {% for value, label in role_options %}
+      <label class="role-card">
+        <input type="radio" name="role" value="{{ value }}" {% if loop.first %}checked{% endif %}/>
+        <div class="role-card-inner">
+          <span class="role-icon">
+            {% if value == 'general' %}🏢
+            {% elif value == 'developer' %}💻
+            {% elif value == 'designer' %}🎨
+            {% elif value == 'sales' %}📈
+            {% elif value == 'hr' %}👥
+            {% endif %}
+          </span>
+          <span class="role-label">{{ label }}</span>
+        </div>
+      </label>
+      {% endfor %}
+    </div>
+  </div>
+
   <!-- Software -->
   <div class="form-section">
     <h2 data-i18n="gen_section_software">Software to Install <span class="hint" data-i18n="gen_hint">Select all that apply</span></h2>
@@ -78,18 +101,182 @@
     </div>
   </div>
 
+  <!-- Editable Checklist Preview -->
+  <div class="form-section checklist-preview-section" id="checklist-preview-section">
+    <div class="checklist-preview-header">
+      <h2 data-i18n="gen_section_checklist">Checklist Preview <span class="hint" data-i18n="gen_hint_checklist">Remove or add items</span></h2>
+      <button type="button" class="btn-refresh" id="btn-refresh" onclick="loadChecklist()">↻ Refresh</button>
+    </div>
+    <div id="checklist-body">
+      <div class="checklist-loading">Loading checklist…</div>
+    </div>
+    <div class="add-item-row">
+      <input type="text" id="custom-item-input" placeholder="Add a custom item…" maxlength="200"/>
+      <button type="button" class="btn-add-item" onclick="addCustomItem()">+ Add</button>
+    </div>
+  </div>
+
+  <!-- Hidden inputs populated by JS before submit -->
+  <div id="checklist-hidden-inputs"></div>
+
   <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">&#11015; Generate PDF Checklist</button>
 
 </form>
 
 <script>
-  document.getElementById('gen-form').addEventListener('submit', function() {
-    var btn = document.getElementById('btn-generate');
-    var lang = window.currentLang || 'en';
-    var loadingText = lang === 'es' ? 'Generando\u2026' : 'Generating\u2026';
-    btn.disabled = true;
-    btn.textContent = loadingText;
-    btn.classList.add('btn-loading');
+// ── State ──────────────────────────────────────────────
+let checklistSections = []; // [{title, steps: [{text, removed}]}]
+let customItems       = []; // [{section: 'Custom', text}]
+
+// ── Load checklist from /items ──────────────────────────
+async function loadChecklist() {
+  const os      = document.querySelector('input[name="os_type"]:checked')?.value || 'windows';
+  const role    = document.querySelector('input[name="role"]:checked')?.value    || 'general';
+  const size    = document.getElementById('company_size').value;
+  const software = [...document.querySelectorAll('input[name="software"]:checked')].map(i => i.value);
+
+  const params = new URLSearchParams({ os_type: os, role, company_size: size });
+  software.forEach(s => params.append('software', s));
+
+  document.getElementById('checklist-body').innerHTML =
+    '<div class="checklist-loading">Loading…</div>';
+
+  try {
+    const res = await fetch('/items?' + params);
+    const sections = await res.json();
+    checklistSections = sections.map(s => ({
+      title: s.title,
+      steps: s.steps.map(text => ({ text, removed: false }))
+    }));
+    customItems = [];
+    renderChecklist();
+  } catch {
+    document.getElementById('checklist-body').innerHTML =
+      '<div class="checklist-loading checklist-error">Failed to load — click ↻ to retry.</div>';
+  }
+}
+
+// ── Render editable checklist ───────────────────────────
+function renderChecklist() {
+  const body = document.getElementById('checklist-body');
+  if (!checklistSections.length && !customItems.length) {
+    body.innerHTML = '<div class="checklist-loading">No items for this configuration.</div>';
+    return;
+  }
+
+  let html = '';
+
+  checklistSections.forEach((section, si) => {
+    const visible = section.steps.filter(s => !s.removed);
+    if (!visible.length) return;
+
+    html += `<div class="cl-section">
+      <div class="cl-section-title">${escHtml(section.title)}</div>`;
+    section.steps.forEach((step, ii) => {
+      if (step.removed) return;
+      html += `<div class="cl-item" data-si="${si}" data-ii="${ii}">
+        <span class="cl-item-text">${escHtml(step.text)}</span>
+        <button type="button" class="cl-remove" onclick="removeItem(${si},${ii})" title="Remove">×</button>
+      </div>`;
+    });
+    html += '</div>';
   });
+
+  if (customItems.length) {
+    html += `<div class="cl-section">
+      <div class="cl-section-title">Custom</div>`;
+    customItems.forEach((item, ci) => {
+      html += `<div class="cl-item custom-item" data-ci="${ci}">
+        <span class="cl-item-text">${escHtml(item.text)}</span>
+        <button type="button" class="cl-remove" onclick="removeCustom(${ci})" title="Remove">×</button>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  body.innerHTML = html;
+}
+
+function removeItem(si, ii) {
+  checklistSections[si].steps[ii].removed = true;
+  renderChecklist();
+}
+
+function removeCustom(ci) {
+  customItems.splice(ci, 1);
+  renderChecklist();
+}
+
+function addCustomItem() {
+  const input = document.getElementById('custom-item-input');
+  const text  = input.value.trim();
+  if (!text) return;
+  customItems.push({ section: 'Custom', text });
+  input.value = '';
+  renderChecklist();
+}
+
+// Allow Enter key to add item
+document.getElementById('custom-item-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); addCustomItem(); }
+});
+
+// ── Populate hidden inputs before submit ────────────────
+document.getElementById('gen-form').addEventListener('submit', function(e) {
+  const container = document.getElementById('checklist-hidden-inputs');
+  container.innerHTML = '';
+
+  let hasItems = false;
+
+  checklistSections.forEach(section => {
+    section.steps.filter(s => !s.removed).forEach(step => {
+      appendHidden(container, JSON.stringify({ section: section.title, text: step.text }));
+      hasItems = true;
+    });
+  });
+
+  customItems.forEach(item => {
+    appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
+    hasItems = true;
+  });
+
+  // If no items survived (all removed), clear hidden inputs — let server use defaults
+  if (!hasItems) container.innerHTML = '';
+
+  // Update button text
+  const btn  = document.getElementById('btn-generate');
+  const lang = window.currentLang || 'en';
+  btn.disabled  = true;
+  btn.textContent = lang === 'es' ? 'Generando…' : 'Generating…';
+  btn.classList.add('btn-loading');
+});
+
+function appendHidden(container, value) {
+  const input = document.createElement('input');
+  input.type  = 'hidden';
+  input.name  = 'checklist_item';
+  input.value = value;
+  container.appendChild(input);
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Auto-reload on changes ──────────────────────────────
+function attachListeners() {
+  document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(el => {
+    el.addEventListener('change', loadChecklist);
+  });
+  document.querySelectorAll('input[name="software"]').forEach(el => {
+    el.addEventListener('change', loadChecklist);
+  });
+  document.getElementById('company_size').addEventListener('change', loadChecklist);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  attachListeners();
+  loadChecklist();
+});
 </script>
 {% endblock %}
