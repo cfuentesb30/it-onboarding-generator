@@ -318,7 +318,7 @@ function renderChecklist() {
     section.steps.forEach((step, ii) => {
       if (step.removed) return;
       html += `<div class="cl-item" data-si="${si}" data-ii="${ii}">
-        <span class="cl-check-box">✓</span>
+        <span class="cl-check-box"></span>
         <span class="cl-item-text">${escHtml(step.text)}</span>
         <button type="button" class="cl-remove" onclick="removeItem(${si},${ii})" title="Remove">×</button>
       </div>`;
