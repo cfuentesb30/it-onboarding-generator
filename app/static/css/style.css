@@ -1,12 +1,12 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #f7f7f5;
+  --bg: #F6E3E5;
   --surface: #ffffff;
-  --border: #e4e4e0;
+  --border: #e4d0d3;
   --text: #1a1a1a;
   --muted: #6b7280;
-  --accent: #1a1a1a;
+  --accent: #213F95;
   --green: #16a34a;
 }
 
@@ -92,8 +92,8 @@ footer { border-top: 1px solid var(--border); padding: 18px 0; text-align: cente
   transition: box-shadow .2s;
 }
 .form-section:focus-within {
-  box-shadow: 0 0 0 2px rgba(26,26,26,0.08);
-  border-color: #bbb;
+  box-shadow: 0 0 0 2px rgba(33,63,149,0.12);
+  border-color: #a0b0d8;
 }
 
 .form-section-header {
@@ -105,7 +105,7 @@ footer { border-top: 1px solid var(--border); padding: 18px 0; text-align: cente
 .step-badge {
   flex-shrink: 0;
   width: 28px; height: 28px;
-  background: var(--text); color: #fff;
+  background: var(--accent); color: #fff;
   border-radius: 8px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
   display: flex; align-items: center; justify-content: center;
@@ -168,7 +168,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   padding: 20px 16px; text-align: center;
   cursor: pointer; transition: all .18s; background: var(--bg);
 }
-.os-card-inner:hover { border-color: #bbb; background: #f2f2ef; }
+.os-card-inner:hover { border-color: #bbb; background: #ead3d6; }
 .os-card input:checked + .os-card-inner {
   border-color: var(--accent); background: var(--surface);
   box-shadow: 0 0 0 2px var(--accent);
@@ -196,7 +196,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   padding: 16px 10px; text-align: center;
   cursor: pointer; transition: all .18s; background: var(--bg);
 }
-.role-card-inner:hover { border-color: #bbb; background: #f2f2ef; }
+.role-card-inner:hover { border-color: #bbb; background: #ead3d6; }
 .role-card input:checked + .role-card-inner {
   border-color: var(--accent); background: var(--surface);
   box-shadow: 0 0 0 2px var(--accent);
@@ -219,7 +219,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   cursor: pointer; transition: all .15s; font-size: 13px; background: var(--bg);
   font-weight: 500;
 }
-.sw-item:hover { border-color: #bbb; background: #f2f2ef; }
+.sw-item:hover { border-color: #bbb; background: #ead3d6; }
 .sw-item input[type="checkbox"] { accent-color: var(--accent); width: 15px; height: 15px; flex-shrink: 0; }
 .sw-item:has(input:checked) { border-color: var(--accent); background: var(--surface); }
 
@@ -339,11 +339,11 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   font-size: 16px; font-weight: 700; letter-spacing: -0.3px;
   cursor: pointer;
   transition: opacity .18s, transform .18s, box-shadow .18s;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 10px rgba(33,63,149,0.25);
 }
 .btn-generate:hover:not(:disabled) {
   opacity: .88; transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(33,63,149,0.35);
 }
 .btn-generate:disabled,
 .btn-generate.btn-loading { opacity: .55; cursor: not-allowed; transform: none; }
@@ -421,12 +421,12 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   border-radius: 10px; font-size: 15px; font-weight: 700;
   letter-spacing: -0.2px; text-decoration: none;
   transition: opacity .18s, transform .18s, box-shadow .18s;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.14);
+  box-shadow: 0 2px 10px rgba(33,63,149,0.25);
 }
 .btn-cta:hover {
   opacity: .88;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  box-shadow: 0 6px 20px rgba(33,63,149,0.35);
 }
 .btn-cta-lg { padding: 15px 32px; font-size: 16px; }
 .btn-cta-inverted {
@@ -462,7 +462,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 }
 
 .pdf-header {
-  background: var(--text);
+  background: var(--accent);
   color: #fff;
   padding: 18px 20px 16px;
 }
@@ -507,7 +507,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 .pdf-check {
   flex-shrink: 0;
   width: 16px; height: 16px;
-  background: var(--text);
+  background: var(--accent);
   color: #fff;
   border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
@@ -595,7 +595,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 .lp-step:hover { background: var(--bg); }
 .step-num {
   width: 40px; height: 40px;
-  background: var(--text); color: #fff;
+  background: var(--accent); color: #fff;
   border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
   font-size: 15px; font-weight: 700;
@@ -682,7 +682,7 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 
 /* ── Final CTA ── */
 .lp-final-cta {
-  background: var(--text);
+  background: var(--accent);
   padding: 0;
   margin-top: 0;
 }
