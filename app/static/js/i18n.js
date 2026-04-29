@@ -519,10 +519,11 @@ function applyLang(lang) {
     if (t[key] !== undefined) el.setAttribute("placeholder", t[key]);
   });
 
-  // Update toggle button label (cycles EN → ES → PT → FR → EN)
-  const labels = { en: "ES", es: "PT", pt: "FR", fr: "EN" };
+  // Update toggle button to show current language with flag
+  const flags = { en: "🇺🇸", es: "🇪🇸", pt: "🇧🇷", fr: "🇫🇷" };
+  const codes = { en: "EN", es: "ES", pt: "PT", fr: "FR" };
   const btn = document.getElementById("lang-toggle");
-  if (btn) btn.textContent = labels[lang] || "EN";
+  if (btn) btn.textContent = (flags[lang] || "") + " " + (codes[lang] || lang.toUpperCase());
 
   // Update html lang attribute
   document.documentElement.lang = lang;
@@ -530,13 +531,27 @@ function applyLang(lang) {
   window.currentLang = lang;
 }
 
-function toggleLang() {
-  const cycle = { en: "es", es: "pt", pt: "fr", fr: "en" };
-  const next = cycle[window.currentLang] || "en";
-  localStorage.setItem("lang", next);
-  window.currentLang = next;
-  applyLang(next);
+function toggleLangDropdown() {
+  const dropdown = document.getElementById("lang-dropdown");
+  if (dropdown) dropdown.classList.toggle("open");
 }
+
+function selectLang(lang) {
+  localStorage.setItem("lang", lang);
+  window.currentLang = lang;
+  applyLang(lang);
+  const dropdown = document.getElementById("lang-dropdown");
+  if (dropdown) dropdown.classList.remove("open");
+}
+
+// Close dropdown when clicking outside
+document.addEventListener("click", function (e) {
+  const switcher = document.getElementById("lang-switcher");
+  if (switcher && !switcher.contains(e.target)) {
+    const dropdown = document.getElementById("lang-dropdown");
+    if (dropdown) dropdown.classList.remove("open");
+  }
+});
 
 // Apply on load
 document.addEventListener("DOMContentLoaded", function () {

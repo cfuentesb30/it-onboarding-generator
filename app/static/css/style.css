@@ -39,6 +39,24 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 }
 .btn-lang:hover { border-color: #999; color: var(--text); }
 
+.lang-switcher { position: relative; display: inline-block; }
+.lang-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); right: 0;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; box-shadow: 0 8px 24px rgba(15,23,42,0.12);
+  min-width: 140px; z-index: 100; overflow: hidden;
+}
+.lang-dropdown.open { display: block; }
+.lang-dropdown-item {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 10px 14px;
+  background: transparent; border: none; cursor: pointer;
+  font-family: inherit; font-size: 13px; font-weight: 500; color: var(--text);
+  text-align: left; transition: background .1s;
+}
+.lang-dropdown-item:hover { background: var(--bg); }
+.lang-dropdown-item span { font-size: 16px; line-height: 1; }
+
 footer {
   border-top: 1px solid var(--border); padding: 24px 0;
   text-align: center; font-size: 13px; color: var(--muted); margin-top: 48px;
