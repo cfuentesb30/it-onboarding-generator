@@ -694,7 +694,10 @@ function updateCount(n) {
 }
 
 function removeItem(si, ii) {
-  checklistSections[si].steps[ii].removed = true;
+  const step = checklistSections[si].steps[ii];
+  step.removed = true;
+  const pool = getPool(checklistSections[si].title);
+  if (pool.includes(step.text)) openPools.add(si);
   renderChecklist();
 }
 
