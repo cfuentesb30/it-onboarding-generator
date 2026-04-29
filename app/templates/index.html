@@ -412,7 +412,7 @@
       <a href="https://ko-fi.com/cfuentesb30" target="_blank" rel="noopener" class="btn-kofi" data-i18n="support_kofi_btn">
         &#9749; Support on Ko-fi
       </a>
-      <button type="button" class="btn-generate" id="btn-proceed" onclick="proceedToDownload()" data-i18n="predown_download">
+      <button type="button" class="btn-generate" id="btn-proceed" onclick="proceedToDownload(true)" data-i18n="predown_download">
         &#11015; Download my PDF
       </button>
     </div>
@@ -871,8 +871,9 @@ document.getElementById('gen-form').addEventListener('submit', function(e) {
   document.getElementById('pre-download-overlay').classList.add('open');
 });
 
-function proceedToDownload() {
+function proceedToDownload(openKofi) {
   document.getElementById('pre-download-overlay').classList.remove('open');
+  if (openKofi) window.open('https://ko-fi.com/cfuentesb30', '_blank', 'noopener');
   const btn  = document.getElementById('btn-generate');
   btn.disabled    = true;
   btn.textContent = typeof t === 'function' ? t('gen_btn_loading') : 'Generating\u2026';
