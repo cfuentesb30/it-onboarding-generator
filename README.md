@@ -18,11 +18,12 @@ A free, donation-supported Flask web app that generates custom IT onboarding che
 - **Live preview** — see the checklist before downloading the PDF
 - **Shareable links** — share a pre-filled checklist with configurable expiry
 - **Company logo upload** — logo appears on the PDF header
-- **Pre-download donation prompt** — surfaces Ko-fi support before every PDF download
+- **Pre-download donation prompt** — "Download my PDF" opens Ko-fi in a new tab then downloads; "No thanks" skips straight to download
 - Security steps (MFA, antivirus, password policy) built into every checklist
 - Branded with your company name, employee name, and date
-- **English / Spanish / Portuguese / French** language toggle — persists across pages
+- **English / Spanish / Portuguese / French** language toggle — persists across pages; all UI strings translated including dynamic checklist content
 - First-visit language picker — asks users to choose their language on arrival
+- **Email delivery** — optional field to receive the PDF directly in your inbox (powered by Resend)
 - Mobile-friendly — works on phones and tablets
 - No account, no signup — instant download
 
@@ -83,13 +84,28 @@ The full form state — OS, role, software, names, and any custom or removed ite
 Upload a PNG, JPG, or SVG in Step 1 of the form. The logo is embedded in the PDF header next to the company name — no server storage, converted to base64 at generation time.
 
 ### Pre-download donation prompt
-When the user clicks **Generate PDF**, a Ko-fi support card appears before the download. Users can choose to support the project or skip directly to their PDF. Fully translated in all 4 languages.
+When the user clicks **Generate PDF**, a Ko-fi support card appears before the download:
+- **Download my PDF** — opens Ko-fi in a new tab, then downloads the PDF
+- **No thanks, just download** — skips Ko-fi and downloads immediately
+
+Fully translated in all 4 languages.
 
 ### First-visit language picker
 On first visit (no language saved), a full-screen modal asks users to choose between English, Spanish, Portuguese, or French. The choice is saved to `localStorage` and never shown again.
 
 ### EN / ES / PT / FR language toggle
-Header button cycles between English, Spanish, Portuguese (PT-BR), and French. Saved in `localStorage`.
+Header button cycles between English, Spanish, Portuguese (PT-BR), and French. Saved in `localStorage`. Full coverage includes all static labels, form placeholders, dropdown options, OS/role card descriptions, dynamic checklist states (loading, error, empty, item count), and section titles generated in JavaScript.
+
+### Email delivery
+An optional email field in Step 1 lets users receive the PDF directly in their inbox. Powered by [Resend](https://resend.com). Three email types are sent:
+
+| Email | Recipient | Trigger |
+|---|---|---|
+| Checklist delivery | User (if email provided) | Every PDF generation |
+| Owner notification | `cfuentesbarraza30@gmail.com` | Every PDF generation |
+| Suggestion | Owner | Suggest a feature form submission |
+
+All emails use a branded HTML template with the app header, summary table, and CTA button. To enable, set the `RESEND_API_KEY` and optionally `RESEND_FROM` environment variables.
 
 ---
 
@@ -109,10 +125,11 @@ Have a suggestion? Email: cfuentesbarraza30@gmail.com
 | Backend | Python 3 · Flask |
 | PDF generation | WeasyPrint 60.0 |
 | Templates | Jinja2 |
-| Styling | Vanilla CSS (Inter font, Slate + Indigo palette) |
+| Styling | Vanilla CSS (Inter font) |
 | i18n | Vanilla JS (`i18n.js`) — EN, ES, PT, FR |
 | Checklists | YAML files per OS + role |
 | Share links | Base64-encoded JSON with embedded expiry timestamp |
+| Email | Resend API |
 | Deployment | Render (Docker) |
 
 ---
@@ -128,6 +145,7 @@ cd it-onboarding-generator
 pip install -r requirements.txt
 
 cp .env.example .env
+# Optional: add RESEND_API_KEY to .env to enable email delivery
 
 python run.py
 ```
@@ -165,6 +183,7 @@ it-onboarding-generator/
 │   ├── __init__.py
 │   ├── routes.py              # URL routes, share token decode, /items, /preview, /about
 │   ├── pdf_generator.py       # YAML loading, role merging, PDF build
+│   ├── email.py               # Branded HTML email templates (Resend)
 │   ├── templates/
 │   │   ├── base.html          # Shared layout, header nav, language toggle, first-visit picker
 │   │   ├── home.html          # Landing page + donation support section
@@ -197,13 +216,14 @@ it-onboarding-generator/
 
 ## How checklist generation works
 
-1. User selects OS, role, company size, and software
-2. `/items` loads the OS YAML + role YAML and merges them
-3. User can edit items in the browser — removals and additions tracked in JS
-4. On submit, a pre-download donation card appears before the PDF is sent
-5. User clicks "Download my PDF" — the form submits to `/generate`
+1. User fills in company info, selects OS, role, software, and optionally uploads a logo
+2. `/items` loads the OS YAML + role YAML and merges them into a live checklist
+3. User can edit items in the browser — removals and additions tracked in JS state
+4. On submit, a pre-download Ko-fi card appears
+5. **Download my PDF** opens Ko-fi in a new tab then submits the form; **No thanks** submits directly
 6. `pdf_generator.py` uses submitted items if present, otherwise falls back to YAML defaults
 7. WeasyPrint renders the Jinja2 PDF template to bytes; Flask sends it as a download
+8. If `RESEND_API_KEY` is set: owner is notified via email; user receives the PDF if they provided an email address
 
 ## How share links work
 
@@ -238,4 +258,7 @@ To deploy your own: fork the repo, connect it to Render, and it auto-deploys on 
 - [x] Pre-download Ko-fi donation prompt
 - [x] About page
 - [x] Donation-based model — Ko-fi integration
-- [ ] Email delivery — send the PDF directly to an inbox (Resend)
+- [x] Email delivery — PDF sent to user's inbox + owner notification on every generate (Resend)
+- [x] Branded HTML email templates — consistent styling across all three email types
+- [x] Full i18n coverage — all UI strings translated including JS-generated content
+- [ ] V2 — Flask generator with custom software stacks and more advanced PDF layouts
