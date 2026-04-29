@@ -1,8 +1,10 @@
 # IT Onboarding Generator
 
-A Flask web app that generates custom IT onboarding checklist PDFs — tailored to OS, role, software stack, and company size. Fill in the form, preview, edit, share, and download a print-ready PDF in under a minute.
+A free, donation-supported Flask web app that generates custom IT onboarding checklist PDFs — tailored to OS, role, software stack, and company size. Fill in the form, preview, edit, share, and download a print-ready PDF in under a minute.
 
-**Live:** [it-onboarding-generator.onrender.com](https://it-onboarding-generator.onrender.com)
+**Live:** [it-onboarding-generator.onrender.com](https://it-onboarding-generator.onrender.com)  
+**Support:** [ko-fi.com/cfuentesb30](https://ko-fi.com/cfuentesb30)  
+**About:** [/about](https://it-onboarding-generator.onrender.com/about)
 
 ---
 
@@ -16,9 +18,11 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 - **Live preview** — see the checklist before downloading the PDF
 - **Shareable links** — share a pre-filled checklist with configurable expiry
 - **Company logo upload** — logo appears on the PDF header
+- **Pre-download donation prompt** — surfaces Ko-fi support before every PDF download
 - Security steps (MFA, antivirus, password policy) built into every checklist
 - Branded with your company name, employee name, and date
 - **English / Spanish / Portuguese / French** language toggle — persists across pages
+- First-visit language picker — asks users to choose their language on arrival
 - Mobile-friendly — works on phones and tablets
 - No account, no signup — instant download
 
@@ -29,6 +33,7 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 | Route | Description |
 |---|---|
 | `/` | Landing page |
+| `/about` | About the project and the person behind it |
 | `/generator` | Checklist form — OS, role, software, edit, preview, generate, share |
 | `/generator?s=<token>` | Pre-filled form loaded from a share link |
 | `/items` | JSON endpoint — returns checklist items for OS + role + software |
@@ -77,8 +82,23 @@ The full form state — OS, role, software, names, and any custom or removed ite
 ### Company logo upload
 Upload a PNG, JPG, or SVG in Step 1 of the form. The logo is embedded in the PDF header next to the company name — no server storage, converted to base64 at generation time.
 
+### Pre-download donation prompt
+When the user clicks **Generate PDF**, a Ko-fi support card appears before the download. Users can choose to support the project or skip directly to their PDF. Fully translated in all 4 languages.
+
+### First-visit language picker
+On first visit (no language saved), a full-screen modal asks users to choose between English, Spanish, Portuguese, or French. The choice is saved to `localStorage` and never shown again.
+
 ### EN / ES / PT / FR language toggle
 Header button cycles between English, Spanish, Portuguese (PT-BR), and French. Saved in `localStorage`.
+
+---
+
+## Business model
+
+This tool is **free and donation-supported**. It's built and maintained by a solo developer. Every donation goes directly toward keeping the infrastructure running and expanding what the tool can do.
+
+Support the project: [ko-fi.com/cfuentesb30](https://ko-fi.com/cfuentesb30)  
+Have a suggestion? Email: cfuentesbarraza30@gmail.com
 
 ---
 
@@ -143,16 +163,17 @@ docker run -p 5000:5000 it-onboarding-generator
 it-onboarding-generator/
 ├── app/
 │   ├── __init__.py
-│   ├── routes.py              # URL routes, share token decode, /items and /preview endpoints
+│   ├── routes.py              # URL routes, share token decode, /items, /preview, /about
 │   ├── pdf_generator.py       # YAML loading, role merging, PDF build
 │   ├── templates/
-│   │   ├── base.html          # Shared layout, header, language toggle
-│   │   ├── home.html          # Landing page
-│   │   ├── index.html         # Generator form + share modal
-│   │   └── pdf_checklist.html # PDF output template
+│   │   ├── base.html          # Shared layout, header nav, language toggle, first-visit picker
+│   │   ├── home.html          # Landing page + donation support section
+│   │   ├── about.html         # About the project and author
+│   │   ├── index.html         # Generator form + pre-download overlay + share modal
+│   │   └── pdf_checklist.html # PDF output template (logo, sections, sign-off)
 │   └── static/
 │       ├── css/style.css
-│       └── js/i18n.js         # EN/ES/PT translations and toggle logic
+│       └── js/i18n.js         # EN/ES/PT/FR translations and toggle logic
 ├── checklists/
 │   ├── windows.yaml
 │   ├── macos.yaml
@@ -162,7 +183,10 @@ it-onboarding-generator/
 │       ├── developer.yaml
 │       ├── designer.yaml
 │       ├── sales.yaml
-│       └── hr.yaml
+│       ├── hr.yaml
+│       ├── finance.yaml
+│       ├── marketing.yaml
+│       └── operations.yaml
 ├── Dockerfile
 ├── render.yaml
 ├── requirements.txt
@@ -176,9 +200,10 @@ it-onboarding-generator/
 1. User selects OS, role, company size, and software
 2. `/items` loads the OS YAML + role YAML and merges them
 3. User can edit items in the browser — removals and additions tracked in JS
-4. On submit, the final item list is encoded as hidden form inputs
-5. `pdf_generator.py` uses submitted items if present, otherwise falls back to YAML defaults
-6. WeasyPrint renders the Jinja2 PDF template to bytes; Flask sends it as a download
+4. On submit, a pre-download donation card appears before the PDF is sent
+5. User clicks "Download my PDF" — the form submits to `/generate`
+6. `pdf_generator.py` uses submitted items if present, otherwise falls back to YAML defaults
+7. WeasyPrint renders the Jinja2 PDF template to bytes; Flask sends it as a download
 
 ## How share links work
 
@@ -204,10 +229,13 @@ To deploy your own: fork the repo, connect it to Render, and it auto-deploys on 
 - [x] Role-specific checklist templates (Developer, Designer, Sales, HR)
 - [x] Editable checklist items before generating
 - [x] Live checklist preview before PDF download
-- [x] EN / ES / PT language toggle
+- [x] EN / ES / PT / FR language toggle
+- [x] First-visit language picker
 - [x] Mobile-responsive layout
 - [x] Shareable links with configurable expiry (1h / 24h / 48h / 1wk / no expiry)
 - [x] More roles — Finance, Marketing, Operations (8 total)
 - [x] Company logo upload on the PDF
-- [x] French (FR) language support
-- [ ] Email delivery — send the PDF directly to an inbox
+- [x] Pre-download Ko-fi donation prompt
+- [x] About page
+- [x] Donation-based model — Ko-fi integration
+- [ ] Email delivery — send the PDF directly to an inbox (Resend)
