@@ -274,61 +274,87 @@
       </div>
     </div>
     <div class="sw-groups">
+
+      <!-- Productivity -->
       <div class="sw-group">
         <div class="sw-group-label">Productivity</div>
         <div class="sw-group-items">
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="microsoft_office"/>
-            <span>Microsoft Office</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="google_workspace"/>
-            <span>Google Workspace</span>
-          </label>
+          <label class="sw-item"><input type="checkbox" name="software" value="microsoft_office"/><span>Microsoft Office</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="google_workspace"/><span>Google Workspace</span></label>
+        </div>
+        <div class="cl-pool-toggle"><button type="button" onclick="toggleSwPool('productivity')">＋ Suggestions</button></div>
+        <div class="cl-pool" id="sw-pool-productivity">
+          <button type="button" class="cl-pool-chip" data-name="Notion"      onclick="addSwSuggestion('Notion',this)">Notion</button>
+          <button type="button" class="cl-pool-chip" data-name="Confluence"  onclick="addSwSuggestion('Confluence',this)">Confluence</button>
+          <button type="button" class="cl-pool-chip" data-name="SharePoint"  onclick="addSwSuggestion('SharePoint',this)">SharePoint</button>
+          <button type="button" class="cl-pool-chip" data-name="OneDrive"    onclick="addSwSuggestion('OneDrive',this)">OneDrive</button>
+          <button type="button" class="cl-pool-chip" data-name="Dropbox"     onclick="addSwSuggestion('Dropbox',this)">Dropbox</button>
+          <button type="button" class="cl-pool-chip" data-name="Box"         onclick="addSwSuggestion('Box',this)">Box</button>
+          <button type="button" class="cl-pool-chip" data-name="Airtable"    onclick="addSwSuggestion('Airtable',this)">Airtable</button>
+          <button type="button" class="cl-pool-chip" data-name="Canva"       onclick="addSwSuggestion('Canva',this)">Canva</button>
+        </div>
+        <div class="sw-custom-row">
+          <input type="text" id="sw-input-productivity" placeholder="Add other productivity software…" maxlength="80"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();addSwItem('sw-input-productivity')}"/>
+          <button type="button" class="btn-add-item" onclick="addSwItem('sw-input-productivity')">+ Add</button>
         </div>
       </div>
+
+      <!-- Communication -->
       <div class="sw-group">
         <div class="sw-group-label">Communication</div>
         <div class="sw-group-items">
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="slack"/>
-            <span>Slack</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="zoom"/>
-            <span>Zoom</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="teams"/>
-            <span>Microsoft Teams</span>
-          </label>
+          <label class="sw-item"><input type="checkbox" name="software" value="slack"/><span>Slack</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="zoom"/><span>Zoom</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="teams"/><span>Microsoft Teams</span></label>
+        </div>
+        <div class="cl-pool-toggle"><button type="button" onclick="toggleSwPool('communication')">＋ Suggestions</button></div>
+        <div class="cl-pool" id="sw-pool-communication">
+          <button type="button" class="cl-pool-chip" data-name="Google Meet"  onclick="addSwSuggestion('Google Meet',this)">Google Meet</button>
+          <button type="button" class="cl-pool-chip" data-name="Webex"        onclick="addSwSuggestion('Webex',this)">Webex</button>
+          <button type="button" class="cl-pool-chip" data-name="Discord"      onclick="addSwSuggestion('Discord',this)">Discord</button>
+          <button type="button" class="cl-pool-chip" data-name="Asana"        onclick="addSwSuggestion('Asana',this)">Asana</button>
+          <button type="button" class="cl-pool-chip" data-name="Trello"       onclick="addSwSuggestion('Trello',this)">Trello</button>
+          <button type="button" class="cl-pool-chip" data-name="Monday.com"   onclick="addSwSuggestion('Monday.com',this)">Monday.com</button>
+          <button type="button" class="cl-pool-chip" data-name="ClickUp"      onclick="addSwSuggestion('ClickUp',this)">ClickUp</button>
+          <button type="button" class="cl-pool-chip" data-name="Jira"         onclick="addSwSuggestion('Jira',this)">Jira</button>
+          <button type="button" class="cl-pool-chip" data-name="Linear"       onclick="addSwSuggestion('Linear',this)">Linear</button>
+        </div>
+        <div class="sw-custom-row">
+          <input type="text" id="sw-input-communication" placeholder="Add other communication software…" maxlength="80"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();addSwItem('sw-input-communication')}"/>
+          <button type="button" class="btn-add-item" onclick="addSwItem('sw-input-communication')">+ Add</button>
         </div>
       </div>
+
+      <!-- Security -->
       <div class="sw-group">
         <div class="sw-group-label">Security</div>
         <div class="sw-group-items">
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="antivirus"/>
-            <span>Antivirus</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="vpn"/>
-            <span>VPN Client</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="password_manager"/>
-            <span>Password Manager</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="1password"/>
-            <span>1Password</span>
-          </label>
-          <label class="sw-item">
-            <input type="checkbox" name="software" value="lastpass"/>
-            <span>LastPass</span>
-          </label>
+          <label class="sw-item"><input type="checkbox" name="software" value="antivirus"/><span>Antivirus</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="vpn"/><span>VPN Client</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="password_manager"/><span>Password Manager</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="1password"/><span>1Password</span></label>
+          <label class="sw-item"><input type="checkbox" name="software" value="lastpass"/><span>LastPass</span></label>
+        </div>
+        <div class="cl-pool-toggle"><button type="button" onclick="toggleSwPool('security')">＋ Suggestions</button></div>
+        <div class="cl-pool" id="sw-pool-security">
+          <button type="button" class="cl-pool-chip" data-name="Okta"                  onclick="addSwSuggestion('Okta',this)">Okta</button>
+          <button type="button" class="cl-pool-chip" data-name="Duo Security"           onclick="addSwSuggestion('Duo Security',this)">Duo Security</button>
+          <button type="button" class="cl-pool-chip" data-name="Jamf"                   onclick="addSwSuggestion('Jamf',this)">Jamf</button>
+          <button type="button" class="cl-pool-chip" data-name="Kandji"                 onclick="addSwSuggestion('Kandji',this)">Kandji</button>
+          <button type="button" class="cl-pool-chip" data-name="CrowdStrike"            onclick="addSwSuggestion('CrowdStrike',this)">CrowdStrike</button>
+          <button type="button" class="cl-pool-chip" data-name="Malwarebytes"           onclick="addSwSuggestion('Malwarebytes',this)">Malwarebytes</button>
+          <button type="button" class="cl-pool-chip" data-name="Cloudflare WARP"        onclick="addSwSuggestion('Cloudflare WARP',this)">Cloudflare WARP</button>
+          <button type="button" class="cl-pool-chip" data-name="Yubico Authenticator"   onclick="addSwSuggestion('Yubico Authenticator',this)">Yubico Authenticator</button>
+        </div>
+        <div class="sw-custom-row">
+          <input type="text" id="sw-input-security" placeholder="Add other security software…" maxlength="80"
+                 onkeydown="if(event.key==='Enter'){event.preventDefault();addSwItem('sw-input-security')}"/>
+          <button type="button" class="btn-add-item" onclick="addSwItem('sw-input-security')">+ Add</button>
         </div>
       </div>
+
     </div>
   </div>
 
@@ -422,6 +448,7 @@ let checklistSections = [];
 let customItems       = [];
 let openPools         = new Set();
 let removedDefaults   = {}; // si → [text, ...]
+let customSoftware    = []; // [{name}] — persists across checklist reloads
 
 // ── Suggestion pools per section type ──────────────────
 const SUGGESTION_POOL = {
@@ -728,6 +755,23 @@ function renderChecklist() {
     html += '</div>';
   }
 
+  if (customSoftware.length) {
+    total += customSoftware.length;
+    html += `<div class="cl-section cl-section-custom">
+      <div class="cl-section-title">Additional Software<span class="cl-section-count">${customSoftware.length}</span></div>`;
+    customSoftware.forEach(sw => {
+      html += `<div class="cl-item custom-item">
+        <span class="cl-check-box custom">+</span>
+        <span class="cl-item-text" contenteditable="true"
+          onblur="editSwName('${escAttr(sw.name)}',this)"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >Install and configure ${escHtml(sw.name)}</span>
+        <button type="button" class="cl-remove" onclick="removeSwItem('${escAttr(sw.name)}')" title="Remove">×</button>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
   if (!html) {
     body.innerHTML = '<div class="checklist-loading">No items for this configuration.</div>';
   } else {
@@ -808,6 +852,10 @@ function populateHiddenInputs() {
     appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
     hasItems = true;
   });
+  customSoftware.forEach(sw => {
+    appendHidden(container, JSON.stringify({ section: 'Additional Software', text: `Install and configure ${sw.name}` }));
+    hasItems = true;
+  });
   if (!hasItems) container.innerHTML = '';
 }
 
@@ -879,6 +927,9 @@ function openPreview() {
   customItems.forEach(item => {
     appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
   });
+  customSoftware.forEach(sw => {
+    appendHidden(container, JSON.stringify({ section: 'Additional Software', text: `Install and configure ${sw.name}` }));
+  });
 
   const original = form.action;
   const originalTarget = form.target;
@@ -901,6 +952,48 @@ function updateStepDots() {
     });
     if (dots[i]) dots[i].classList.toggle('filled', filled);
   });
+}
+
+// ── Software pool (Step 4) ───────────────────────────────
+function toggleSwPool(group) {
+  const el = document.getElementById(`sw-pool-${group}`);
+  if (el) el.classList.toggle('open');
+}
+
+function addSwSuggestion(name, btn) {
+  if (customSoftware.find(s => s.name === name)) return;
+  customSoftware.push({ name });
+  btn.classList.add('added');
+  btn.disabled = true;
+  btn.textContent = '✓ ' + name;
+  renderChecklist();
+}
+
+function addSwItem(inputId) {
+  const input = document.getElementById(inputId);
+  const name  = input.value.trim();
+  if (!name || customSoftware.find(s => s.name === name)) { input.value = ''; return; }
+  customSoftware.push({ name });
+  input.value = '';
+  renderChecklist();
+}
+
+function removeSwItem(name) {
+  customSoftware = customSoftware.filter(s => s.name !== name);
+  // Un-gray the chip if it exists in a pool
+  document.querySelectorAll(`.cl-pool-chip[data-name="${CSS.escape(name)}"]`).forEach(btn => {
+    btn.classList.remove('added');
+    btn.disabled = false;
+    btn.textContent = name;
+  });
+  renderChecklist();
+}
+
+function editSwName(oldName, el) {
+  const newName = el.textContent.replace(/^Install and configure\s*/i, '').trim();
+  if (!newName) { removeSwItem(oldName); return; }
+  const sw = customSoftware.find(s => s.name === oldName);
+  if (sw) sw.name = newName;
 }
 
 // ── OS custom name handler ───────────────────────────────

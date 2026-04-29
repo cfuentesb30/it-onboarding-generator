@@ -314,6 +314,9 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   background: #ede9fe; color: #7c3aed;
 }
 .cl-item-text { flex: 1; line-height: 1.4; }
+.sw-custom-row { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+.sw-custom-row input[type="text"] { flex: 1; font-size: 13px; margin: 0; }
+
 .cl-pool-toggle { padding: 2px 12px 4px; }
 .cl-pool-toggle button {
   font-size: 12px; color: var(--muted); background: none; border: none;
