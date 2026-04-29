@@ -99,6 +99,10 @@ const TRANSLATIONS = {
     support_kofi_btn:  "&#9749; Support on Ko-fi",
     support_suggest:   "&#128172; Send a suggestion &rarr;",
 
+    // Nav
+    nav_about: "About",
+    nav_cta:   "Generate PDF &rarr;",
+
     // Footer
     footer_tagline:  "Free forever &middot; Donation-supported &middot; Built for small business IT teams.",
     footer_suggest:  "Suggest a feature",
@@ -223,6 +227,10 @@ const TRANSLATIONS = {
     support_p:         "Se mantiene gracias a personas que la encontraron útil. Si te ahorró tiempo, una pequeña donación ayuda mucho. Las sugerencias para mejorarla también son siempre bienvenidas.",
     support_kofi_btn:  "&#9749; Apoyar en Ko-fi",
     support_suggest:   "&#128172; Enviar una sugerencia &rarr;",
+
+    // Nav
+    nav_about: "Acerca de",
+    nav_cta:   "Generar PDF &rarr;",
 
     // Footer
     footer_tagline:  "Gratis para siempre &middot; Financiado por donaciones &middot; Para equipos de IT de pequeñas empresas.",
@@ -349,6 +357,10 @@ const TRANSLATIONS = {
     support_kofi_btn:  "&#9749; Apoiar no Ko-fi",
     support_suggest:   "&#128172; Enviar uma sugestão &rarr;",
 
+    // Nav
+    nav_about: "Sobre",
+    nav_cta:   "Gerar PDF &rarr;",
+
     // Footer
     footer_tagline:  "Gratuito para sempre &middot; Financiado por doações &middot; Para equipes de TI de pequenas empresas.",
     footer_suggest:  "Sugerir uma funcionalidade",
@@ -473,6 +485,10 @@ const TRANSLATIONS = {
     support_p:         "Il est maintenu grâce aux personnes qui l'ont trouvé utile. Si cela vous a fait gagner du temps, un petit don va loin. Les suggestions pour l\u2019améliorer sont aussi toujours les bienvenues.",
     support_kofi_btn:  "&#9749; Soutenir sur Ko-fi",
     support_suggest:   "&#128172; Envoyer une suggestion &rarr;",
+
+    // Nav
+    nav_about: "À propos",
+    nav_cta:   "Générer PDF &rarr;",
 
     // Footer
     footer_tagline:  "Gratuit pour toujours &middot; Financé par des dons &middot; Pour les équipes IT des petites entreprises.",
