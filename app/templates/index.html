@@ -380,6 +380,7 @@
 let checklistSections = [];
 let customItems       = [];
 let openPools         = new Set();
+let removedDefaults   = {}; // si → [text, ...]
 
 // ── Suggestion pools per section type ──────────────────
 const SUGGESTION_POOL = {
@@ -611,8 +612,9 @@ async function loadChecklist() {
       title: s.title,
       steps: s.steps.map(text => ({ text, removed: false }))
     }));
-    customItems = [];
-    openPools   = new Set();
+    customItems     = [];
+    openPools       = new Set();
+    removedDefaults = {};
     renderChecklist();
   } catch {
     document.getElementById('checklist-body').innerHTML =
@@ -644,7 +646,10 @@ function renderChecklist() {
       </div>`;
     });
     const pool = getPool(section.title);
-    if (pool.length) {
+    const removed = (removedDefaults[si] || []).filter(
+      text => section.steps.some(s => s.text === text && s.removed)
+    );
+    if (pool.length || removed.length) {
       const isOpen = openPools.has(si);
       html += `<div class="cl-pool-toggle">
         <button type="button" onclick="togglePool(${si})">${isOpen ? '▴' : '＋'} Suggestions</button>
@@ -655,6 +660,10 @@ function renderChecklist() {
         html += `<button type="button" class="cl-pool-chip${added ? ' added' : ''}"
           ${added ? 'disabled' : `onclick="addSuggestion(${si},this)"`}
           data-text="${escAttr(text)}">${added ? '✓ ' : ''}${escHtml(text)}</button>`;
+      });
+      removed.forEach(text => {
+        html += `<button type="button" class="cl-pool-chip cl-pool-chip-removed"
+          onclick="addSuggestion(${si},this)" data-text="${escAttr(text)}">↩ ${escHtml(text)}</button>`;
       });
       html += '</div>';
     }
@@ -697,7 +706,11 @@ function removeItem(si, ii) {
   const step = checklistSections[si].steps[ii];
   step.removed = true;
   const pool = getPool(checklistSections[si].title);
-  if (pool.includes(step.text)) openPools.add(si);
+  if (!pool.includes(step.text)) {
+    if (!removedDefaults[si]) removedDefaults[si] = [];
+    if (!removedDefaults[si].includes(step.text)) removedDefaults[si].push(step.text);
+  }
+  openPools.add(si);
   renderChecklist();
 }
 
@@ -803,6 +816,9 @@ function addSuggestion(si, btn) {
     already.removed = false;
   } else {
     checklistSections[si].steps.push({ text, removed: false });
+  }
+  if (removedDefaults[si]) {
+    removedDefaults[si] = removedDefaults[si].filter(t => t !== text);
   }
   renderChecklist();
 }

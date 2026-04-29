@@ -331,6 +331,8 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 }
 .cl-pool-chip:hover { border-color: var(--accent); background: #eef2ff; color: var(--accent); }
 .cl-pool-chip.added { border-color: #86efac; background: #f0fdf4; color: #166534; cursor: default; }
+.cl-pool-chip-removed { border-style: dashed; color: var(--muted); }
+.cl-pool-chip-removed:hover { border-color: var(--accent); background: #eef2ff; color: var(--accent); }
 
 .cl-item-text[contenteditable] { cursor: text; border-radius: 4px; outline: none; padding: 1px 3px; margin: -1px -3px; }
 .cl-item-text[contenteditable]:hover { background: #f5f7ff; }
