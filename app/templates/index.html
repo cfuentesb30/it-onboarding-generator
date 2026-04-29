@@ -379,6 +379,216 @@
 // ── State ──────────────────────────────────────────────
 let checklistSections = [];
 let customItems       = [];
+let openPools         = new Set();
+
+// ── Suggestion pools per section type ──────────────────
+const SUGGESTION_POOL = {
+  hardware: [
+    'Check battery health and cycle count',
+    'Record device serial number in IT asset log',
+    'Test all USB, HDMI, and audio ports',
+    'Verify camera and microphone functionality',
+    'Test audio — speakers and headphone output',
+    'Confirm display resolution and color profile',
+  ],
+  os: [
+    'Enable automatic screen lock after 5 minutes',
+    'Configure display sleep / power settings',
+    'Set up remote desktop or screen share access',
+    'Configure keyboard layout and input language',
+    'Install printer and scanner drivers',
+    'Enable automatic OS updates',
+  ],
+  software: [
+    'Install PDF reader (Adobe Acrobat / Preview)',
+    'Configure default browser and homepage',
+    'Install screen capture tool (Snagit, Greenshot)',
+    'Install project management app (Asana, Jira, Monday)',
+    'Set up company email signature template',
+    'Install backup client',
+  ],
+  network: [
+    'Run internet speed test — document results',
+    'Enroll in mobile device management (MDM)',
+    'Verify access to internal file server or NAS',
+    'Enable remote wipe capability',
+    'Configure company DNS / split tunneling',
+    'Test VoIP or company phone system',
+  ],
+  accounts: [
+    'Set up IT helpdesk account (Freshdesk, Zendesk)',
+    'Configure SSO (single sign-on) with company IdP',
+    'Add to HR / payroll system',
+    'Set up company phone extension or VoIP',
+    'Configure authenticator app for MFA codes',
+    'Set up company intranet / wiki access',
+  ],
+  final: [
+    'Document assigned hardware serial numbers',
+    'Schedule 30-day IT check-in',
+    'Share IT support contact and ticketing link',
+    'Provide IT acceptable use policy document',
+    'Take photo of workstation for IT records',
+    'Run final connectivity / speed test',
+  ],
+  dev_env: [
+    'Install package manager (Homebrew / Chocolatey)',
+    'Set up SSH keys and add to GitHub / GitLab',
+    'Configure terminal and shell profile',
+    'Install Docker Desktop',
+    'Set up local dev environment per README',
+    'Configure code linting and formatting tools',
+  ],
+  source_control: [
+    'Add developer to GitHub / GitLab organization',
+    'Review branch protection rules for new user',
+    'Grant CI/CD pipeline access and permissions',
+    'Set up webhook notifications for assigned repos',
+    'Add to relevant code review groups',
+  ],
+  cloud: [
+    'Create cloud IAM user (AWS / GCP / Azure)',
+    'Assign least-privilege role for environment',
+    'Set up cloud CLI tools and credentials',
+    'Add to VPN or bastion host allowlist',
+    'Configure staging / dev environment access',
+  ],
+  design_tools: [
+    'Set up Figma account and add to team workspace',
+    'Install Adobe Creative Cloud and activate license',
+    'Configure color profiles and display calibration',
+    'Set up brand font library',
+    'Add to design system / component library',
+  ],
+  brand: [
+    'Share brand style guide and asset downloads',
+    'Grant access to brand DAM (digital asset manager)',
+    'Add to design review / feedback channels',
+    'Share approved stock photo and icon subscriptions',
+  ],
+  design_workflow: [
+    'Introduce design review and handoff process',
+    'Add to design sprint or project boards',
+    'Set up Figma Dev Mode or Zeplin',
+    'Schedule intro with frontend / engineering team',
+  ],
+  financial: [
+    'Create ERP account (NetSuite, SAP, QuickBooks)',
+    'Set up expense reporting tool (Expensify, Concur)',
+    'Add to accounting / finance shared drives',
+    'Configure banking or payment platform access',
+    'Set up corporate card and spending limits',
+  ],
+  reporting: [
+    'Set up BI tool access (Tableau, Looker, Power BI)',
+    'Add to scheduled financial reports distribution',
+    'Configure data warehouse / SQL access',
+    'Share finance KPI dashboard',
+  ],
+  compliance: [
+    'Complete required compliance training (SOX, GDPR)',
+    'Review internal controls and approval workflows',
+    'Add to audit trail and activity monitoring',
+    'Set up document retention policy access',
+  ],
+  hr_systems: [
+    'Set up HRIS account (BambooHR, Workday, etc.)',
+    'Configure ATS access (Greenhouse, Lever, etc.)',
+    'Add to org chart and company directory',
+    'Enable e-signature platform access (DocuSign)',
+  ],
+  people_ops: [
+    'Schedule new hire orientation sessions',
+    'Set up recurring 1:1 calendar with manager',
+    'Add to HR Slack channels / communication groups',
+    'Share employee handbook and benefits portal',
+  ],
+  marketing_tools: [
+    'Set up CRM access (HubSpot, Salesforce)',
+    'Add to email marketing platform (Mailchimp, Klaviyo)',
+    'Set up social media management tool (Hootsuite, Buffer)',
+    'Configure SEO tools (SEMrush, Ahrefs)',
+  ],
+  content: [
+    'Share content calendar and editorial guidelines',
+    'Grant access to CMS (WordPress, Webflow, etc.)',
+    'Add to brand asset library and shared drives',
+    'Share brand voice and tone guide',
+  ],
+  analytics: [
+    'Set up Google Analytics / GA4 access',
+    'Configure Google Search Console access',
+    'Add to monthly marketing metrics reports',
+    'Share UTM tracking template and naming conventions',
+  ],
+  operations: [
+    'Set up project management tool (Asana, Monday, ClickUp)',
+    'Add to operational dashboards and reporting',
+    'Configure inventory or ERP system access',
+    'Set up task automation tools (Zapier, Make)',
+  ],
+  vendor: [
+    'Add to vendor management platform',
+    'Set up purchase approval workflow access',
+    'Share approved vendor list and contact directory',
+    'Configure procurement request process',
+  ],
+  process: [
+    'Share standard operating procedures (SOP) library',
+    'Add to internal wiki (Notion, Confluence)',
+    'Set up documentation and knowledge base access',
+    'Review process improvement submission workflow',
+  ],
+  crm: [
+    'Set up CRM account (Salesforce, HubSpot, Pipedrive)',
+    'Configure email integration with CRM',
+    'Set up call recording / dialer (Gong, Outreach)',
+    'Add LinkedIn Sales Navigator or Apollo access',
+  ],
+  sales_resources: [
+    'Share sales playbook and pitch deck',
+    'Add to proposal generation tool (PandaDoc, Proposify)',
+    'Grant access to sales enablement library (Highspot, Seismic)',
+    'Share competitive intelligence resources',
+  ],
+  territory: [
+    'Assign territory or account list in CRM',
+    'Set up lead routing and assignment rules',
+    'Configure pipeline stages and deal templates',
+    'Schedule intro calls with key existing accounts',
+  ],
+};
+
+function getPool(title) {
+  const t = title.toLowerCase();
+  if (t.includes('hardware') || t.includes('equipment')) return SUGGESTION_POOL.hardware;
+  if (t.includes('software') || t.includes('installation')) return SUGGESTION_POOL.software;
+  if (t.includes('os') && t.includes('setup')) return SUGGESTION_POOL.os;
+  if (t.includes('os setup') || (t.includes('os') && !t.includes('tools'))) return SUGGESTION_POOL.os;
+  if (t.includes('network') || t.includes('remote access')) return SUGGESTION_POOL.network;
+  if (t.includes('account') || t.includes('access')) return SUGGESTION_POOL.accounts;
+  if (t.includes('final') || t.includes('verif')) return SUGGESTION_POOL.final;
+  if (t.includes('developer environment')) return SUGGESTION_POOL.dev_env;
+  if (t.includes('source control') || t.includes('ci/cd')) return SUGGESTION_POOL.source_control;
+  if (t.includes('cloud') || t.includes('infrastructure')) return SUGGESTION_POOL.cloud;
+  if (t.includes('design tools')) return SUGGESTION_POOL.design_tools;
+  if (t.includes('brand') && t.includes('asset')) return SUGGESTION_POOL.brand;
+  if (t.includes('workflow')) return SUGGESTION_POOL.design_workflow;
+  if (t.includes('financial')) return SUGGESTION_POOL.financial;
+  if (t.includes('marketing tools')) return SUGGESTION_POOL.marketing_tools;
+  if (t.includes('content')) return SUGGESTION_POOL.content;
+  if (t.includes('analytics') || t.includes('reporting')) return SUGGESTION_POOL.reporting;
+  if (t.includes('compliance') || t.includes('controls')) return SUGGESTION_POOL.compliance;
+  if (t.includes('hr system')) return SUGGESTION_POOL.hr_systems;
+  if (t.includes('people ops')) return SUGGESTION_POOL.people_ops;
+  if (t.includes('operations tools')) return SUGGESTION_POOL.operations;
+  if (t.includes('vendor') || t.includes('procurement')) return SUGGESTION_POOL.vendor;
+  if (t.includes('process') || t.includes('documentation')) return SUGGESTION_POOL.process;
+  if (t.includes('crm') || t.includes('sales tools')) return SUGGESTION_POOL.crm;
+  if (t.includes('sales resources')) return SUGGESTION_POOL.sales_resources;
+  if (t.includes('territory') || t.includes('pipeline')) return SUGGESTION_POOL.territory;
+  return [];
+}
 
 // ── Load checklist from /items ──────────────────────────
 async function loadChecklist() {
@@ -402,6 +612,7 @@ async function loadChecklist() {
       steps: s.steps.map(text => ({ text, removed: false }))
     }));
     customItems = [];
+    openPools   = new Set();
     renderChecklist();
   } catch {
     document.getElementById('checklist-body').innerHTML =
@@ -432,6 +643,21 @@ function renderChecklist() {
         <button type="button" class="cl-remove" onclick="removeItem(${si},${ii})" title="Remove">×</button>
       </div>`;
     });
+    const pool = getPool(section.title);
+    if (pool.length) {
+      const isOpen = openPools.has(si);
+      html += `<div class="cl-pool-toggle">
+        <button type="button" onclick="togglePool(${si})">${isOpen ? '▴' : '＋'} Suggestions</button>
+      </div>
+      <div class="cl-pool${isOpen ? ' open' : ''}">`;
+      pool.forEach(text => {
+        const added = section.steps.some(s => s.text === text && !s.removed);
+        html += `<button type="button" class="cl-pool-chip${added ? ' added' : ''}"
+          ${added ? 'disabled' : `onclick="addSuggestion(${si},this)"`}
+          data-text="${escAttr(text)}">${added ? '✓ ' : ''}${escHtml(text)}</button>`;
+      });
+      html += '</div>';
+    }
     html += '</div>';
   });
 
@@ -555,6 +781,27 @@ function appendHidden(container, value) {
 
 function escHtml(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function escAttr(str) {
+  return str.replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+}
+
+function togglePool(si) {
+  if (openPools.has(si)) openPools.delete(si);
+  else openPools.add(si);
+  renderChecklist();
+}
+
+function addSuggestion(si, btn) {
+  const text = btn.dataset.text;
+  const already = checklistSections[si].steps.find(s => s.text === text);
+  if (already) {
+    already.removed = false;
+  } else {
+    checklistSections[si].steps.push({ text, removed: false });
+  }
+  renderChecklist();
 }
 
 // ── Preview ─────────────────────────────────────────────
