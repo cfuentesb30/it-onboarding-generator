@@ -65,6 +65,7 @@ ROLE_OPTIONS = [
     ("finance",    "Finance"),
     ("marketing",  "Marketing"),
     ("operations", "Operations"),
+    ("custom",     "Custom"),
 ]
 
 VALID_ROLES = {r[0] for r in ROLE_OPTIONS}
@@ -158,20 +159,30 @@ def preview():
     if role not in VALID_ROLES:
         role = "general"
 
+    role_name     = request.form.get("role_name", "").strip()
+    checklist_role = "general" if role == "custom" else role
+
     if submitted:
         sections = sections_from_submitted(submitted)
     else:
-        sections = load_checklist(os_type, software, company_size, role)
+        sections = load_checklist(os_type, software, company_size, checklist_role)
 
     os_name   = request.form.get("os_name", "").strip()
     os_labels = {"windows": "Windows", "macos": "macOS", "linux": "Linux",
                  "remote": "Remote Employee", "custom": os_name or "Custom OS"}
 
+    if role == "custom":
+        role_label = role_name or "Custom"
+    elif role == "general":
+        role_label = ""
+    else:
+        role_label = role.capitalize()
+
     return render_template(
         "pdf_checklist.html",
         company_name=company_name,
         os_label=os_labels.get(os_type, os_type),
-        role_label=role.capitalize() if role != "general" else "",
+        role_label=role_label,
         company_size=company_size,
         software=software,
         preparer=preparer,
@@ -201,6 +212,9 @@ def generate():
     if role not in VALID_ROLES:
         role = "general"
 
+    role_name      = request.form.get("role_name", "").strip()
+    checklist_role = "general" if role == "custom" else role
+
     try:
         pdf_bytes = build_pdf(
             os_type=os_type,
@@ -209,7 +223,7 @@ def generate():
             software=software,
             preparer=preparer,
             employee=employee,
-            role=role,
+            role=checklist_role,
             submitted_items=submitted if submitted else None,
             logo_data=logo_data,
         )
@@ -218,7 +232,12 @@ def generate():
         traceback.print_exc()
         return f"<pre>PDF generation failed:\n{e}</pre>", 500
 
-    role_suffix = f"-{role.capitalize()}" if role != "general" else ""
+    if role == "custom":
+        role_suffix = f"-{role_name.replace(' ', '-')}" if role_name else "-Custom"
+    elif role != "general":
+        role_suffix = f"-{role.capitalize()}"
+    else:
+        role_suffix = ""
     filename = f"IT-Onboarding-{os_type.capitalize()}{role_suffix}-Checklist.pdf"
 
     if os.getenv("RESEND_API_KEY"):

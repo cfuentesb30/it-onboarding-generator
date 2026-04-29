@@ -249,6 +249,18 @@
           <span class="card-check">✓</span>
         </div>
       </label>
+      <label class="role-card">
+        <input type="radio" name="role" value="custom" onchange="handleRoleChange(this)"/>
+        <div class="role-card-inner">
+          <span class="role-icon">✏️</span>
+          <span class="role-label">Custom</span>
+          <span class="role-desc">Define your own role</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+    </div>
+    <div id="role-custom-wrap" style="display:none; margin-top:12px;">
+      <input type="text" id="role_name" name="role_name" placeholder="e.g. IT Admin, Data Analyst, Support Engineer…" maxlength="60" style="width:100%; max-width:360px;"/>
     </div>
   </div>
 
@@ -900,6 +912,18 @@ function handleOsChange(radio) {
 document.querySelectorAll('input[name="os_type"]').forEach(el => {
   el.addEventListener('change', function() {
     if (this.value !== 'custom') document.getElementById('os-custom-wrap').style.display = 'none';
+  });
+});
+
+// ── Role custom name handler ─────────────────────────────
+function handleRoleChange(radio) {
+  document.getElementById('role-custom-wrap').style.display =
+    radio.value === 'custom' ? '' : 'none';
+}
+
+document.querySelectorAll('input[name="role"]').forEach(el => {
+  el.addEventListener('change', function() {
+    if (this.value !== 'custom') document.getElementById('role-custom-wrap').style.display = 'none';
   });
 });
 
