@@ -1,7 +1,7 @@
 const TRANSLATIONS = {
   en: {
     // Badge & hero
-    badge:       "Free &nbsp;·&nbsp; No account &nbsp;·&nbsp; Instant PDF",
+    badge:       "Free &nbsp;·&nbsp; Donation-supported &nbsp;·&nbsp; Instant PDF",
     hero_h1:     "Stop onboarding<br>new hires from<br>memory.",
     hero_p:      "Fill in the form, click generate, download a print-ready IT checklist PDF — tailored to your OS, software, and company size. Done in under a minute.",
     hero_note:   "No signup required",
@@ -13,7 +13,7 @@ const TRANSLATIONS = {
     trust_2:     "Instant PDF download",
     trust_3:     "Print-ready format",
     trust_4:     "Security steps included",
-    trust_5:     "Free forever",
+    trust_5:     "Donation-supported",
 
     // PDF mockup
     pdf_account:  "Account Setup",
@@ -86,6 +86,18 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Your name",
 
+    // Support / donation section
+    support_eyebrow:   "Free &amp; donation-supported",
+    support_h2:        "This tool will always be free.",
+    support_p:         "It\u2019s kept alive by people who found it useful. If it saved you time, a small donation goes a long way. Suggestions to make it better are always welcome too.",
+    support_kofi_btn:  "&#9749; Support on Ko-fi",
+    support_suggest:   "&#128172; Send a suggestion &rarr;",
+
+    // Footer
+    footer_tagline:  "Free forever &middot; Donation-supported &middot; Built for small business IT teams.",
+    footer_suggest:  "Suggest a feature",
+    footer_support:  "Support this project",
+
     // Logo upload
     gen_label_logo:  "Company Logo",
     gen_optional:    "optional",
@@ -108,7 +120,7 @@ const TRANSLATIONS = {
 
   es: {
     // Badge & hero
-    badge:       "Gratis &nbsp;·&nbsp; Sin cuenta &nbsp;·&nbsp; PDF instantáneo",
+    badge:       "Gratis &nbsp;·&nbsp; Financiado por donaciones &nbsp;·&nbsp; PDF instantáneo",
     hero_h1:     "Deja de incorporar<br>nuevos empleados<br>de memoria.",
     hero_p:      "Completa el formulario, haz clic en generar y descarga un checklist de IT listo para imprimir — adaptado a tu sistema operativo, software y tamaño de empresa. En menos de un minuto.",
     hero_note:   "Sin registro requerido",
@@ -120,7 +132,7 @@ const TRANSLATIONS = {
     trust_2:     "Descarga PDF instantánea",
     trust_3:     "Formato listo para imprimir",
     trust_4:     "Pasos de seguridad incluidos",
-    trust_5:     "Gratis para siempre",
+    trust_5:     "Financiado por donaciones",
 
     // PDF mockup
     pdf_account:  "Configuración de Cuenta",
@@ -193,6 +205,18 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Tu nombre",
 
+    // Support / donation section
+    support_eyebrow:   "Gratis y financiado por donaciones",
+    support_h2:        "Esta herramienta siempre será gratis.",
+    support_p:         "Se mantiene gracias a personas que la encontraron útil. Si te ahorró tiempo, una pequeña donación ayuda mucho. Las sugerencias para mejorarla también son siempre bienvenidas.",
+    support_kofi_btn:  "&#9749; Apoyar en Ko-fi",
+    support_suggest:   "&#128172; Enviar una sugerencia &rarr;",
+
+    // Footer
+    footer_tagline:  "Gratis para siempre &middot; Financiado por donaciones &middot; Para equipos de IT de pequeñas empresas.",
+    footer_suggest:  "Sugerir una función",
+    footer_support:  "Apoyar este proyecto",
+
     // Logo upload
     gen_label_logo:  "Logo de la Empresa",
     gen_optional:    "opcional",
@@ -215,7 +239,7 @@ const TRANSLATIONS = {
 
   pt: {
     // Badge & hero
-    badge:       "Grátis &nbsp;·&nbsp; Sem conta &nbsp;·&nbsp; PDF instantâneo",
+    badge:       "Grátis &nbsp;·&nbsp; Financiado por doações &nbsp;·&nbsp; PDF instantâneo",
     hero_h1:     "Pare de integrar<br>novos funcionários<br>de cabeça.",
     hero_p:      "Preencha o formulário, clique em gerar e baixe um checklist de TI pronto para imprimir — adaptado ao seu SO, software e tamanho da empresa. Em menos de um minuto.",
     hero_note:   "Sem cadastro necessário",
@@ -227,7 +251,7 @@ const TRANSLATIONS = {
     trust_2:     "Download de PDF instantâneo",
     trust_3:     "Formato pronto para imprimir",
     trust_4:     "Etapas de segurança inclusas",
-    trust_5:     "Gratuito para sempre",
+    trust_5:     "Financiado por doações",
 
     // PDF mockup
     pdf_account:  "Configuração de Conta",
@@ -300,6 +324,18 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Seu nome",
 
+    // Support / donation section
+    support_eyebrow:   "Gratuito e financiado por doações",
+    support_h2:        "Esta ferramenta sempre será gratuita.",
+    support_p:         "É mantida por pessoas que a acharam útil. Se economizou seu tempo, uma pequena doação faz grande diferença. Sugestões para melhorá-la também são sempre bem-vindas.",
+    support_kofi_btn:  "&#9749; Apoiar no Ko-fi",
+    support_suggest:   "&#128172; Enviar uma sugestão &rarr;",
+
+    // Footer
+    footer_tagline:  "Gratuito para sempre &middot; Financiado por doações &middot; Para equipes de TI de pequenas empresas.",
+    footer_suggest:  "Sugerir uma funcionalidade",
+    footer_support:  "Apoiar este projeto",
+
     // Logo upload
     gen_label_logo:  "Logo da Empresa",
     gen_optional:    "opcional",
@@ -323,7 +359,7 @@ const TRANSLATIONS = {
 
   fr: {
     // Badge & hero
-    badge:       "Gratuit &nbsp;·&nbsp; Sans compte &nbsp;·&nbsp; PDF instantané",
+    badge:       "Gratuit &nbsp;·&nbsp; Financé par des dons &nbsp;·&nbsp; PDF instantané",
     hero_h1:     "Arrêtez d'intégrer<br>vos recrues<br>de mémoire.",
     hero_p:      "Remplissez le formulaire, cliquez sur générer et téléchargez un checklist IT prêt à imprimer — adapté à votre OS, vos logiciels et la taille de votre entreprise. En moins d'une minute.",
     hero_note:   "Sans inscription",
@@ -335,7 +371,7 @@ const TRANSLATIONS = {
     trust_2:     "Téléchargement PDF instantané",
     trust_3:     "Format prêt à imprimer",
     trust_4:     "Étapes de sécurité incluses",
-    trust_5:     "Gratuit pour toujours",
+    trust_5:     "Financé par des dons",
 
     // PDF mockup
     pdf_account:  "Configuration du Compte",
@@ -407,6 +443,18 @@ const TRANSLATIONS = {
     ph_company:   "Acme Corp",
     ph_employee:  "Jane Smith",
     ph_preparer:  "Votre nom",
+
+    // Support / donation section
+    support_eyebrow:   "Gratuit et financé par des dons",
+    support_h2:        "Cet outil sera toujours gratuit.",
+    support_p:         "Il est maintenu grâce aux personnes qui l'ont trouvé utile. Si cela vous a fait gagner du temps, un petit don va loin. Les suggestions pour l\u2019améliorer sont aussi toujours les bienvenues.",
+    support_kofi_btn:  "&#9749; Soutenir sur Ko-fi",
+    support_suggest:   "&#128172; Envoyer une suggestion &rarr;",
+
+    // Footer
+    footer_tagline:  "Gratuit pour toujours &middot; Financé par des dons &middot; Pour les équipes IT des petites entreprises.",
+    footer_suggest:  "Suggérer une fonctionnalité",
+    footer_support:  "Soutenir ce projet",
 
     // Logo upload
     gen_label_logo:  "Logo de l'Entreprise",

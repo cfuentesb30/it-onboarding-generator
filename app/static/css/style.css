@@ -39,7 +39,21 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 }
 .btn-lang:hover { border-color: #999; color: var(--text); }
 
-footer { border-top: 1px solid var(--border); padding: 18px 0; text-align: center; font-size: 13px; color: var(--muted); margin-top: 48px; }
+footer {
+  border-top: 1px solid var(--border); padding: 24px 0;
+  text-align: center; font-size: 13px; color: var(--muted); margin-top: 48px;
+}
+.footer-inner { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.footer-tagline { font-size: 13px; color: var(--muted); }
+.footer-links { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.footer-sep { color: var(--border); }
+.footer-link { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .15s; }
+.footer-link:hover { color: var(--accent); }
+.footer-kofi-link {
+  font-size: 13px; font-weight: 600; color: #FF5E5B;
+  text-decoration: none; transition: opacity .15s;
+}
+.footer-kofi-link:hover { opacity: .8; }
 
 /* ── Generator page ── */
 
@@ -809,6 +823,32 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 .lp-persona p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.65; }
 
 /* ── Final CTA ── */
+/* ── Support / donation section ── */
+.lp-support {
+  text-align: center; padding: 64px 0; max-width: 560px; margin: 0 auto;
+}
+.support-icon { font-size: 40px; margin-bottom: 14px; line-height: 1; }
+.lp-support .lp-eyebrow { margin-bottom: 10px; }
+.lp-support h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 14px; }
+.lp-support p { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 28px; }
+.support-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+.btn-kofi {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; background: #FF5E5B; color: #fff;
+  border-radius: 12px; font-size: 15px; font-weight: 700;
+  text-decoration: none; transition: opacity .18s, transform .18s;
+  box-shadow: 0 4px 14px rgba(255,94,91,0.3);
+}
+.btn-kofi:hover { opacity: .9; transform: translateY(-2px); }
+.btn-suggest {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 13px 20px; color: var(--accent);
+  border: 2px solid var(--accent); border-radius: 12px;
+  font-size: 14px; font-weight: 600; text-decoration: none;
+  transition: background .15s, color .15s;
+}
+.btn-suggest:hover { background: var(--accent); color: #fff; }
+
 .lp-final-cta {
   background: var(--accent);
   padding: 0;
