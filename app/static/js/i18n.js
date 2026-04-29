@@ -127,6 +127,67 @@ const TRANSLATIONS = {
     share_copy:         "Copy",
     share_copied:       "Copied!",
     share_expired_msg:  "This shared link has expired. Generate a new one from the form.",
+
+    // Generator — additional UI
+    gen_back:            "&larr; Back to home",
+    step1_desc:          "Who is this checklist for?",
+    step2_desc:          "What device is the employee receiving?",
+    step3_desc:          "Adds role-specific setup tasks to the checklist.",
+    email_label:         "Email checklist to",
+    email_hint:          "We\u2019ll send the PDF to this address after it downloads. Email is sent via <strong>Resend</strong> \u2014 you may receive it from a <em>resend.dev</em> address.",
+    ph_email:            "jane@example.com",
+
+    // Company size options
+    size_micro:          "Micro \u00b7 1\u20135 employees",
+    size_small:          "Small \u00b7 6\u201315 employees",
+    size_medium:         "Medium \u00b7 16\u201350 employees",
+    size_large:          "Large \u00b7 51\u2013200 employees",
+    size_enterprise:     "Enterprise \u00b7 200+ employees",
+    size_custom:         "Custom\u2026",
+    ph_size_custom:      "Number of employees",
+
+    // OS card descriptions
+    os_win_desc:         "Windows 10 / 11",
+    os_mac_desc:         "MacBook / iMac",
+    os_remote_desc:      "BYOD / work from home",
+    os_linux_desc:       "Ubuntu, Debian, Fedora\u2026",
+    os_custom_desc:      "Other / specify below",
+
+    // Role card descriptions
+    role_general_desc:   "Standard IT setup",
+    role_dev_desc:       "Git, IDE, cloud access",
+    role_designer_desc:  "Figma, brand assets",
+    role_sales_desc:     "CRM, sales tools",
+    role_hr_desc:        "HRIS, compliance",
+    role_finance_desc:   "ERP, reporting",
+    role_marketing_desc: "CRM, analytics",
+    role_ops_desc:       "Process, vendors",
+    role_custom_desc:    "Define your own role",
+
+    // Software groups
+    sw_group_productivity:  "Productivity",
+    sw_group_communication: "Communication",
+    sw_group_security:      "Security",
+    sw_suggestions:         "\uff0b Suggestions",
+    ph_sw_productivity:     "Add other productivity software\u2026",
+    ph_sw_communication:    "Add other communication software\u2026",
+    ph_sw_security:         "Add other security software\u2026",
+
+    // Checklist dynamic
+    cl_refresh:          "\u21bb Refresh",
+    cl_loading:          "Loading\u2026",
+    cl_error:            "Failed to load \u2014 click \u21bb to retry.",
+    cl_empty:            "No items for this configuration.",
+    cl_custom_section:   "Custom",
+    cl_additional_sw:    "Additional Software",
+    cl_install_prefix:   "Install and configure ",
+    ph_custom_item:      "Add a custom item\u2026",
+    cl_item_one:         "item",
+    cl_items_many:       "items",
+
+    // Submit area
+    btn_preview:         "&#128065; Preview Checklist",
+    gen_submit_note:     "Your PDF will download instantly. No data is stored.",
   },
 
   es: {
@@ -257,6 +318,67 @@ const TRANSLATIONS = {
     share_copy:         "Copiar",
     share_copied:       "¡Copiado!",
     share_expired_msg:  "Este enlace ha expirado. Genera uno nuevo desde el formulario.",
+
+    // Generator — additional UI
+    gen_back:            "&larr; Volver al inicio",
+    step1_desc:          "\u00bfPara qui\u00e9n es este checklist?",
+    step2_desc:          "\u00bfQu\u00e9 dispositivo recibir\u00e1 el empleado?",
+    step3_desc:          "Agrega tareas de configuraci\u00f3n espec\u00edficas del rol al checklist.",
+    email_label:         "Enviar checklist por correo a",
+    email_hint:          "Te enviaremos el PDF a esta direcci\u00f3n despu\u00e9s de descargarlo. El correo se env\u00eda v\u00eda <strong>Resend</strong> \u2014 puede que lo recibas desde una direcci\u00f3n <em>resend.dev</em>.",
+    ph_email:            "jane@ejemplo.com",
+
+    // Company size options
+    size_micro:          "Micro \u00b7 1\u20135 empleados",
+    size_small:          "Peque\u00f1a \u00b7 6\u201315 empleados",
+    size_medium:         "Mediana \u00b7 16\u201350 empleados",
+    size_large:          "Grande \u00b7 51\u2013200 empleados",
+    size_enterprise:     "Empresa \u00b7 200+ empleados",
+    size_custom:         "Personalizado\u2026",
+    ph_size_custom:      "N\u00famero de empleados",
+
+    // OS card descriptions
+    os_win_desc:         "Windows 10 / 11",
+    os_mac_desc:         "MacBook / iMac",
+    os_remote_desc:      "BYOD / trabajo desde casa",
+    os_linux_desc:       "Ubuntu, Debian, Fedora\u2026",
+    os_custom_desc:      "Otro / especificar",
+
+    // Role card descriptions
+    role_general_desc:   "Configuraci\u00f3n IT est\u00e1ndar",
+    role_dev_desc:       "Git, IDE, acceso cloud",
+    role_designer_desc:  "Figma, recursos de marca",
+    role_sales_desc:     "CRM, herramientas de ventas",
+    role_hr_desc:        "HRIS, cumplimiento",
+    role_finance_desc:   "ERP, reportes",
+    role_marketing_desc: "CRM, an\u00e1litica",
+    role_ops_desc:       "Procesos, proveedores",
+    role_custom_desc:    "Define tu propio rol",
+
+    // Software groups
+    sw_group_productivity:  "Productividad",
+    sw_group_communication: "Comunicaci\u00f3n",
+    sw_group_security:      "Seguridad",
+    sw_suggestions:         "\uff0b Sugerencias",
+    ph_sw_productivity:     "Agregar otro software de productividad\u2026",
+    ph_sw_communication:    "Agregar otro software de comunicaci\u00f3n\u2026",
+    ph_sw_security:         "Agregar otro software de seguridad\u2026",
+
+    // Checklist dynamic
+    cl_refresh:          "\u21bb Actualizar",
+    cl_loading:          "Cargando\u2026",
+    cl_error:            "Error al cargar \u2014 haz clic en \u21bb para reintentar.",
+    cl_empty:            "Sin elementos para esta configuraci\u00f3n.",
+    cl_custom_section:   "Personalizado",
+    cl_additional_sw:    "Software Adicional",
+    cl_install_prefix:   "Instalar y configurar ",
+    ph_custom_item:      "Agregar un elemento personalizado\u2026",
+    cl_item_one:         "elemento",
+    cl_items_many:       "elementos",
+
+    // Submit area
+    btn_preview:         "&#128065; Vista previa del checklist",
+    gen_submit_note:     "Tu PDF se descargar\u00e1 al instante. No se almacenan datos.",
   },
 
   pt: {
@@ -386,7 +508,68 @@ const TRANSLATIONS = {
     share_never:        "Sem expiração",
     share_copy:         "Copiar",
     share_copied:       "Copiado!",
-    share_expired_msg:  "Este link expirou. Gere um novo pelo formulário.",
+    share_expired_msg:  "Este link expirou. Gere um novo pelo formul\u00e1rio.",
+
+    // Generator — additional UI
+    gen_back:            "&larr; Voltar ao in\u00edcio",
+    step1_desc:          "Para quem \u00e9 este checklist?",
+    step2_desc:          "Qual dispositivo o funcion\u00e1rio receber\u00e1?",
+    step3_desc:          "Adiciona tarefas de configura\u00e7\u00e3o espec\u00edficas da fun\u00e7\u00e3o ao checklist.",
+    email_label:         "Enviar checklist por e-mail para",
+    email_hint:          "Enviaremos o PDF para este endere\u00e7o ap\u00f3s o download. O e-mail \u00e9 enviado via <strong>Resend</strong> \u2014 voc\u00ea pode receb\u00ea-lo de um endere\u00e7o <em>resend.dev</em>.",
+    ph_email:            "jane@exemplo.com",
+
+    // Company size options
+    size_micro:          "Micro \u00b7 1\u20135 funcion\u00e1rios",
+    size_small:          "Pequena \u00b7 6\u201315 funcion\u00e1rios",
+    size_medium:         "M\u00e9dia \u00b7 16\u201350 funcion\u00e1rios",
+    size_large:          "Grande \u00b7 51\u2013200 funcion\u00e1rios",
+    size_enterprise:     "Empresa \u00b7 200+ funcion\u00e1rios",
+    size_custom:         "Personalizado\u2026",
+    ph_size_custom:      "N\u00famero de funcion\u00e1rios",
+
+    // OS card descriptions
+    os_win_desc:         "Windows 10 / 11",
+    os_mac_desc:         "MacBook / iMac",
+    os_remote_desc:      "BYOD / trabalho remoto",
+    os_linux_desc:       "Ubuntu, Debian, Fedora\u2026",
+    os_custom_desc:      "Outro / especificar",
+
+    // Role card descriptions
+    role_general_desc:   "Configura\u00e7\u00e3o de TI padr\u00e3o",
+    role_dev_desc:       "Git, IDE, acesso cloud",
+    role_designer_desc:  "Figma, ativos de marca",
+    role_sales_desc:     "CRM, ferramentas de vendas",
+    role_hr_desc:        "HRIS, conformidade",
+    role_finance_desc:   "ERP, relat\u00f3rios",
+    role_marketing_desc: "CRM, an\u00e1lise",
+    role_ops_desc:       "Processos, fornecedores",
+    role_custom_desc:    "Defina sua pr\u00f3pria fun\u00e7\u00e3o",
+
+    // Software groups
+    sw_group_productivity:  "Produtividade",
+    sw_group_communication: "Comunica\u00e7\u00e3o",
+    sw_group_security:      "Seguran\u00e7a",
+    sw_suggestions:         "\uff0b Sugest\u00f5es",
+    ph_sw_productivity:     "Adicionar outro software de produtividade\u2026",
+    ph_sw_communication:    "Adicionar outro software de comunica\u00e7\u00e3o\u2026",
+    ph_sw_security:         "Adicionar outro software de seguran\u00e7a\u2026",
+
+    // Checklist dynamic
+    cl_refresh:          "\u21bb Atualizar",
+    cl_loading:          "Carregando\u2026",
+    cl_error:            "Falha ao carregar \u2014 clique em \u21bb para tentar novamente.",
+    cl_empty:            "Nenhum item para esta configura\u00e7\u00e3o.",
+    cl_custom_section:   "Personalizado",
+    cl_additional_sw:    "Software Adicional",
+    cl_install_prefix:   "Instalar e configurar ",
+    ph_custom_item:      "Adicionar um item personalizado\u2026",
+    cl_item_one:         "item",
+    cl_items_many:       "itens",
+
+    // Submit area
+    btn_preview:         "&#128065; Pr\u00e9-visualizar checklist",
+    gen_submit_note:     "Seu PDF ser\u00e1 baixado instantaneamente. Nenhum dado \u00e9 armazenado.",
   },
 
   fr: {
@@ -516,9 +699,77 @@ const TRANSLATIONS = {
     share_never:        "Sans expiration",
     share_copy:         "Copier",
     share_copied:       "Copié\u00a0!",
-    share_expired_msg:  "Ce lien a expiré. Générez-en un nouveau depuis le formulaire.",
+    share_expired_msg:  "Ce lien a expir\u00e9. G\u00e9n\u00e9rez-en un nouveau depuis le formulaire.",
+
+    // Generator — additional UI
+    gen_back:            "&larr; Retour \u00e0 l\u2019accueil",
+    step1_desc:          "Pour qui est ce checklist\u00a0?",
+    step2_desc:          "Quel appareil l\u2019employ\u00e9 re\u00e7oit-il\u00a0?",
+    step3_desc:          "Ajoute des t\u00e2ches de configuration sp\u00e9cifiques au r\u00f4le dans le checklist.",
+    email_label:         "Envoyer le checklist par e-mail \u00e0",
+    email_hint:          "Nous enverrons le PDF \u00e0 cette adresse apr\u00e8s le t\u00e9l\u00e9chargement. L\u2019e-mail est envoy\u00e9 via <strong>Resend</strong> \u2014 vous pourriez le recevoir depuis une adresse <em>resend.dev</em>.",
+    ph_email:            "jane@exemple.com",
+
+    // Company size options
+    size_micro:          "Micro \u00b7 1\u20135 employ\u00e9s",
+    size_small:          "Petite \u00b7 6\u201315 employ\u00e9s",
+    size_medium:         "Moyenne \u00b7 16\u201350 employ\u00e9s",
+    size_large:          "Grande \u00b7 51\u2013200 employ\u00e9s",
+    size_enterprise:     "Entreprise \u00b7 200+ employ\u00e9s",
+    size_custom:         "Personnalis\u00e9\u2026",
+    ph_size_custom:      "Nombre d\u2019employ\u00e9s",
+
+    // OS card descriptions
+    os_win_desc:         "Windows 10 / 11",
+    os_mac_desc:         "MacBook / iMac",
+    os_remote_desc:      "BYOD / t\u00e9l\u00e9travail",
+    os_linux_desc:       "Ubuntu, Debian, Fedora\u2026",
+    os_custom_desc:      "Autre / pr\u00e9ciser",
+
+    // Role card descriptions
+    role_general_desc:   "Configuration IT standard",
+    role_dev_desc:       "Git, IDE, acc\u00e8s cloud",
+    role_designer_desc:  "Figma, ressources de marque",
+    role_sales_desc:     "CRM, outils de vente",
+    role_hr_desc:        "HRIS, conformit\u00e9",
+    role_finance_desc:   "ERP, reporting",
+    role_marketing_desc: "CRM, analytique",
+    role_ops_desc:       "Processus, fournisseurs",
+    role_custom_desc:    "D\u00e9finissez votre propre r\u00f4le",
+
+    // Software groups
+    sw_group_productivity:  "Productivit\u00e9",
+    sw_group_communication: "Communication",
+    sw_group_security:      "S\u00e9curit\u00e9",
+    sw_suggestions:         "\uff0b Suggestions",
+    ph_sw_productivity:     "Ajouter un autre logiciel de productivit\u00e9\u2026",
+    ph_sw_communication:    "Ajouter un autre logiciel de communication\u2026",
+    ph_sw_security:         "Ajouter un autre logiciel de s\u00e9curit\u00e9\u2026",
+
+    // Checklist dynamic
+    cl_refresh:          "\u21bb Actualiser",
+    cl_loading:          "Chargement\u2026",
+    cl_error:            "\u00c9chec du chargement \u2014 cliquez sur \u21bb pour r\u00e9essayer.",
+    cl_empty:            "Aucun \u00e9l\u00e9ment pour cette configuration.",
+    cl_custom_section:   "Personnalis\u00e9",
+    cl_additional_sw:    "Logiciels Suppl\u00e9mentaires",
+    cl_install_prefix:   "Installer et configurer ",
+    ph_custom_item:      "Ajouter un \u00e9l\u00e9ment personnalis\u00e9\u2026",
+    cl_item_one:         "\u00e9l\u00e9ment",
+    cl_items_many:       "\u00e9l\u00e9ments",
+
+    // Submit area
+    btn_preview:         "&#128065; Aper\u00e7u du checklist",
+    gen_submit_note:     "Votre PDF se t\u00e9l\u00e9chargera instantan\u00e9ment. Aucune donn\u00e9e n\u2019est stock\u00e9e.",
   }
 };
+
+// Helper: get a translation key for the current language
+function t(key) {
+  const lang = window.currentLang || 'en';
+  const map = TRANSLATIONS[lang] || TRANSLATIONS.en;
+  return map[key] !== undefined ? map[key] : (TRANSLATIONS.en[key] || '');
+}
 
 // Current language — exposed so inline scripts can reference it
 window.currentLang = localStorage.getItem("lang") || "en";
@@ -562,6 +813,15 @@ function selectLang(lang) {
   applyLang(lang);
   const dropdown = document.getElementById("lang-dropdown");
   if (dropdown) dropdown.classList.remove("open");
+  // Re-render checklist dynamic content if on generator page
+  if (typeof renderChecklist === 'function') renderChecklist();
+  if (typeof updateCount === 'function') {
+    const clCount = document.getElementById('cl-count');
+    if (clCount) {
+      const n = parseInt(clCount.textContent, 10);
+      if (!isNaN(n)) updateCount(n);
+    }
+  }
 }
 
 // Close dropdown when clicking outside
