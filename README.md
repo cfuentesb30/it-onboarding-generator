@@ -1,6 +1,6 @@
 # IT Onboarding Generator
 
-A Flask web app that generates custom IT onboarding checklist PDFs — tailored to OS, role, software stack, and company size. Fill in the form, edit the checklist, download a print-ready PDF instantly.
+A Flask web app that generates custom IT onboarding checklist PDFs — tailored to OS, role, software stack, and company size. Fill in the form, preview, edit, and download a print-ready PDF in under a minute.
 
 **Live:** [it-onboarding-generator.onrender.com](https://it-onboarding-generator.onrender.com)
 
@@ -12,10 +12,12 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 - Tailored to **Windows, macOS, or remote** employee setup
 - **Role-specific sections** for Developer, Designer, Sales, and HR
 - Includes only the software you actually use (Office, Slack, Zoom, VPN, etc.)
-- **Editable checklist** — remove items you don't need or add your own before generating
-- Security steps (MFA, antivirus, password policy) built in to every checklist
+- **Editable checklist** — remove items or add your own before generating
+- **Live preview** — see the checklist before downloading the PDF
+- Security steps (MFA, antivirus, password policy) built into every checklist
 - Branded with your company name, employee name, and date
 - **English / Spanish** language toggle — persists across pages
+- Mobile-friendly — works on phones and tablets
 - No account, no signup — instant download
 
 ---
@@ -24,9 +26,10 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 
 | Route | Description |
 |---|---|
-| `/` | Landing page explaining the service |
+| `/` | Landing page |
 | `/generator` | Checklist form — OS, role, software, edit, generate |
-| `/items` | JSON endpoint — returns checklist items for given OS + role + software |
+| `/items` | JSON endpoint — returns checklist items for OS + role + software |
+| `/preview` | POST endpoint — renders HTML checklist preview |
 | `/generate` | POST endpoint — builds and returns the PDF |
 
 ---
@@ -34,7 +37,6 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 ## Features
 
 ### Role-specific templates
-Select the employee's role and the checklist gains additional role-specific sections on top of the OS base:
 
 | Role | Extra sections |
 |---|---|
@@ -45,13 +47,16 @@ Select the employee's role and the checklist gains additional role-specific sect
 | HR | HRIS, compliance training, people ops access |
 
 ### Editable checklist
-Before generating, the form shows a live preview of all checklist items. You can:
+Before generating, a live checklist appears in the form. You can:
 - Remove any item with the × button
 - Add custom items via the text field
-- Reload the preview if you change OS, role, or software
+- Reload the list if you change OS, role, or software
+
+### Checklist preview
+Click **Preview Checklist** to see a formatted HTML view of all items before committing to a PDF download.
 
 ### EN / ES language toggle
-A button in the header switches between English and Spanish across all pages. The choice is saved in `localStorage`.
+Header button switches all UI text between English and Spanish. Saved in `localStorage`.
 
 ---
 
@@ -62,7 +67,7 @@ A button in the header switches between English and Spanish across all pages. Th
 | Backend | Python 3 · Flask |
 | PDF generation | WeasyPrint 60.0 |
 | Templates | Jinja2 |
-| Styling | Vanilla CSS (Inter font) |
+| Styling | Vanilla CSS (Inter font, Slate + Indigo palette) |
 | i18n | Vanilla JS (`i18n.js`) |
 | Checklists | YAML files per OS + role |
 | Deployment | Render (Docker) |
@@ -74,17 +79,13 @@ A button in the header switches between English and Spanish across all pages. Th
 **Requirements:** Python 3.11+, WeasyPrint system dependencies
 
 ```bash
-# Clone
 git clone https://github.com/cfuentesb30/it-onboarding-generator.git
 cd it-onboarding-generator
 
-# Install Python deps
 pip install -r requirements.txt
 
-# Copy env file
 cp .env.example .env
 
-# Run
 python run.py
 ```
 
@@ -119,28 +120,28 @@ docker run -p 5000:5000 it-onboarding-generator
 it-onboarding-generator/
 ├── app/
 │   ├── __init__.py
-│   ├── routes.py              # URL routes, form options, /items endpoint
+│   ├── routes.py              # URL routes, form options, /items and /preview endpoints
 │   ├── pdf_generator.py       # YAML loading, role merging, PDF build
 │   ├── templates/
 │   │   ├── base.html          # Shared layout, header, language toggle
 │   │   ├── home.html          # Landing page
-│   │   ├── index.html         # Generator form (5-step UI)
+│   │   ├── index.html         # Generator form
 │   │   └── pdf_checklist.html # PDF output template
 │   └── static/
 │       ├── css/style.css
 │       └── js/i18n.js         # EN/ES translations and toggle logic
 ├── checklists/
-│   ├── windows.yaml           # Base OS checklist
+│   ├── windows.yaml
 │   ├── macos.yaml
 │   ├── remote.yaml
 │   └── roles/
-│       ├── general.yaml       # No extra sections
-│       ├── developer.yaml     # Dev environment, Git, CI/CD, cloud
-│       ├── designer.yaml      # Figma, brand assets, design workflow
-│       ├── sales.yaml         # CRM, sales tools, territory setup
-│       └── hr.yaml            # HRIS, compliance, people ops
+│       ├── general.yaml
+│       ├── developer.yaml
+│       ├── sales.yaml
+│       ├── designer.yaml
+│       └── hr.yaml
 ├── Dockerfile
-├── render.yaml                # Render deployment config
+├── render.yaml
 ├── requirements.txt
 └── run.py
 ```
@@ -150,19 +151,19 @@ it-onboarding-generator/
 ## How checklist generation works
 
 1. User selects OS, role, company size, and software
-2. `/items` endpoint loads the OS YAML + role YAML and merges them (role sections inserted before Final Verification)
-3. User can edit items in the browser — removals and custom additions are tracked in JS
+2. `/items` loads the OS YAML + role YAML and merges them (role sections inserted before Final Verification)
+3. User can edit items in the browser — removals and additions tracked in JS
 4. On submit, the final item list is encoded as hidden form inputs
-5. `pdf_generator.py` uses the submitted items if present, otherwise falls back to the YAML defaults
-6. WeasyPrint renders the Jinja2 PDF template to bytes and Flask sends it as a download
+5. `pdf_generator.py` uses submitted items if present, otherwise falls back to YAML defaults
+6. WeasyPrint renders the Jinja2 PDF template to bytes; Flask sends it as a download
 
 ---
 
 ## Deployment
 
-Deployed on [Render](https://render.com) via Docker. Config is in `render.yaml`.
+Deployed on [Render](https://render.com) via Docker. Config in `render.yaml`.
 
-To deploy your own instance: fork the repo, connect it to Render, and it will build and deploy automatically on push to `main`.
+To deploy your own: fork the repo, connect it to Render, and it auto-deploys on push to `main`.
 
 ---
 
@@ -170,8 +171,11 @@ To deploy your own instance: fork the repo, connect it to Render, and it will bu
 
 - [x] Role-specific checklist templates (Developer, Designer, Sales, HR)
 - [x] Editable checklist items before generating
+- [x] Live checklist preview before PDF download
 - [x] EN/ES language toggle
-- [ ] Preview before PDF download
+- [x] Mobile-responsive layout
 - [ ] Email delivery option
 - [ ] More roles (Finance, Marketing, Operations)
 - [ ] Saved templates / shareable checklist URLs
+- [ ] Company logo upload on the PDF
+- [ ] More languages (Portuguese, French)
