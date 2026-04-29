@@ -86,6 +86,12 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Your name",
 
+    // Pre-download overlay
+    predown_h2:       "One sec before your PDF downloads.",
+    predown_p:        "This tool is free and self-funded. If it saved you time today, consider buying me a coffee — it goes directly toward keeping this running and improving.",
+    predown_download: "&#11015; Download my PDF",
+    predown_skip:     "No thanks, just download",
+
     // Support / donation section
     support_eyebrow:   "Free &amp; donation-supported",
     support_h2:        "This tool will always be free.",
@@ -204,6 +210,12 @@ const TRANSLATIONS = {
     ph_company:   "Acme Corp",
     ph_employee:  "Jane Smith",
     ph_preparer:  "Tu nombre",
+
+    // Pre-download overlay
+    predown_h2:       "Un momento antes de descargar tu PDF.",
+    predown_p:        "Esta herramienta es gratuita y autofinanciada. Si te ahorró tiempo hoy, considera invitarme un café — va directamente a mantener esto funcionando y mejorando.",
+    predown_download: "&#11015; Descargar mi PDF",
+    predown_skip:     "No gracias, solo descargar",
 
     // Support / donation section
     support_eyebrow:   "Gratis y financiado por donaciones",
@@ -324,6 +336,12 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Seu nome",
 
+    // Pre-download overlay
+    predown_h2:       "Um momento antes de baixar seu PDF.",
+    predown_p:        "Esta ferramenta é gratuita e autofinanciada. Se economizou seu tempo hoje, considere me pagar um café — vai diretamente para manter isso funcionando e melhorando.",
+    predown_download: "&#11015; Baixar meu PDF",
+    predown_skip:     "Não obrigado, só baixar",
+
     // Support / donation section
     support_eyebrow:   "Gratuito e financiado por doações",
     support_h2:        "Esta ferramenta sempre será gratuita.",
@@ -443,6 +461,12 @@ const TRANSLATIONS = {
     ph_company:   "Acme Corp",
     ph_employee:  "Jane Smith",
     ph_preparer:  "Votre nom",
+
+    // Pre-download overlay
+    predown_h2:       "Un instant avant de télécharger votre PDF.",
+    predown_p:        "Cet outil est gratuit et autofinancé. S'il vous a fait gagner du temps aujourd'hui, pensez à m'offrir un café — cela va directement au maintien et à l'amélioration de ce service.",
+    predown_download: "&#11015; Télécharger mon PDF",
+    predown_skip:     "Non merci, juste télécharger",
 
     // Support / donation section
     support_eyebrow:   "Gratuit et financé par des dons",

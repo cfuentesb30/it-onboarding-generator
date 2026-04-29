@@ -395,6 +395,84 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 }
 .btn-share:hover { color: var(--accent); border-color: var(--accent); }
 
+/* ── Pre-download donation overlay ── */
+.pre-download-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+  z-index: 150; align-items: center; justify-content: center; padding: 20px;
+}
+.pre-download-overlay.open { display: flex; }
+.pre-download-card {
+  background: var(--surface); border-radius: 20px;
+  padding: 44px 40px; width: 100%; max-width: 500px; text-align: center;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.25);
+}
+.pre-download-icon { font-size: 44px; margin-bottom: 16px; line-height: 1; }
+.pre-download-card h2 {
+  font-size: 22px; font-weight: 700; letter-spacing: -0.4px;
+  margin-bottom: 12px;
+}
+.pre-download-card p {
+  font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 28px;
+}
+.pre-download-actions {
+  display: flex; flex-direction: column; gap: 12px; align-items: center;
+  margin-bottom: 16px;
+}
+.pre-download-actions .btn-kofi,
+.pre-download-actions .btn-generate { width: 100%; max-width: 340px; justify-content: center; }
+.pre-download-skip {
+  background: none; border: none; font-size: 13px; color: var(--muted);
+  cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit;
+  transition: color .15s;
+}
+.pre-download-skip:hover { color: var(--text); }
+
+/* ── About page ── */
+.about-page {
+  max-width: 680px; margin: 0 auto; padding: 48px 0 80px;
+}
+.about-hero {
+  display: flex; align-items: center; gap: 20px; margin-bottom: 40px;
+}
+.about-avatar {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: 26px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.about-name { font-size: 26px; font-weight: 700; letter-spacing: -0.4px; margin-bottom: 4px; }
+.about-role { font-size: 14px; color: var(--muted); }
+.about-body p {
+  font-size: 16px; line-height: 1.8; color: var(--text);
+  margin-bottom: 20px;
+}
+.about-quote {
+  border-left: 3px solid var(--accent); background: #EEF2FF;
+  border-radius: 0 10px 10px 0; padding: 16px 20px;
+  margin: 28px 0;
+}
+.about-quote p {
+  font-size: 16px; font-weight: 600; color: var(--accent);
+  line-height: 1.6; margin: 0;
+}
+.about-sign {
+  font-weight: 600; font-size: 17px !important;
+}
+.about-support {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Nav about link ── */
+.nav-about {
+  font-size: 13px; font-weight: 500; color: var(--muted);
+  text-decoration: none; transition: color .15s; margin-right: 4px;
+}
+.nav-about:hover { color: var(--text); }
+
 /* ── Language picker (first visit) ── */
 .lang-picker-overlay {
   display: none; position: fixed; inset: 0;

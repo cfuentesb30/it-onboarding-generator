@@ -67,6 +67,10 @@ def _decode_share(token):
 def home():
     return render_template("home.html")
 
+@main.route("/about", methods=["GET"])
+def about():
+    return render_template("about.html")
+
 @main.route("/generator", methods=["GET"])
 def index():
     share_state = None

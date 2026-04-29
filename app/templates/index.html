@@ -324,6 +324,24 @@
 
 </form>
 
+<!-- Pre-download donation overlay -->
+<div class="pre-download-overlay" id="pre-download-overlay">
+  <div class="pre-download-card">
+    <div class="pre-download-icon">☕</div>
+    <h2 data-i18n="predown_h2">One sec before your PDF downloads.</h2>
+    <p data-i18n="predown_p">This tool is free and self-funded. If it saved you time today, consider buying me a coffee — it goes directly toward keeping this running and improving.</p>
+    <div class="pre-download-actions">
+      <a href="https://ko-fi.com/cfuentesb30" target="_blank" rel="noopener" class="btn-kofi" data-i18n="support_kofi_btn">
+        &#9749; Support on Ko-fi
+      </a>
+      <button type="button" class="btn-generate" id="btn-proceed" onclick="proceedToDownload()" data-i18n="predown_download">
+        &#11015; Download my PDF
+      </button>
+    </div>
+    <button type="button" class="pre-download-skip" onclick="proceedToDownload()" data-i18n="predown_skip">No thanks, just download</button>
+  </div>
+</div>
+
 <!-- Share modal -->
 <div class="share-modal-overlay" id="share-modal-overlay" onclick="closeShareModal(event)">
   <div class="share-modal">
@@ -459,11 +477,10 @@ document.getElementById('custom-item-input').addEventListener('keydown', functio
 });
 
 // ── Submit ──────────────────────────────────────────────
-document.getElementById('gen-form').addEventListener('submit', function() {
+function populateHiddenInputs() {
   const container = document.getElementById('checklist-hidden-inputs');
   container.innerHTML = '';
   let hasItems = false;
-
   checklistSections.forEach(section => {
     section.steps.filter(s => !s.removed).forEach(step => {
       appendHidden(container, JSON.stringify({ section: section.title, text: step.text }));
@@ -474,15 +491,25 @@ document.getElementById('gen-form').addEventListener('submit', function() {
     appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
     hasItems = true;
   });
-
   if (!hasItems) container.innerHTML = '';
+}
 
+document.getElementById('gen-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  populateHiddenInputs();
+  document.getElementById('pre-download-overlay').classList.add('open');
+});
+
+function proceedToDownload() {
+  document.getElementById('pre-download-overlay').classList.remove('open');
   const btn  = document.getElementById('btn-generate');
   const lang = window.currentLang || 'en';
+  const loadingLabels = { en: 'Generating…', es: 'Generando…', pt: 'Gerando…', fr: 'Génération…' };
   btn.disabled    = true;
-  btn.textContent = lang === 'es' ? 'Generando…' : 'Generating…';
+  btn.textContent = loadingLabels[lang] || 'Generating…';
   btn.classList.add('btn-loading');
-});
+  document.getElementById('gen-form').submit();
+}
 
 function appendHidden(container, value) {
   const input = document.createElement('input');
