@@ -4,7 +4,7 @@ import resend
 from html import escape
 
 _FROM = os.getenv("RESEND_FROM", "onboarding@resend.dev")
-_OWNER = os.getenv("OWNER_EMAIL", "cfuentesbarraza30@gmail.com")
+_OWNER = os.getenv("OWNER_EMAIL", "")
 _APP_URL = os.getenv("APP_URL", "https://it-onboarding-generator.onrender.com")
 
 _BASE = """
@@ -119,6 +119,8 @@ def notify_owner(
     employee: str,
     user_email: str | None = None,
 ):
+    if not _OWNER:
+        return
     _init()
     user_row = _ROW.format(label="User email", value=escape(user_email)) if user_email else ""
     body = f"""

@@ -102,7 +102,7 @@ An optional email field in Step 1 lets users receive the PDF directly in their i
 | Email | Recipient | Trigger |
 |---|---|---|
 | Checklist delivery | User (if email provided) | Every PDF generation |
-| Owner notification | `cfuentesbarraza30@gmail.com` | Every PDF generation |
+| Owner notification | `OWNER_EMAIL` env var | Every PDF generation |
 | Suggestion | Owner | Suggest a feature form submission |
 
 All emails use a branded HTML template with the app header, summary table, and CTA button. To enable, set the `RESEND_API_KEY` and optionally `RESEND_FROM` environment variables.
@@ -113,8 +113,7 @@ All emails use a branded HTML template with the app header, summary table, and C
 
 This tool is **free and donation-supported**. It's built and maintained by a solo developer. Every donation goes directly toward keeping the infrastructure running and expanding what the tool can do.
 
-Support the project: [ko-fi.com/cfuentesb30](https://ko-fi.com/cfuentesb30)  
-Have a suggestion? Email: cfuentesbarraza30@gmail.com
+Support the project: [ko-fi.com/cfuentesb30](https://ko-fi.com/cfuentesb30)
 
 ---
 
