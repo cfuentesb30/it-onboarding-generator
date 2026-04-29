@@ -71,20 +71,16 @@
           <option value="custom" data-i18n="size_custom">Custom…</option>
         </select>
         <input type="hidden" id="company_size" name="company_size" value="medium"/>
+        <div id="company_size_custom_wrap" style="display:none; margin-top:8px;">
+          <input type="number" id="company_size_custom" placeholder="Number of employees" data-i18n-ph="ph_size_custom"
+                 min="1" max="99999" oninput="syncCustomSize()"/>
+        </div>
       </div>
       <div class="form-group">
         <label for="preparer" data-i18n="gen_label_preparer">IT Preparer Name</label>
         <input type="text" id="preparer" name="preparer"
                placeholder="Your name" data-i18n-ph="ph_preparer"
                maxlength="80"/>
-      </div>
-    </div>
-    <!-- Row 3: Custom employee count — full width, shown only when Custom is selected -->
-    <div id="company_size_custom_wrap" style="display:none;">
-      <div class="form-group">
-        <label for="company_size_custom" data-i18n="ph_size_custom">Number of employees</label>
-        <input type="number" id="company_size_custom" placeholder="Number of employees" data-i18n-ph="ph_size_custom"
-               min="1" max="99999" oninput="syncCustomSize()" style="width:100%; max-width:320px;"/>
       </div>
     </div>
     <!-- Row 4: Email — full width -->
