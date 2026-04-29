@@ -247,8 +247,10 @@ def generate():
                 if user_email:
                     send_pdf_to_user(user_email, pdf_bytes, filename, company_name, employee)
                 notify_owner(os_type, role, company_name, employee, user_email or None)
-            except Exception:
-                pass
+            except Exception as e:
+                import traceback
+                traceback.print_exc()
+                print(f"[email] send failed: {e}", flush=True)
         threading.Thread(target=_send_emails, daemon=True).start()
 
     return send_file(

@@ -1,5 +1,4 @@
 import os
-import base64
 import resend
 from html import escape
 
@@ -108,7 +107,7 @@ def send_pdf_to_user(
         "to": to_email,
         "subject": f"Your IT Onboarding Checklist — {company_name}",
         "html": _render(body),
-        "attachments": [{"filename": filename, "content": base64.b64encode(pdf_bytes).decode()}],
+        "attachments": [{"filename": filename, "content": list(pdf_bytes)}],
     })
 
 
