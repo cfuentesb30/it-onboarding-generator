@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, request, send_file, abort, jsonify
+from flask import Blueprint, render_template, request, send_file, abort, jsonify, redirect, url_for, flash
 from .pdf_generator import build_pdf, load_checklist, sections_from_submitted
 from datetime import date
-import io, base64, json, time
+import io, base64, json, time, os, threading
 
 def _logo_data_url(file_storage):
     if not file_storage or not file_storage.filename:
@@ -70,6 +70,28 @@ def home():
 @main.route("/about", methods=["GET"])
 def about():
     return render_template("about.html")
+
+
+@main.route("/suggest", methods=["GET", "POST"])
+def suggest():
+    if request.method == "POST":
+        name    = request.form.get("name", "").strip()
+        email   = request.form.get("email", "").strip()
+        message = request.form.get("message", "").strip()
+
+        if not name or not email or not message:
+            return render_template("suggest.html", error="All fields are required.", name=name, email=email, message=message)
+
+        if os.getenv("RESEND_API_KEY"):
+            try:
+                from .email import send_suggestion
+                send_suggestion(name, email, message)
+            except Exception:
+                pass
+
+        return render_template("suggest.html", success=True)
+
+    return render_template("suggest.html")
 
 @main.route("/generator", methods=["GET"])
 def index():
@@ -153,6 +175,7 @@ def generate():
     employee     = request.form.get("employee", "").strip()
     submitted    = request.form.getlist("checklist_item")
     logo_data    = _logo_data_url(request.files.get("logo"))
+    user_email   = request.form.get("user_email", "").strip()
 
     if os_type not in ("windows", "macos", "remote"):
         abort(400, "Invalid OS type.")
@@ -178,6 +201,18 @@ def generate():
 
     role_suffix = f"-{role.capitalize()}" if role != "general" else ""
     filename = f"IT-Onboarding-{os_type.capitalize()}{role_suffix}-Checklist.pdf"
+
+    if os.getenv("RESEND_API_KEY"):
+        def _send_emails():
+            try:
+                from .email import send_pdf_to_user, notify_owner
+                if user_email:
+                    send_pdf_to_user(user_email, pdf_bytes, filename, company_name, employee)
+                notify_owner(os_type, role, company_name, employee, user_email or None)
+            except Exception:
+                pass
+        threading.Thread(target=_send_emails, daemon=True).start()
+
     return send_file(
         io.BytesIO(pdf_bytes),
         mimetype="application/pdf",
