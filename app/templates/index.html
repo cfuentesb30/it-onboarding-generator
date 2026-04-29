@@ -43,6 +43,7 @@
         <p class="step-desc" data-i18n="step1_desc">Who is this checklist for?</p>
       </div>
     </div>
+    <!-- Row 1: Company Name + Employee Name -->
     <div class="form-row">
       <div class="form-group">
         <label for="company_name" data-i18n="gen_label_company_name">Company Name</label>
@@ -50,6 +51,15 @@
                placeholder="Acme Corp" data-i18n-ph="ph_company"
                maxlength="80" autofocus/>
       </div>
+      <div class="form-group">
+        <label for="employee" data-i18n="gen_label_employee">New Employee Name</label>
+        <input type="text" id="employee" name="employee"
+               placeholder="Jane Smith" data-i18n-ph="ph_employee"
+               maxlength="80"/>
+      </div>
+    </div>
+    <!-- Row 2: Company Size + Preparer -->
+    <div class="form-row">
       <div class="form-group">
         <label for="company_size" data-i18n="gen_label_company_size">Company Size</label>
         <select id="company_size_select" onchange="handleSizeChange(this)">
@@ -61,18 +71,6 @@
           <option value="custom" data-i18n="size_custom">Custom…</option>
         </select>
         <input type="hidden" id="company_size" name="company_size" value="medium"/>
-        <div id="company_size_custom_wrap" style="display:none; margin-top:8px;">
-          <input type="number" id="company_size_custom" placeholder="Number of employees" data-i18n-ph="ph_size_custom"
-                 min="1" max="99999" oninput="syncCustomSize()" style="width:100%;"/>
-        </div>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label for="employee" data-i18n="gen_label_employee">New Employee Name</label>
-        <input type="text" id="employee" name="employee"
-               placeholder="Jane Smith" data-i18n-ph="ph_employee"
-               maxlength="80"/>
       </div>
       <div class="form-group">
         <label for="preparer" data-i18n="gen_label_preparer">IT Preparer Name</label>
@@ -81,11 +79,20 @@
                maxlength="80"/>
       </div>
     </div>
-    <div class="form-row">
+    <!-- Row 3: Custom employee count — full width, shown only when Custom is selected -->
+    <div id="company_size_custom_wrap" style="display:none;">
       <div class="form-group">
+        <label for="company_size_custom" data-i18n="ph_size_custom">Number of employees</label>
+        <input type="number" id="company_size_custom" placeholder="Number of employees" data-i18n-ph="ph_size_custom"
+               min="1" max="99999" oninput="syncCustomSize()" style="width:100%; max-width:320px;"/>
+      </div>
+    </div>
+    <!-- Row 4: Email — full width -->
+    <div class="form-row">
+      <div class="form-group form-group-full">
         <label for="user_email"><span data-i18n="email_label">Email checklist to</span> <span class="optional-tag" data-i18n="gen_optional">optional</span></label>
         <input type="email" id="user_email" name="user_email"
-               placeholder="jane@example.com" data-i18n-ph="ph_email" maxlength="120"/>
+               placeholder="jane@example.com" data-i18n-ph="ph_email" maxlength="120" style="max-width:420px;"/>
         <p class="step-desc" data-i18n="email_hint" style="margin-top:4px;font-size:13px;">We'll send the PDF to this address after it downloads. Email is sent via <strong>Resend</strong> — you may receive it from a <em>resend.dev</em> address.</p>
       </div>
     </div>
