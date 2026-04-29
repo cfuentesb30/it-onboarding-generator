@@ -1,0 +1,28 @@
+sections:
+  - title: "Financial Systems Access"
+    items:
+      - Set up ERP account (NetSuite, SAP, QuickBooks, Xero, etc.)
+      - Verify access to accounts payable and accounts receivable modules
+      - Set up banking and treasury portal access if applicable
+      - Configure access to payroll system (ADP, Rippling, Gusto, etc.)
+      - Verify access to expense management tool (Expensify, Concur, Ramp)
+      - Set up procurement or purchasing system access if applicable
+      - Review chart of accounts and company accounting structure
+
+  - title: "Reporting & Analytics"
+    items:
+      - Gain access to financial reporting dashboards (Tableau, Looker, Power BI, etc.)
+      - Review monthly close calendar and reporting deadlines
+      - Get access to budget tracking spreadsheets or tools
+      - Request read access to bank statements and reconciliation records
+      - Verify access to investor reporting tools if applicable
+      - Review audit trail and compliance log access requirements
+
+  - title: "Compliance & Controls"
+    items:
+      - Review company financial policies and expense reimbursement guidelines
+      - Complete anti-fraud and financial compliance training
+      - Review internal controls documentation and SOX requirements if applicable
+      - Understand signature authority limits and approval thresholds
+      - Review data confidentiality requirements for financial data
+      - Schedule intro meeting with external auditors or accounting firm contact

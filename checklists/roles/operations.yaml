@@ -1,0 +1,28 @@
+sections:
+  - title: "Operations Tools Access"
+    items:
+      - Get access to project management platform (Asana, Monday.com, ClickUp, Notion, etc.)
+      - Set up operations dashboard and KPI tracking tools
+      - Verify access to internal wiki or knowledge base (Confluence, Notion, Guru, etc.)
+      - Get access to workflow automation tools (Zapier, Make, n8n, etc.) if applicable
+      - Access facilities management or office operations tools if applicable
+      - Set up access to ticketing or support platform (Zendesk, Freshdesk, Linear, etc.)
+      - Verify access to company calendar and shared resource scheduling
+
+  - title: "Vendor & Procurement"
+    items:
+      - Review active vendor list and key supplier contacts
+      - Get access to procurement or purchasing system
+      - Review vendor contract repository and understand renewal schedule
+      - Understand vendor onboarding and approval process
+      - Review SLA tracking process for critical vendors
+      - Get access to spend management or budgeting tool
+
+  - title: "Process & Documentation"
+    items:
+      - Review existing SOPs and standard operating procedures for your area
+      - Understand incident and escalation process
+      - Review cross-functional dependencies with Engineering, Finance, and HR
+      - Access process mapping tools (Miro, Lucidchart, etc.) if applicable
+      - Schedule intro meetings with key stakeholders across departments
+      - Review OKR or goal-setting framework and current company objectives

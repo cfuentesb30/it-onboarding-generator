@@ -15,6 +15,8 @@
 
   .header { border-bottom: 2.5px solid #4F46E5; padding-bottom: 14px; margin-bottom: 20px; }
   .header-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .company-logo { max-height: 44px; max-width: 130px; object-fit: contain; display: block; }
   .company { font-size: 18pt; font-weight: 700; letter-spacing: -0.3px; }
   .doc-title { font-size: 11pt; color: #555; margin-top: 3px; }
   .badge { background: #4F46E5; color: #fff; font-size: 9pt; font-weight: 600; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
@@ -53,9 +55,12 @@
 
 <div class="header">
   <div class="header-top">
-    <div>
-      <div class="company">{{ company_name }}</div>
-      <div class="doc-title">IT Onboarding Checklist</div>
+    <div class="header-left">
+      {% if logo_data %}<img src="{{ logo_data }}" class="company-logo" alt=""/>{% endif %}
+      <div>
+        <div class="company">{{ company_name }}</div>
+        <div class="doc-title">IT Onboarding Checklist</div>
+      </div>
     </div>
     <div class="badge">{{ os_label }}</div>
   </div>

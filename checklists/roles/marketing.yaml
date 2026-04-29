@@ -1,0 +1,29 @@
+sections:
+  - title: "Marketing Tools Setup"
+    items:
+      - Set up marketing automation platform (HubSpot, Marketo, Mailchimp, etc.)
+      - Get access to CRM and review lead scoring and lifecycle stages
+      - Set up social media management tool (Hootsuite, Buffer, Sprout Social, etc.)
+      - Access SEO and keyword tools (Ahrefs, SEMrush, Moz, Google Search Console)
+      - Set up paid ads accounts (Google Ads, Meta Ads Manager, LinkedIn Campaign Manager)
+      - Access website CMS (WordPress, Webflow, HubSpot CMS, etc.) with correct permissions
+      - Get access to landing page and A/B testing tools if applicable
+
+  - title: "Brand & Content Access"
+    items:
+      - Download brand guidelines and review logo, color, and typography standards
+      - Get access to design tool and shared assets (Figma, Canva, Adobe Creative Cloud)
+      - Access content calendar and review upcoming campaigns
+      - Get access to DAM or shared media library (Google Drive, Dropbox, Bynder, etc.)
+      - Review editorial style guide and tone of voice documentation
+      - Access blog or content publishing platform and review workflow
+      - Get introduced to agency or freelancer contacts if applicable
+
+  - title: "Analytics & Reporting"
+    items:
+      - Set up Google Analytics / GA4 access and verify tracking is in place
+      - Access marketing dashboard and review key KPIs (MQL, CPL, CAC, pipeline)
+      - Verify access to UTM tracking templates and link management tool
+      - Review attribution model and understand how leads are tracked to revenue
+      - Access customer feedback or NPS tools if applicable
+      - Schedule recurring sync with sales team for pipeline alignment

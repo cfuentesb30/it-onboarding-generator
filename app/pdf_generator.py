@@ -85,6 +85,7 @@ def build_pdf(
     employee: str,
     role: str = "general",
     submitted_items: list = None,
+    logo_data: str = None,
 ) -> bytes:
     if submitted_items:
         sections = sections_from_submitted(submitted_items)
@@ -98,23 +99,17 @@ def build_pdf(
     template = env.get_template("pdf_checklist.html")
 
     os_labels = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
-    role_labels = {
-        "general":   "",
-        "developer": "Developer",
-        "designer":  "Designer",
-        "sales":     "Sales",
-        "hr":        "HR",
-    }
 
     html_str = template.render(
         company_name=company_name,
         os_label=os_labels.get(os_type, os_type),
-        role_label=role_labels.get(role, ""),
+        role_label=role.capitalize() if role != "general" else "",
         company_size=company_size,
         software=software,
         preparer=preparer,
         employee=employee,
         sections=sections,
+        logo_data=logo_data,
         generated_date=date.today().strftime("%B %d, %Y"),
     )
 

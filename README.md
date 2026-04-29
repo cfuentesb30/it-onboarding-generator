@@ -10,14 +10,15 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 
 - Generates a step-by-step IT onboarding checklist as a PDF
 - Tailored to **Windows, macOS, or remote** employee setup
-- **Role-specific sections** for Developer, Designer, Sales, and HR
+- **8 role-specific templates** — General, Developer, Designer, Sales, HR, Finance, Marketing, Operations
 - Includes only the software you actually use (Office, Slack, Zoom, VPN, etc.)
 - **Editable checklist** — remove items or add your own before generating
 - **Live preview** — see the checklist before downloading the PDF
 - **Shareable links** — share a pre-filled checklist with configurable expiry
+- **Company logo upload** — logo appears on the PDF header
 - Security steps (MFA, antivirus, password policy) built into every checklist
 - Branded with your company name, employee name, and date
-- **English / Spanish / Portuguese** language toggle — persists across pages
+- **English / Spanish / Portuguese / French** language toggle — persists across pages
 - Mobile-friendly — works on phones and tablets
 - No account, no signup — instant download
 
@@ -47,6 +48,9 @@ A Flask web app that generates custom IT onboarding checklist PDFs — tailored 
 | Designer | Figma/Adobe setup, brand assets, design workflow |
 | Sales | CRM, sales tools, territory and pipeline setup |
 | HR | HRIS, compliance training, people ops access |
+| Finance | ERP access, reporting tools, compliance controls |
+| Marketing | Marketing stack, brand assets, analytics setup |
+| Operations | Ops tools, vendor management, process docs |
 
 ### Editable checklist
 Before generating, a live checklist appears in the form. You can:
@@ -70,8 +74,11 @@ Click **Share checklist** to open a modal. Choose how long the link stays active
 
 The full form state — OS, role, software, names, and any custom or removed items — is encoded directly in the URL. No database needed. Opening an expired link shows a clear message instead of a broken form.
 
-### EN / ES / PT language toggle
-Header button cycles between English, Spanish, and Portuguese (PT-BR). Saved in `localStorage`.
+### Company logo upload
+Upload a PNG, JPG, or SVG in Step 1 of the form. The logo is embedded in the PDF header next to the company name — no server storage, converted to base64 at generation time.
+
+### EN / ES / PT / FR language toggle
+Header button cycles between English, Spanish, Portuguese (PT-BR), and French. Saved in `localStorage`.
 
 ---
 
@@ -83,7 +90,7 @@ Header button cycles between English, Spanish, and Portuguese (PT-BR). Saved in 
 | PDF generation | WeasyPrint 60.0 |
 | Templates | Jinja2 |
 | Styling | Vanilla CSS (Inter font, Slate + Indigo palette) |
-| i18n | Vanilla JS (`i18n.js`) — EN, ES, PT |
+| i18n | Vanilla JS (`i18n.js`) — EN, ES, PT, FR |
 | Checklists | YAML files per OS + role |
 | Share links | Base64-encoded JSON with embedded expiry timestamp |
 | Deployment | Render (Docker) |
@@ -200,7 +207,7 @@ To deploy your own: fork the repo, connect it to Render, and it auto-deploys on 
 - [x] EN / ES / PT language toggle
 - [x] Mobile-responsive layout
 - [x] Shareable links with configurable expiry (1h / 24h / 48h / 1wk / no expiry)
+- [x] More roles — Finance, Marketing, Operations (8 total)
+- [x] Company logo upload on the PDF
+- [x] French (FR) language support
 - [ ] Email delivery — send the PDF directly to an inbox
-- [ ] More roles (Finance, Marketing, Operations)
-- [ ] Company logo upload on the PDF
-- [ ] French language support

@@ -86,6 +86,11 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Your name",
 
+    // Logo upload
+    gen_label_logo:  "Company Logo",
+    gen_optional:    "optional",
+    gen_logo_hint:   "&#128247; Upload PNG, JPG or SVG",
+
     // Share
     share_btn:          "↗ Share checklist",
     share_title:        "Share this checklist",
@@ -187,6 +192,11 @@ const TRANSLATIONS = {
     ph_company:   "Acme Corp",
     ph_employee:  "Jane Smith",
     ph_preparer:  "Tu nombre",
+
+    // Logo upload
+    gen_label_logo:  "Logo de la Empresa",
+    gen_optional:    "opcional",
+    gen_logo_hint:   "&#128247; Subir PNG, JPG o SVG",
 
     // Share
     share_btn:          "↗ Compartir checklist",
@@ -290,6 +300,11 @@ const TRANSLATIONS = {
     ph_employee:  "Jane Smith",
     ph_preparer:  "Seu nome",
 
+    // Logo upload
+    gen_label_logo:  "Logo da Empresa",
+    gen_optional:    "opcional",
+    gen_logo_hint:   "&#128247; Enviar PNG, JPG ou SVG",
+
     // Share
     share_btn:          "↗ Compartilhar checklist",
     share_title:        "Compartilhar este checklist",
@@ -303,6 +318,114 @@ const TRANSLATIONS = {
     share_copy:         "Copiar",
     share_copied:       "Copiado!",
     share_expired_msg:  "Este link expirou. Gere um novo pelo formulário.",
+  }
+};
+
+  fr: {
+    // Badge & hero
+    badge:       "Gratuit &nbsp;·&nbsp; Sans compte &nbsp;·&nbsp; PDF instantané",
+    hero_h1:     "Arrêtez d'intégrer<br>vos recrues<br>de mémoire.",
+    hero_p:      "Remplissez le formulaire, cliquez sur générer et téléchargez un checklist IT prêt à imprimer — adapté à votre OS, vos logiciels et la taille de votre entreprise. En moins d'une minute.",
+    hero_note:   "Sans inscription",
+    cta:         "Générer mon checklist &rarr;",
+    cta_final:   "Générer mon checklist &rarr;",
+
+    // Trust bar
+    trust_1:     "Windows, macOS et Télétravail",
+    trust_2:     "Téléchargement PDF instantané",
+    trust_3:     "Format prêt à imprimer",
+    trust_4:     "Étapes de sécurité incluses",
+    trust_5:     "Gratuit pour toujours",
+
+    // PDF mockup
+    pdf_account:  "Configuration du Compte",
+    pdf_software: "Installation des Logiciels",
+    pdf_security: "Sécurité",
+    pdf_employee: "Employé\u00a0:",
+    pdf_date:     "Généré &middot; 18 avr 2026",
+
+    // How it works
+    how_eyebrow:  "Comment ça marche",
+    how_h2:       "Trois étapes. En moins d'une minute.",
+    step1_strong: "Décrivez votre configuration",
+    step1_p:      "Indiquez le nom de l'entreprise, le nouvel employé, le système d'exploitation et les logiciels nécessaires. Rien de plus.",
+    step2_strong: "Cliquez sur générer",
+    step2_p:      "Nous créons un checklist pour votre configuration exacte — pas un modèle générique, pas un formulaire vierge.",
+    step3_strong: "Téléchargez et transmettez",
+    step3_p:      "Obtenez un PDF propre prêt à imprimer ou à partager. Utilisez-le vous-même ou transmettez-le à la personne chargée de la configuration.",
+
+    // Features
+    feat_eyebrow: "Ce qui est inclus",
+    feat_h2:      "Tout ce qu'il vous faut. Rien de superflu.",
+    feat1_strong: "Étapes spécifiques à chaque OS",
+    feat1_p:      "Des checklists distincts pour Windows, macOS et les employés en télétravail. Sans copier-coller.",
+    feat2_strong: "Tâches d'installation logicielle",
+    feat2_p:      "Sélectionnez ce que vous utilisez — Office, Slack, Zoom, VPN, gestionnaires de mots de passe — seuls ceux-là apparaissent.",
+    feat3_strong: "Sécurité intégrée",
+    feat3_p:      "Création de compte, MFA, politique de mots de passe, antivirus — des étapes de sécurité dans chaque checklist.",
+    feat4_strong: "PDF professionnel",
+    feat4_p:      "Nom de l'entreprise, informations sur l'employé, date. L'air intentionnel, pas improvisé.",
+    feat5_strong: "Instantané — sans attente",
+    feat5_p:      "Remplissez le formulaire et téléchargez en quelques secondes. Sans compte, sans e-mail, sans friction.",
+    feat6_strong: "S'adapte à votre équipe",
+    feat6_p:      "Des résultats différents pour les petites, moyennes et grandes entreprises. S'adapte à votre contexte.",
+
+    // Who it's for
+    who_eyebrow:   "Pour qui c'est",
+    who_h2:        "Conçu pour ceux qui font le travail.",
+    persona1_strong: "Équipes IT des petites entreprises",
+    persona1_p:      "Vous intégrez des personnes sans système dédié. Cela vous donne un processus cohérent et reproductible sans surcharge.",
+    persona2_strong: "Office managers en charge de l'IT",
+    persona2_p:      "Vous n'avez pas été embauché pour faire de l'IT. Cela rend la partie technique facile à suivre — ou à déléguer.",
+    persona3_strong: "MSPs et consultants IT",
+    persona3_p:      "Vous intégrez un nouveau salarié pour un client\u00a0? Générez à son nom, pour ses outils, dans son format. Terminé.",
+    persona4_strong: "Startups en pleine croissance",
+    persona4_p:      "Vous recrutez vite et ne pouvez pas réinventer l'intégration à chaque fois. Cela vous donne un processus reproductible dès maintenant.",
+
+    // Final CTA
+    final_h2: "Votre prochaine recrue mérite une configuration soignée.",
+    final_p:  "Générez un checklist d'intégration IT personnalisé en moins d'une minute.<br>Gratuit. Sans compte. Sans friction.",
+
+    // Generator page
+    gen_h1:       "Générez votre checklist d'intégration IT",
+    gen_p:        "Remplissez les quatre sections ci-dessous. Votre PDF se télécharge instantanément.",
+    gen_section_company: "Informations sur l'Entreprise",
+    gen_label_company_name: "Nom de l'Entreprise",
+    gen_label_company_size: "Taille de l'Entreprise",
+    gen_label_employee:     "Nom du Nouvel Employé",
+    gen_label_preparer:     "Nom du Responsable IT",
+    gen_section_os:         "Système d'Exploitation",
+    gen_section_software:   "Logiciels à Installer",
+    gen_hint:               "Sélectionnez tout ce qui s'applique",
+    gen_section_role:       "Rôle de l'Employé",
+    gen_section_checklist:  "Aperçu du Checklist",
+    gen_hint_checklist:     "Supprimez ou ajoutez des éléments",
+    gen_btn:                "&#11015; Générer le Checklist PDF",
+    gen_btn_loading:        "Génération en cours\u2026",
+
+    // Placeholders
+    ph_company:   "Acme Corp",
+    ph_employee:  "Jane Smith",
+    ph_preparer:  "Votre nom",
+
+    // Logo upload
+    gen_label_logo:  "Logo de l'Entreprise",
+    gen_optional:    "facultatif",
+    gen_logo_hint:   "&#128247; Importer PNG, JPG ou SVG",
+
+    // Share
+    share_btn:          "↗ Partager le checklist",
+    share_title:        "Partager ce checklist",
+    share_sub:          "Toute personne ayant ce lien pourra voir et utiliser ce checklist.",
+    share_expiry_label: "Le lien expire dans\u00a0:",
+    share_1h:           "1 heure",
+    share_24h:          "24 heures",
+    share_48h:          "48 heures",
+    share_1w:           "1 semaine",
+    share_never:        "Sans expiration",
+    share_copy:         "Copier",
+    share_copied:       "Copié\u00a0!",
+    share_expired_msg:  "Ce lien a expiré. Générez-en un nouveau depuis le formulaire.",
   }
 };
 
@@ -325,9 +448,10 @@ function applyLang(lang) {
     if (t[key] !== undefined) el.setAttribute("placeholder", t[key]);
   });
 
-  // Update toggle button label (cycles EN → ES → PT → EN)
+  // Update toggle button label (cycles EN → ES → PT → FR → EN)
+  const labels = { en: "ES", es: "PT", pt: "FR", fr: "EN" };
   const btn = document.getElementById("lang-toggle");
-  if (btn) btn.textContent = lang === "en" ? "ES" : lang === "es" ? "PT" : "EN";
+  if (btn) btn.textContent = labels[lang] || "EN";
 
   // Update html lang attribute
   document.documentElement.lang = lang;
@@ -336,7 +460,7 @@ function applyLang(lang) {
 }
 
 function toggleLang() {
-  const cycle = { en: "es", es: "pt", pt: "en" };
+  const cycle = { en: "es", es: "pt", pt: "fr", fr: "en" };
   const next = cycle[window.currentLang] || "en";
   localStorage.setItem("lang", next);
   window.currentLang = next;

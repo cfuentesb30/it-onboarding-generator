@@ -3,6 +3,15 @@ from .pdf_generator import build_pdf, load_checklist, sections_from_submitted
 from datetime import date
 import io, base64, json, time
 
+def _logo_data_url(file_storage):
+    if not file_storage or not file_storage.filename:
+        return None
+    data = file_storage.read()
+    if not data:
+        return None
+    mime = file_storage.content_type or "image/png"
+    return f"data:{mime};base64,{base64.b64encode(data).decode()}"
+
 main = Blueprint("main", __name__)
 
 SOFTWARE_OPTIONS = [
@@ -31,12 +40,17 @@ OS_OPTIONS = [
 ]
 
 ROLE_OPTIONS = [
-    ("general",   "General"),
-    ("developer", "Developer"),
-    ("designer",  "Designer"),
-    ("sales",     "Sales"),
-    ("hr",        "HR"),
+    ("general",    "General"),
+    ("developer",  "Developer"),
+    ("designer",   "Designer"),
+    ("sales",      "Sales"),
+    ("hr",         "HR"),
+    ("finance",    "Finance"),
+    ("marketing",  "Marketing"),
+    ("operations", "Operations"),
 ]
+
+VALID_ROLES = {r[0] for r in ROLE_OPTIONS}
 
 def _decode_share(token):
     try:
@@ -94,10 +108,11 @@ def preview():
     preparer     = request.form.get("preparer", "").strip()
     employee     = request.form.get("employee", "").strip()
     submitted    = request.form.getlist("checklist_item")
+    logo_data    = _logo_data_url(request.files.get("logo"))
 
     if os_type not in ("windows", "macos", "remote"):
         abort(400, "Invalid OS type.")
-    if role not in ("general", "developer", "designer", "sales", "hr"):
+    if role not in VALID_ROLES:
         role = "general"
 
     if submitted:
@@ -105,19 +120,19 @@ def preview():
     else:
         sections = load_checklist(os_type, software, company_size, role)
 
-    os_labels   = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
-    role_labels = {"general": "", "developer": "Developer", "designer": "Designer", "sales": "Sales", "hr": "HR"}
+    os_labels = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
 
     return render_template(
         "pdf_checklist.html",
         company_name=company_name,
         os_label=os_labels.get(os_type, os_type),
-        role_label=role_labels.get(role, ""),
+        role_label=role.capitalize() if role != "general" else "",
         company_size=company_size,
         software=software,
         preparer=preparer,
         employee=employee,
         sections=sections,
+        logo_data=logo_data,
         generated_date=date.today().strftime("%B %d, %Y"),
         preview_mode=True,
     )
@@ -133,10 +148,11 @@ def generate():
     preparer     = request.form.get("preparer", "").strip()
     employee     = request.form.get("employee", "").strip()
     submitted    = request.form.getlist("checklist_item")
+    logo_data    = _logo_data_url(request.files.get("logo"))
 
     if os_type not in ("windows", "macos", "remote"):
         abort(400, "Invalid OS type.")
-    if role not in ("general", "developer", "designer", "sales", "hr"):
+    if role not in VALID_ROLES:
         role = "general"
 
     try:
@@ -149,6 +165,7 @@ def generate():
             employee=employee,
             role=role,
             submitted_items=submitted if submitted else None,
+            logo_data=logo_data,
         )
     except Exception as e:
         import traceback

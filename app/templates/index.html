@@ -32,7 +32,7 @@
   </div>
 </div>
 
-<form action="/generate" method="POST" class="gen-form" id="gen-form">
+<form action="/generate" method="POST" enctype="multipart/form-data" class="gen-form" id="gen-form">
 
   <!-- Step 1: Company Info -->
   <div class="form-section" data-step="1">
@@ -71,6 +71,21 @@
         <input type="text" id="preparer" name="preparer"
                placeholder="Your name" data-i18n-ph="ph_preparer"
                maxlength="80"/>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group logo-upload-group">
+        <label for="logo" data-i18n="gen_label_logo">Company Logo <span class="optional-tag" data-i18n="gen_optional">optional</span></label>
+        <div class="logo-upload-area" id="logo-upload-area" onclick="document.getElementById('logo').click()">
+          <input type="file" id="logo" name="logo" accept="image/*" onchange="handleLogoChange(event)" style="display:none"/>
+          <div class="logo-upload-placeholder" id="logo-placeholder">
+            <span data-i18n="gen_logo_hint">&#128247; Upload PNG, JPG or SVG</span>
+          </div>
+          <div class="logo-preview-wrap" id="logo-preview-wrap" style="display:none">
+            <img id="logo-preview-img" src="" alt="Logo preview"/>
+            <button type="button" class="logo-remove-btn" onclick="event.stopPropagation();removeLogo()">×</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -167,6 +182,33 @@
           <span class="role-icon">👥</span>
           <span class="role-label">HR</span>
           <span class="role-desc">HRIS, compliance</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="role-card">
+        <input type="radio" name="role" value="finance"/>
+        <div class="role-card-inner">
+          <span class="role-icon">💰</span>
+          <span class="role-label">Finance</span>
+          <span class="role-desc">ERP, reporting</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="role-card">
+        <input type="radio" name="role" value="marketing"/>
+        <div class="role-card-inner">
+          <span class="role-icon">📣</span>
+          <span class="role-label">Marketing</span>
+          <span class="role-desc">CRM, analytics</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="role-card">
+        <input type="radio" name="role" value="operations"/>
+        <div class="role-card-inner">
+          <span class="role-icon">⚙️</span>
+          <span class="role-label">Operations</span>
+          <span class="role-desc">Process, vendors</span>
           <span class="card-check">✓</span>
         </div>
       </label>
@@ -515,6 +557,25 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   updateStepDots();
 });
+
+// ── Logo upload ──────────────────────────────────────────
+function handleLogoChange(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    document.getElementById('logo-preview-img').src = ev.target.result;
+    document.getElementById('logo-preview-wrap').style.display = 'flex';
+    document.getElementById('logo-placeholder').style.display  = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeLogo() {
+  document.getElementById('logo').value = '';
+  document.getElementById('logo-preview-wrap').style.display = 'none';
+  document.getElementById('logo-placeholder').style.display  = '';
+}
 
 // ── Share state pre-fill ─────────────────────────────────
 async function applyShareState(s) {
