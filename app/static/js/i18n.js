@@ -372,8 +372,7 @@ const TRANSLATIONS = {
     share_copy:         "Copiar",
     share_copied:       "Copiado!",
     share_expired_msg:  "Este link expirou. Gere um novo pelo formulário.",
-  }
-};
+  },
 
   fr: {
     // Badge & hero
