@@ -109,6 +109,21 @@ const TRANSLATIONS = {
     footer_suggest:  "Suggest a feature",
     footer_support:  "Support this project",
 
+    // Suggest page
+    sug_back:          "&larr; Back to home",
+    sug_title:         "Send a suggestion",
+    sug_subtitle:      "Have an idea to make this better? I read every message.",
+    sug_label_name:    "Your name",
+    sug_ph_name:       "Jane Smith",
+    sug_label_email:   "Your email",
+    sug_ph_email:      "jane@example.com",
+    sug_label_message: "Your suggestion",
+    sug_ph_message:    "What would make this tool better for you?",
+    sug_notice:        "Replies are sent via <strong>Resend</strong> and may come from a <em>resend.dev</em> address. Check your spam if you don\u2019t hear back.",
+    sug_btn:           "&#128172; Send suggestion",
+    sug_success:       "\u2713 Thanks \u2014 your suggestion was sent!",
+    sug_back_home:     "Back to home",
+
     // Logo upload
     gen_label_logo:  "Company Logo",
     gen_optional:    "optional",
@@ -299,6 +314,21 @@ const TRANSLATIONS = {
     footer_tagline:  "Gratis para siempre &middot; Financiado por donaciones &middot; Para equipos de IT de pequeñas empresas.",
     footer_suggest:  "Sugerir una función",
     footer_support:  "Apoyar este proyecto",
+
+    // Suggest page
+    sug_back:          "&larr; Volver al inicio",
+    sug_title:         "Enviar una sugerencia",
+    sug_subtitle:      "¿Tienes una idea para mejorar esto? Leo cada mensaje.",
+    sug_label_name:    "Tu nombre",
+    sug_ph_name:       "Juan García",
+    sug_label_email:   "Tu correo electrónico",
+    sug_ph_email:      "juan@ejemplo.com",
+    sug_label_message: "Tu sugerencia",
+    sug_ph_message:    "¿Qué haría esta herramienta más útil para ti?",
+    sug_notice:        "Las respuestas se envían a través de <strong>Resend</strong> y pueden llegar desde una dirección <em>resend.dev</em>. Revisa tu spam si no recibes respuesta.",
+    sug_btn:           "&#128172; Enviar sugerencia",
+    sug_success:       "\u2713 ¡Gracias, tu sugerencia fue enviada!",
+    sug_back_home:     "Volver al inicio",
 
     // Logo upload
     gen_label_logo:  "Logo de la Empresa",
@@ -491,6 +521,21 @@ const TRANSLATIONS = {
     footer_suggest:  "Sugerir uma funcionalidade",
     footer_support:  "Apoiar este projeto",
 
+    // Suggest page
+    sug_back:          "&larr; Voltar ao início",
+    sug_title:         "Enviar uma sugestão",
+    sug_subtitle:      "Tem uma ideia para melhorar isso? Leio cada mensagem.",
+    sug_label_name:    "Seu nome",
+    sug_ph_name:       "João Silva",
+    sug_label_email:   "Seu e-mail",
+    sug_ph_email:      "joao@exemplo.com",
+    sug_label_message: "Sua sugestão",
+    sug_ph_message:    "O que tornaria esta ferramenta mais útil para você?",
+    sug_notice:        "As respostas são enviadas via <strong>Resend</strong> e podem vir de um endereço <em>resend.dev</em>. Verifique o spam se não receber resposta.",
+    sug_btn:           "&#128172; Enviar sugestão",
+    sug_success:       "\u2713 Obrigado \u2014 sua sugestão foi enviada!",
+    sug_back_home:     "Voltar ao início",
+
     // Logo upload
     gen_label_logo:  "Logo da Empresa",
     gen_optional:    "opcional",
@@ -681,6 +726,21 @@ const TRANSLATIONS = {
     footer_tagline:  "Gratuit pour toujours &middot; Financé par des dons &middot; Pour les équipes IT des petites entreprises.",
     footer_suggest:  "Suggérer une fonctionnalité",
     footer_support:  "Soutenir ce projet",
+
+    // Suggest page
+    sug_back:          "&larr; Retour à l\u2019accueil",
+    sug_title:         "Envoyer une suggestion",
+    sug_subtitle:      "Vous avez une idée pour améliorer cet outil ? Je lis chaque message.",
+    sug_label_name:    "Votre nom",
+    sug_ph_name:       "Jean Dupont",
+    sug_label_email:   "Votre e-mail",
+    sug_ph_email:      "jean@exemple.com",
+    sug_label_message: "Votre suggestion",
+    sug_ph_message:    "Qu\u2019est-ce qui rendrait cet outil plus utile pour vous ?",
+    sug_notice:        "Les réponses sont envoyées via <strong>Resend</strong> et peuvent provenir d\u2019une adresse <em>resend.dev</em>. Vérifiez vos spams si vous n\u2019avez pas de nouvelles.",
+    sug_btn:           "&#128172; Envoyer la suggestion",
+    sug_success:       "\u2713 Merci \u2014 votre suggestion a été envoyée\u00a0!",
+    sug_back_home:     "Retour à l\u2019accueil",
 
     // Logo upload
     gen_label_logo:  "Logo de l'Entreprise",

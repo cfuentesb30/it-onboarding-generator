@@ -3,11 +3,11 @@
 {% block content %}
 
 <div class="gen-hero">
-  <a href="/" class="gen-back">&larr; Back to home</a>
+  <a href="/" class="gen-back" data-i18n="sug_back">&larr; Back to home</a>
   <div class="gen-hero-inner">
     <div>
-      <h1>Send a suggestion</h1>
-      <p>Have an idea to make this better? I read every message.</p>
+      <h1 data-i18n="sug_title">Send a suggestion</h1>
+      <p data-i18n="sug_subtitle">Have an idea to make this better? I read every message.</p>
     </div>
   </div>
 </div>
@@ -16,10 +16,10 @@
 
   {% if success %}
   <div class="share-expired-banner" style="background:var(--accent);color:#fff;border-color:var(--accent);">
-    ✓ Thanks — your suggestion was sent!
+    <span data-i18n="sug_success">&#10003; Thanks — your suggestion was sent!</span>
   </div>
   <p style="text-align:center;margin-top:24px;">
-    <a href="/" class="btn-cta">Back to home</a>
+    <a href="/" class="btn-cta" data-i18n="sug_back_home">Back to home</a>
   </p>
   {% else %}
 
@@ -29,25 +29,28 @@
 
   <form method="POST" action="/suggest" class="gen-form" style="gap:20px;">
     <div class="form-group">
-      <label for="name">Your name</label>
+      <label for="name" data-i18n="sug_label_name">Your name</label>
       <input type="text" id="name" name="name" placeholder="Jane Smith" maxlength="80"
+             data-i18n-ph="sug_ph_name"
              value="{{ name or '' }}" required autofocus/>
     </div>
     <div class="form-group">
-      <label for="email">Your email</label>
+      <label for="email" data-i18n="sug_label_email">Your email</label>
       <input type="email" id="email" name="email" placeholder="jane@example.com"
+             data-i18n-ph="sug_ph_email"
              value="{{ email or '' }}" required/>
     </div>
     <div class="form-group">
-      <label for="message">Your suggestion</label>
+      <label for="message" data-i18n="sug_label_message">Your suggestion</label>
       <textarea id="message" name="message" rows="5" maxlength="2000"
-                placeholder="What would make this tool better for you?" required
+                placeholder="What would make this tool better for you?"
+                data-i18n-ph="sug_ph_message" required
                 style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;font-size:15px;resize:vertical;">{{ message or '' }}</textarea>
     </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:8px;" data-i18n="sug_notice">
       Replies are sent via <strong>Resend</strong> and may come from a <em>resend.dev</em> address. Check your spam if you don't hear back.
     </p>
-    <button type="submit" class="btn-generate" style="width:100%;">
+    <button type="submit" class="btn-generate" style="width:100%;" data-i18n="sug_btn">
       &#128172; Send suggestion
     </button>
   </form>
