@@ -314,6 +314,9 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   background: #ede9fe; color: #7c3aed;
 }
 .cl-item-text { flex: 1; line-height: 1.4; }
+.cl-item-text[contenteditable] { cursor: text; border-radius: 4px; outline: none; padding: 1px 3px; margin: -1px -3px; }
+.cl-item-text[contenteditable]:hover { background: #f5f7ff; }
+.cl-item-text[contenteditable]:focus { background: #eef2ff; outline: 1.5px solid var(--accent); }
 .cl-remove {
   flex-shrink: 0; width: 22px; height: 22px;
   background: none; border: 1px solid transparent;

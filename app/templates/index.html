@@ -425,7 +425,10 @@ function renderChecklist() {
       if (step.removed) return;
       html += `<div class="cl-item" data-si="${si}" data-ii="${ii}">
         <span class="cl-check-box"></span>
-        <span class="cl-item-text">${escHtml(step.text)}</span>
+        <span class="cl-item-text" contenteditable="true"
+          onblur="editItem(${si},${ii},this)"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${escHtml(step.text)}</span>
         <button type="button" class="cl-remove" onclick="removeItem(${si},${ii})" title="Remove">×</button>
       </div>`;
     });
@@ -439,7 +442,10 @@ function renderChecklist() {
     customItems.forEach((item, ci) => {
       html += `<div class="cl-item custom-item">
         <span class="cl-check-box custom">+</span>
-        <span class="cl-item-text">${escHtml(item.text)}</span>
+        <span class="cl-item-text" contenteditable="true"
+          onblur="editCustom(${ci},this)"
+          onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
+        >${escHtml(item.text)}</span>
         <button type="button" class="cl-remove" onclick="removeCustom(${ci})" title="Remove">×</button>
       </div>`;
     });
@@ -483,6 +489,26 @@ function addCustomItem() {
 document.getElementById('custom-item-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') { e.preventDefault(); addCustomItem(); }
 });
+
+function editItem(si, ii, el) {
+  const text = el.textContent.trim();
+  if (text) {
+    checklistSections[si].steps[ii].text = text;
+  } else {
+    checklistSections[si].steps[ii].removed = true;
+    renderChecklist();
+  }
+}
+
+function editCustom(ci, el) {
+  const text = el.textContent.trim();
+  if (text) {
+    customItems[ci].text = text;
+  } else {
+    customItems.splice(ci, 1);
+    renderChecklist();
+  }
+}
 
 // ── Submit ──────────────────────────────────────────────
 function populateHiddenInputs() {
