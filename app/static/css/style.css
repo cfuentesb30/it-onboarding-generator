@@ -17,7 +17,7 @@ body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-ser
 header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 0; }
 .header-inner { display: flex; align-items: center; gap: 14px; }
 .logo { font-size: 16px; font-weight: 700; letter-spacing: -0.3px; text-decoration: none; color: var(--text); }
-.header-nav { margin-left: auto; }
+.header-nav { margin-left: auto; display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; }
 .nav-cta {
   font-size: 13px; font-weight: 600;
   text-decoration: none; padding: 7px 14px;
@@ -27,8 +27,8 @@ header { background: var(--surface); border-bottom: 1px solid var(--border); pad
 .nav-cta:hover { opacity: .82; }
 
 .btn-lang {
-  font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
-  padding: 6px 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.03em;
+  padding: 6px 8px; white-space: nowrap;
   background: transparent;
   color: var(--muted);
   border: 1px solid var(--border);
