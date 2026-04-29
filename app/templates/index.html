@@ -52,11 +52,19 @@
       </div>
       <div class="form-group">
         <label for="company_size" data-i18n="gen_label_company_size">Company Size</label>
-        <select id="company_size" name="company_size">
-          {% for value, label in company_sizes %}
-          <option value="{{ value }}">{{ label }}</option>
-          {% endfor %}
+        <select id="company_size_select" onchange="handleSizeChange(this)">
+          <option value="micro">Micro · 1–5 employees</option>
+          <option value="small">Small · 6–15 employees</option>
+          <option value="medium" selected>Medium · 16–50 employees</option>
+          <option value="large">Large · 51–200 employees</option>
+          <option value="enterprise">Enterprise · 200+ employees</option>
+          <option value="custom">Custom…</option>
         </select>
+        <input type="hidden" id="company_size" name="company_size" value="medium"/>
+        <div id="company_size_custom_wrap" style="display:none; margin-top:8px;">
+          <input type="number" id="company_size_custom" placeholder="Number of employees"
+                 min="1" max="99999" oninput="syncCustomSize()" style="width:100%;"/>
+        </div>
       </div>
     </div>
     <div class="form-row">
@@ -595,7 +603,7 @@ function getPool(title) {
 async function loadChecklist() {
   const os      = document.querySelector('input[name="os_type"]:checked')?.value || 'windows';
   const role    = document.querySelector('input[name="role"]:checked')?.value    || 'general';
-  const size    = document.getElementById('company_size').value;
+  const size    = document.getElementById('company_size').value || 'medium';
   const software = [...document.querySelectorAll('input[name="software"]:checked')].map(i => i.value);
 
   const params = new URLSearchParams({ os_type: os, role, company_size: size });
@@ -862,6 +870,27 @@ function updateStepDots() {
   });
 }
 
+// ── Company size handlers ────────────────────────────────
+function handleSizeChange(sel) {
+  const wrap = document.getElementById('company_size_custom_wrap');
+  const hidden = document.getElementById('company_size');
+  if (sel.value === 'custom') {
+    wrap.style.display = '';
+    const n = document.getElementById('company_size_custom').value;
+    hidden.value = n || 'custom';
+  } else {
+    wrap.style.display = 'none';
+    hidden.value = sel.value;
+  }
+  loadChecklist();
+}
+
+function syncCustomSize() {
+  const n = document.getElementById('company_size_custom').value.trim();
+  document.getElementById('company_size').value = n || 'custom';
+  loadChecklist();
+}
+
 // ── Listeners ───────────────────────────────────────────
 document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(el => {
   el.addEventListener('change', loadChecklist);
@@ -869,12 +898,13 @@ document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(e
 document.querySelectorAll('input[name="software"]').forEach(el => {
   el.addEventListener('change', loadChecklist);
 });
-document.getElementById('company_size').addEventListener('change', loadChecklist);
+document.getElementById('company_size_select').addEventListener('change', updateStepDots);
 
 document.querySelectorAll('input, select').forEach(el => {
   el.addEventListener('change', updateStepDots);
-  el.addEventListener('input', updateStepDots);
+  el.addEventListener('input',  updateStepDots);
 });
+document.getElementById('company_size_select').addEventListener('change', updateStepDots);
 
 document.addEventListener('DOMContentLoaded', function() {
   if (window.__shareState) {
@@ -909,7 +939,18 @@ async function applyShareState(s) {
   if (s.company)  document.getElementById('company_name').value = s.company;
   if (s.employee) document.getElementById('employee').value     = s.employee;
   if (s.preparer) document.getElementById('preparer').value     = s.preparer;
-  if (s.size)     document.getElementById('company_size').value = s.size;
+  if (s.size) {
+    const sel = document.getElementById('company_size_select');
+    const known = ['micro','small','medium','large','enterprise'];
+    if (known.includes(s.size)) {
+      sel.value = s.size;
+    } else {
+      sel.value = 'custom';
+      document.getElementById('company_size_custom').value = s.size;
+      document.getElementById('company_size_custom_wrap').style.display = '';
+    }
+    document.getElementById('company_size').value = s.size;
+  }
 
   const osEl = document.querySelector(`input[name="os_type"][value="${s.os}"]`);
   if (osEl) osEl.checked = true;

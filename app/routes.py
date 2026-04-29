@@ -28,10 +28,23 @@ SOFTWARE_OPTIONS = [
 ]
 
 COMPANY_SIZES = [
-    ("small",  "1–10 employees"),
-    ("medium", "11–50 employees"),
-    ("large",  "50+ employees"),
+    ("micro",      "Micro · 1–5 employees"),
+    ("small",      "Small · 6–15 employees"),
+    ("medium",     "Medium · 16–50 employees"),
+    ("large",      "Large · 51–200 employees"),
+    ("enterprise", "Enterprise · 200+ employees"),
 ]
+
+def _normalize_size(size: str) -> str:
+    try:
+        n = int(str(size).strip().replace(",", ""))
+        if n <= 15:  return "small"
+        if n <= 50:  return "medium"
+        return "large"
+    except (ValueError, TypeError):
+        pass
+    return {"micro": "small", "small": "small", "medium": "medium",
+            "large": "large", "enterprise": "large"}.get(size, "small")
 
 OS_OPTIONS = [
     ("windows", "Windows"),
@@ -115,7 +128,7 @@ def index():
 def items():
     os_type      = request.args.get("os_type", "windows")
     role         = request.args.get("role", "general")
-    company_size = request.args.get("company_size", "small")
+    company_size = _normalize_size(request.args.get("company_size", "small"))
     software     = request.args.getlist("software")
 
     if os_type not in ("windows", "macos", "remote"):
@@ -129,7 +142,7 @@ def preview():
     os_type      = request.form.get("os_type")
     role         = request.form.get("role", "general")
     company_name = request.form.get("company_name", "").strip() or "Your Company"
-    company_size = request.form.get("company_size", "small")
+    company_size = _normalize_size(request.form.get("company_size", "small"))
     software     = request.form.getlist("software")
     preparer     = request.form.get("preparer", "").strip()
     employee     = request.form.get("employee", "").strip()
@@ -169,7 +182,7 @@ def generate():
     os_type      = request.form.get("os_type")
     role         = request.form.get("role", "general")
     company_name = request.form.get("company_name", "").strip() or "Your Company"
-    company_size = request.form.get("company_size", "small")
+    company_size = _normalize_size(request.form.get("company_size", "small"))
     software     = request.form.getlist("software")
     preparer     = request.form.get("preparer", "").strip()
     employee     = request.form.get("employee", "").strip()
