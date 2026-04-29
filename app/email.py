@@ -4,7 +4,7 @@ import resend
 from html import escape
 
 _FROM = os.getenv("RESEND_FROM", "onboarding@resend.dev")
-_OWNER = "cfuentesbarraza30@gmail.com"
+_OWNER = os.getenv("OWNER_EMAIL", "cfuentesbarraza30@gmail.com")
 _APP_URL = os.getenv("APP_URL", "https://it-onboarding-generator.onrender.com")
 
 _BASE = """
