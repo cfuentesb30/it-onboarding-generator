@@ -791,10 +791,14 @@ function applyLang(lang) {
   });
 
   // Update toggle button to show current language with flag
-  const flags = { en: "🇺🇸", es: "🇪🇸", pt: "🇧🇷", fr: "🇫🇷" };
+  const flagCodes = { en: "us", es: "es", pt: "br", fr: "fr" };
   const codes = { en: "EN", es: "ES", pt: "PT", fr: "FR" };
   const btn = document.getElementById("lang-toggle");
-  if (btn) btn.textContent = (flags[lang] || "") + " " + (codes[lang] || lang.toUpperCase());
+  if (btn) {
+    const code = flagCodes[lang] || "us";
+    const label = codes[lang] || lang.toUpperCase();
+    btn.innerHTML = `<img src="https://flagcdn.com/16x12/${code}.png" width="16" height="12" alt="${label} flag" class="lang-flag-img"/> ${label}`;
+  }
 
   // Update html lang attribute
   document.documentElement.lang = lang;

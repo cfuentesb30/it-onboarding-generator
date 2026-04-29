@@ -36,12 +36,12 @@
       <nav class="header-nav">
         <a href="/about" class="nav-about" data-i18n="nav_about">About</a>
         <div class="lang-switcher" id="lang-switcher">
-          <button id="lang-toggle" class="btn-lang" onclick="toggleLangDropdown()" aria-label="Switch language">🇺🇸 EN</button>
+          <button id="lang-toggle" class="btn-lang" onclick="toggleLangDropdown()" aria-label="Switch language"><img src="https://flagcdn.com/16x12/us.png" width="16" height="12" alt="US flag" class="lang-flag-img"/> EN</button>
           <div class="lang-dropdown" id="lang-dropdown">
-            <button class="lang-dropdown-item" onclick="selectLang('en')"><span>🇺🇸</span> English</button>
-            <button class="lang-dropdown-item" onclick="selectLang('es')"><span>🇪🇸</span> Español</button>
-            <button class="lang-dropdown-item" onclick="selectLang('pt')"><span>🇧🇷</span> Português</button>
-            <button class="lang-dropdown-item" onclick="selectLang('fr')"><span>🇫🇷</span> Français</button>
+            <button class="lang-dropdown-item" onclick="selectLang('en')"><img src="https://flagcdn.com/16x12/us.png" width="16" height="12" alt="US" class="lang-flag-img"/> English</button>
+            <button class="lang-dropdown-item" onclick="selectLang('es')"><img src="https://flagcdn.com/16x12/es.png" width="16" height="12" alt="ES" class="lang-flag-img"/> Español</button>
+            <button class="lang-dropdown-item" onclick="selectLang('pt')"><img src="https://flagcdn.com/16x12/br.png" width="16" height="12" alt="BR" class="lang-flag-img"/> Português</button>
+            <button class="lang-dropdown-item" onclick="selectLang('fr')"><img src="https://flagcdn.com/16x12/fr.png" width="16" height="12" alt="FR" class="lang-flag-img"/> Français</button>
           </div>
         </div>
         <a href="/generator" class="nav-cta" data-i18n="nav_cta">Generate PDF &rarr;</a>
@@ -73,19 +73,19 @@
       <h2 class="lang-picker-title">Choose your language</h2>
       <div class="lang-picker-grid">
         <button class="lang-picker-btn" onclick="pickLang('en')">
-          <span class="lang-flag">🇺🇸</span>
+          <img src="https://flagcdn.com/32x24/us.png" width="32" height="24" alt="US" class="lang-flag-img lang-flag-lg"/>
           <span class="lang-name">English</span>
         </button>
         <button class="lang-picker-btn" onclick="pickLang('es')">
-          <span class="lang-flag">🇪🇸</span>
+          <img src="https://flagcdn.com/32x24/es.png" width="32" height="24" alt="ES" class="lang-flag-img lang-flag-lg"/>
           <span class="lang-name">Español</span>
         </button>
         <button class="lang-picker-btn" onclick="pickLang('pt')">
-          <span class="lang-flag">🇧🇷</span>
+          <img src="https://flagcdn.com/32x24/br.png" width="32" height="24" alt="BR" class="lang-flag-img lang-flag-lg"/>
           <span class="lang-name">Português</span>
         </button>
         <button class="lang-picker-btn" onclick="pickLang('fr')">
-          <span class="lang-flag">🇫🇷</span>
+          <img src="https://flagcdn.com/32x24/fr.png" width="32" height="24" alt="FR" class="lang-flag-img lang-flag-lg"/>
           <span class="lang-name">Français</span>
         </button>
       </div>

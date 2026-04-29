@@ -559,6 +559,8 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
   border-color: var(--accent); background: #EEF2FF; transform: translateY(-2px);
 }
 .lang-flag { font-size: 28px; line-height: 1; }
+.lang-flag-img { display: inline-block; vertical-align: middle; border-radius: 2px; object-fit: cover; }
+.lang-flag-lg { width: 40px; height: 30px; }
 .lang-name { font-size: 14px; font-weight: 600; color: var(--text); }
 
 /* ── Share expired banner ── */
