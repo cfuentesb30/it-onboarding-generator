@@ -1,0 +1,65 @@
+sections:
+  - title: "1. Hardware Check"
+    items:
+      - Inspect machine condition — no visible damage
+      - Verify all peripherals are present (mouse, keyboard, monitor, power adapter)
+      - Confirm machine powers on and boots into Linux correctly
+      - Check available storage (minimum 20 GB free) — run `df -h`
+      - Verify RAM meets role requirements — run `free -h`
+
+  - title: "2. OS Setup"
+    items:
+      - Run system update — `sudo apt update && sudo apt upgrade -y` (or distro equivalent)
+      - Set computer hostname — `sudo hostnamectl set-hostname HOSTNAME`
+      - Create employee standard user account — `sudo adduser username`
+      - Add employee to sudo group only if required — `sudo usermod -aG sudo username`
+      - Configure timezone — `sudo timedatectl set-timezone Region/City`
+      - Configure locale and keyboard layout
+      - Enable UFW firewall — `sudo ufw enable && sudo ufw status`
+      - Enable full-disk encryption (LUKS) — verify on reinstall if not already set
+      - Disable unnecessary services and startup applications
+
+  - title: "3. Software Installation"
+    items:
+      - Install preferred web browser (Firefox / Chrome / Chromium)
+      - { text: "Install LibreOffice or configure Microsoft Office Online access", requires_software: [microsoft_office] }
+      - { text: "Set up Google Workspace apps (Gmail, Drive via browser or client)", requires_software: [google_workspace] }
+      - { text: "Install Slack — download .deb or use Snap (`snap install slack`)", requires_software: [slack] }
+      - { text: "Install Zoom — download .deb package from zoom.us", requires_software: [zoom] }
+      - { text: "Install Microsoft Teams for Linux", requires_software: [teams] }
+      - { text: "Install antivirus (ClamAV or enterprise endpoint solution) — run initial scan", requires_software: [antivirus] }
+      - { text: "Install VPN client (OpenVPN, WireGuard, or proprietary) and verify connection", requires_software: [vpn] }
+      - { text: "Install password manager (Bitwarden, 1Password CLI, or browser extension)", requires_software: [password_manager, 1password, lastpass] }
+
+  - title: "4. Network & Security"
+    items:
+      - Connect to company Wi-Fi or configure wired connection
+      - { text: "Connect to VPN and verify access to company resources", requires_software: [vpn] }
+      - Configure SSH key authentication if remote server access is required
+      - Set up 2FA on all company accounts (authenticator app preferred)
+      - Enable automatic screen lock after 5 minutes of inactivity
+      - Verify UFW firewall is active — `sudo ufw status verbose`
+      - Confirm employee cannot install packages without sudo
+
+  - title: "5. Accounts & Access"
+    items:
+      - Create company email account and verify login
+      - Grant access to shared drives and folders (role-appropriate only)
+      - Add to relevant distribution lists and groups
+      - Set up access to company project management tools
+      - { text: "Add to Slack workspace and relevant channels", requires_software: [slack] }
+      - { text: "Add to Microsoft Teams workspace", requires_software: [teams] }
+      - { text: "Set up Google Workspace account and Drive sharing", requires_software: [google_workspace] }
+      - { text: "Configure password manager vault and share company credentials", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Set up shared calendars and conference rooms", requires_size: [medium, large] }
+
+  - title: "6. Final Verification"
+    items:
+      - Employee can log in with their credentials
+      - Email send and receive confirmed
+      - All required applications open without errors
+      - VPN connection tested (if applicable)
+      - UFW firewall confirmed active — `sudo ufw status`
+      - Backup solution configured and running
+      - Employee walkthrough complete — questions answered
+      - Sign-off sheet signed by IT and new employee

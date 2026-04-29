@@ -49,8 +49,12 @@ def _normalize_size(size: str) -> str:
 OS_OPTIONS = [
     ("windows", "Windows"),
     ("macos",   "macOS"),
+    ("linux",   "Linux"),
     ("remote",  "Remote Employee"),
+    ("custom",  "Custom OS"),
 ]
+
+VALID_OS = {"windows", "macos", "linux", "remote", "custom"}
 
 ROLE_OPTIONS = [
     ("general",    "General"),
@@ -131,7 +135,7 @@ def items():
     company_size = _normalize_size(request.args.get("company_size", "small"))
     software     = request.args.getlist("software")
 
-    if os_type not in ("windows", "macos", "remote"):
+    if os_type not in VALID_OS:
         return jsonify([]), 400
 
     sections = load_checklist(os_type, software, company_size, role)
@@ -149,7 +153,7 @@ def preview():
     submitted    = request.form.getlist("checklist_item")
     logo_data    = _logo_data_url(request.files.get("logo"))
 
-    if os_type not in ("windows", "macos", "remote"):
+    if os_type not in VALID_OS:
         abort(400, "Invalid OS type.")
     if role not in VALID_ROLES:
         role = "general"
@@ -159,7 +163,9 @@ def preview():
     else:
         sections = load_checklist(os_type, software, company_size, role)
 
-    os_labels = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
+    os_name   = request.form.get("os_name", "").strip()
+    os_labels = {"windows": "Windows", "macos": "macOS", "linux": "Linux",
+                 "remote": "Remote Employee", "custom": os_name or "Custom OS"}
 
     return render_template(
         "pdf_checklist.html",
@@ -190,7 +196,7 @@ def generate():
     logo_data    = _logo_data_url(request.files.get("logo"))
     user_email   = request.form.get("user_email", "").strip()
 
-    if os_type not in ("windows", "macos", "remote"):
+    if os_type not in VALID_OS:
         abort(400, "Invalid OS type.")
     if role not in VALID_ROLES:
         role = "general"

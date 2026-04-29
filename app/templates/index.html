@@ -143,6 +143,27 @@
           <span class="card-check">✓</span>
         </div>
       </label>
+      <label class="os-card">
+        <input type="radio" name="os_type" value="linux" onchange="handleOsChange(this)"/>
+        <div class="os-card-inner">
+          <span class="os-icon">🐧</span>
+          <span class="os-label">Linux</span>
+          <span class="os-desc">Ubuntu, Debian, Fedora…</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+      <label class="os-card">
+        <input type="radio" name="os_type" value="custom" onchange="handleOsChange(this)"/>
+        <div class="os-card-inner">
+          <span class="os-icon">✏️</span>
+          <span class="os-label">Custom</span>
+          <span class="os-desc">Other / specify below</span>
+          <span class="card-check">✓</span>
+        </div>
+      </label>
+    </div>
+    <div id="os-custom-wrap" style="display:none; margin-top:12px;">
+      <input type="text" id="os_name" name="os_name" placeholder="e.g. ChromeOS, FreeBSD, ESXi…" maxlength="60" style="width:100%; max-width:360px;"/>
     </div>
   </div>
 
@@ -869,6 +890,18 @@ function updateStepDots() {
     if (dots[i]) dots[i].classList.toggle('filled', filled);
   });
 }
+
+// ── OS custom name handler ───────────────────────────────
+function handleOsChange(radio) {
+  document.getElementById('os-custom-wrap').style.display =
+    radio.value === 'custom' ? '' : 'none';
+}
+
+document.querySelectorAll('input[name="os_type"]').forEach(el => {
+  el.addEventListener('change', function() {
+    if (this.value !== 'custom') document.getElementById('os-custom-wrap').style.display = 'none';
+  });
+});
 
 // ── Company size handlers ────────────────────────────────
 function handleSizeChange(sel) {
