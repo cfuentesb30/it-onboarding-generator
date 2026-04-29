@@ -348,6 +348,76 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
 .btn-generate:disabled,
 .btn-generate.btn-loading { opacity: .55; cursor: not-allowed; transform: none; }
 
+/* ── Share button ── */
+.btn-share {
+  width: 100%; max-width: 400px;
+  padding: 11px 32px; background: transparent; color: var(--muted);
+  border: 1.5px dashed var(--border); border-radius: 12px; font-family: inherit;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: color .18s, border-color .18s;
+}
+.btn-share:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ── Share expired banner ── */
+.share-expired-banner {
+  background: #FEF3C7; border: 1.5px solid #FCD34D;
+  border-radius: 10px; padding: 12px 18px; margin-bottom: 20px;
+  font-size: 13px; font-weight: 500; color: #92400E;
+}
+
+/* ── Share modal ── */
+.share-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.5); z-index: 100;
+  align-items: center; justify-content: center; padding: 20px;
+}
+.share-modal-overlay.open { display: flex; }
+.share-modal {
+  background: var(--surface); border-radius: 16px;
+  padding: 28px; width: 100%; max-width: 480px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.2);
+}
+.share-modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; margin-bottom: 20px;
+}
+.share-modal-header h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.share-modal-sub { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.share-modal-close {
+  background: none; border: none; font-size: 22px; cursor: pointer;
+  color: var(--muted); line-height: 1; padding: 0; flex-shrink: 0;
+  transition: color .15s;
+}
+.share-modal-close:hover { color: var(--text); }
+.share-modal-label { font-size: 12px; font-weight: 600; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+.share-expiry-options { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.share-expiry-options label {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  padding: 7px 14px; border: 1.5px solid var(--border);
+  border-radius: 8px; transition: border-color .15s, background .15s, color .15s;
+  user-select: none;
+}
+.share-expiry-options label:has(input:checked) {
+  border-color: var(--accent); background: #EEF2FF; color: var(--accent);
+}
+.share-expiry-options input[type="radio"] { display: none; }
+.share-url-row { display: flex; gap: 8px; }
+.share-url-input {
+  flex: 1; font-size: 12px; padding: 10px 12px; min-width: 0;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  background: var(--bg); color: var(--text); font-family: monospace;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.btn-copy {
+  padding: 10px 16px; background: var(--accent); color: #fff;
+  border: none; border-radius: 8px; font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap; transition: background .15s;
+}
+.btn-copy:hover { opacity: .88; }
+.btn-copy.copied { background: var(--green); }
+
 /* ══════════════════════════════════════════
    LANDING PAGE — full design system
    ══════════════════════════════════════════ */
@@ -730,7 +800,8 @@ input[type="text"]:focus, select:focus { border-color: var(--accent); }
   .gen-hero-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
   .gen-steps-indicator { display: none; }
   .gen-submit-area { width: 100%; }
-  .btn-generate, .btn-preview { max-width: 100%; font-size: 14px; padding: 14px 16px; }
+  .btn-generate, .btn-preview, .btn-share { max-width: 100%; }
+  .btn-generate, .btn-preview { font-size: 14px; padding: 14px 16px; }
 
   /* Landing */
   .lp-hero-text h1 { font-size: 30px; letter-spacing: -0.8px; }

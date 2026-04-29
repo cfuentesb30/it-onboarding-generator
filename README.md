@@ -174,8 +174,9 @@ To deploy your own: fork the repo, connect it to Render, and it auto-deploys on 
 - [x] Live checklist preview before PDF download
 - [x] EN/ES language toggle
 - [x] Mobile-responsive layout
+- [x] Shareable checklist URLs with configurable expiry (1h / 24h / 48h / 1wk / no expiry)
+- [x] Portuguese (PT) language support
 - [ ] Email delivery option
 - [ ] More roles (Finance, Marketing, Operations)
-- [ ] Saved templates / shareable checklist URLs
 - [ ] Company logo upload on the PDF
-- [ ] More languages (Portuguese, French)
+- [ ] French language support

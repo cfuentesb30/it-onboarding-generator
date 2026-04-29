@@ -2,6 +2,16 @@
 {% block title %}IT Onboarding Checklist Generator{% endblock %}
 {% block content %}
 
+{% if share_error == 'expired' %}
+<div class="share-expired-banner">
+  <span data-i18n="share_expired_msg">This shared link has expired. Generate a new one from the form.</span>
+</div>
+{% endif %}
+
+{% if share_state %}
+<script>window.__shareState = {{ share_state | tojson | safe }};</script>
+{% endif %}
+
 <!-- Generator hero -->
 <div class="gen-hero">
   <a href="/" class="gen-back">&larr; Back to home</a>
@@ -264,10 +274,38 @@
     <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">
       &#11015; Generate PDF Checklist
     </button>
+    <button type="button" class="btn-share" id="btn-share" onclick="openShareModal()" data-i18n="share_btn">
+      ↗ Share checklist
+    </button>
     <p class="gen-submit-note">Your PDF will download instantly. No data is stored.</p>
   </div>
 
 </form>
+
+<!-- Share modal -->
+<div class="share-modal-overlay" id="share-modal-overlay" onclick="closeShareModal(event)">
+  <div class="share-modal">
+    <div class="share-modal-header">
+      <div>
+        <h3 data-i18n="share_title">Share this checklist</h3>
+        <p class="share-modal-sub" data-i18n="share_sub">Anyone with this link can view and use this checklist.</p>
+      </div>
+      <button class="share-modal-close" onclick="closeShareModal()" aria-label="Close">&times;</button>
+    </div>
+    <p class="share-modal-label" data-i18n="share_expiry_label">Link expires in:</p>
+    <div class="share-expiry-options">
+      <label><input type="radio" name="share_exp" value="3600"><span data-i18n="share_1h">1 hour</span></label>
+      <label><input type="radio" name="share_exp" value="86400" checked><span data-i18n="share_24h">24 hours</span></label>
+      <label><input type="radio" name="share_exp" value="172800"><span data-i18n="share_48h">48 hours</span></label>
+      <label><input type="radio" name="share_exp" value="604800"><span data-i18n="share_1w">1 week</span></label>
+      <label><input type="radio" name="share_exp" value="0"><span data-i18n="share_never">No expiry</span></label>
+    </div>
+    <div class="share-url-row">
+      <input type="text" class="share-url-input" id="share-url-input" readonly/>
+      <button class="btn-copy" id="btn-copy" onclick="copyShareUrl()" data-i18n="share_copy">Copy</button>
+    </div>
+  </div>
+</div>
 
 <script>
 // ── State ──────────────────────────────────────────────
@@ -470,8 +508,105 @@ document.querySelectorAll('input, select').forEach(el => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  loadChecklist();
+  if (window.__shareState) {
+    applyShareState(window.__shareState);
+  } else {
+    loadChecklist();
+  }
   updateStepDots();
+});
+
+// ── Share state pre-fill ─────────────────────────────────
+async function applyShareState(s) {
+  if (s.company)  document.getElementById('company_name').value = s.company;
+  if (s.employee) document.getElementById('employee').value     = s.employee;
+  if (s.preparer) document.getElementById('preparer').value     = s.preparer;
+  if (s.size)     document.getElementById('company_size').value = s.size;
+
+  const osEl = document.querySelector(`input[name="os_type"][value="${s.os}"]`);
+  if (osEl) osEl.checked = true;
+
+  const roleEl = document.querySelector(`input[name="role"][value="${s.role}"]`);
+  if (roleEl) roleEl.checked = true;
+
+  document.querySelectorAll('input[name="software"]').forEach(cb => {
+    cb.checked = (s.software || []).includes(cb.value);
+  });
+
+  await loadChecklist();
+
+  if (s.removed && s.removed.length) {
+    checklistSections.forEach(section => {
+      section.steps.forEach(step => {
+        if (s.removed.includes(step.text)) step.removed = true;
+      });
+    });
+  }
+  if (s.custom && s.custom.length) {
+    customItems = s.custom.map(i => ({ section: i.section, text: i.text }));
+  }
+
+  renderChecklist();
+  updateStepDots();
+}
+
+// ── Share modal ──────────────────────────────────────────
+function openShareModal() {
+  updateShareUrl();
+  document.getElementById('share-modal-overlay').classList.add('open');
+}
+
+function closeShareModal(e) {
+  if (!e || e.target === document.getElementById('share-modal-overlay')) {
+    document.getElementById('share-modal-overlay').classList.remove('open');
+  }
+}
+
+function updateShareUrl() {
+  const expVal = document.querySelector('input[name="share_exp"]:checked')?.value || '86400';
+  document.getElementById('share-url-input').value = buildShareUrl(parseInt(expVal, 10));
+}
+
+function buildShareUrl(expirySeconds) {
+  const os       = document.querySelector('input[name="os_type"]:checked')?.value || 'windows';
+  const role     = document.querySelector('input[name="role"]:checked')?.value    || 'general';
+  const size     = document.getElementById('company_size').value;
+  const company  = document.getElementById('company_name').value.trim();
+  const employee = document.getElementById('employee').value.trim();
+  const preparer = document.getElementById('preparer').value.trim();
+  const software = [...document.querySelectorAll('input[name="software"]:checked')].map(i => i.value);
+
+  const removed = [];
+  checklistSections.forEach(section => {
+    section.steps.filter(s => s.removed).forEach(s => removed.push(s.text));
+  });
+
+  const state = {
+    v: 1,
+    exp: expirySeconds > 0 ? Math.floor(Date.now() / 1000) + expirySeconds : 0,
+    os, role, size, company, employee, preparer, software, removed,
+    custom: customItems.map(i => ({ section: i.section, text: i.text }))
+  };
+
+  const token = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
+  return `${location.origin}/generator?s=${token}`;
+}
+
+function copyShareUrl() {
+  const input = document.getElementById('share-url-input');
+  const btn   = document.getElementById('btn-copy');
+  const lang  = window.currentLang || 'en';
+  const copiedLabels = { en: 'Copied!', es: '¡Copiado!', pt: 'Copiado!' };
+  navigator.clipboard.writeText(input.value).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = copiedLabels[lang] || 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+document.querySelectorAll('input[name="share_exp"]').forEach(r => {
+  r.addEventListener('change', updateShareUrl);
 });
 </script>
 {% endblock %}

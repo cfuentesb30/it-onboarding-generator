@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, send_file, abort, jsonify
 from .pdf_generator import build_pdf, load_checklist, sections_from_submitted
 from datetime import date
-import io
+import io, base64, json, time
 
 main = Blueprint("main", __name__)
 
@@ -38,18 +38,37 @@ ROLE_OPTIONS = [
     ("hr",        "HR"),
 ]
 
+def _decode_share(token):
+    try:
+        padded = token + '=' * (-len(token) % 4)
+        data = json.loads(base64.urlsafe_b64decode(padded).decode('utf-8'))
+        exp = data.get('exp', 0)
+        if exp and time.time() > exp:
+            return None, 'expired'
+        return data, None
+    except Exception:
+        return None, 'invalid'
+
 @main.route("/", methods=["GET"])
 def home():
     return render_template("home.html")
 
 @main.route("/generator", methods=["GET"])
 def index():
+    share_state = None
+    share_error = None
+    token = request.args.get('s')
+    if token:
+        share_state, share_error = _decode_share(token)
+
     return render_template(
         "index.html",
         os_options=OS_OPTIONS,
         role_options=ROLE_OPTIONS,
         software_options=SOFTWARE_OPTIONS,
         company_sizes=COMPANY_SIZES,
+        share_state=share_state,
+        share_error=share_error,
     )
 
 @main.route("/items", methods=["GET"])
