@@ -100,6 +100,7 @@ const TRANSLATIONS = {
     support_suggest:   "&#128172; Send a suggestion &rarr;",
 
     // Nav
+    nav_brand: "⬛ IT Onboarding Generator",
     nav_about: "About",
     nav_cta:   "Generate PDF &rarr;",
 
@@ -229,6 +230,7 @@ const TRANSLATIONS = {
     support_suggest:   "&#128172; Enviar una sugerencia &rarr;",
 
     // Nav
+    nav_brand: "⬛ Generador de Incorporación IT",
     nav_about: "Acerca de",
     nav_cta:   "Generar PDF &rarr;",
 
@@ -358,6 +360,7 @@ const TRANSLATIONS = {
     support_suggest:   "&#128172; Enviar uma sugestão &rarr;",
 
     // Nav
+    nav_brand: "⬛ Gerador de Integração de TI",
     nav_about: "Sobre",
     nav_cta:   "Gerar PDF &rarr;",
 
@@ -487,6 +490,7 @@ const TRANSLATIONS = {
     support_suggest:   "&#128172; Envoyer une suggestion &rarr;",
 
     // Nav
+    nav_brand: "⬛ Générateur d'Intégration IT",
     nav_about: "À propos",
     nav_cta:   "Générer PDF &rarr;",
 
