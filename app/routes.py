@@ -241,16 +241,21 @@ def generate():
     filename = f"IT-Onboarding-{os_type.capitalize()}{role_suffix}-Checklist.pdf"
 
     if os.getenv("RESEND_API_KEY"):
+        from .email import send_pdf_to_user, notify_owner
         def _send_emails():
-            try:
-                from .email import send_pdf_to_user, notify_owner
-                if user_email:
+            if user_email:
+                try:
                     send_pdf_to_user(user_email, pdf_bytes, filename, company_name, employee)
+                except Exception as e:
+                    import traceback
+                    traceback.print_exc()
+                    print(f"[email] user send failed: {e}", flush=True)
+            try:
                 notify_owner(os_type, role, company_name, employee, user_email or None)
             except Exception as e:
                 import traceback
                 traceback.print_exc()
-                print(f"[email] send failed: {e}", flush=True)
+                print(f"[email] owner notify failed: {e}", flush=True)
         threading.Thread(target=_send_emails, daemon=True).start()
 
     return send_file(
