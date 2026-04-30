@@ -94,7 +94,7 @@
     </div>
     <div class="form-row">
       <div class="form-group logo-upload-group">
-        <label for="logo" data-i18n="gen_label_logo">Company Logo <span class="optional-tag" data-i18n="gen_optional">optional</span></label>
+        <label for="logo"><span data-i18n="gen_label_logo">Company Logo</span> <span class="optional-tag" data-i18n="gen_optional">optional</span></label>
         <div class="logo-upload-area" id="logo-upload-area" onclick="document.getElementById('logo').click()">
           <input type="file" id="logo" name="logo" accept="image/*" onchange="handleLogoChange(event)" style="display:none"/>
           <div class="logo-upload-placeholder" id="logo-placeholder">
@@ -453,6 +453,44 @@ let openPools         = new Set();
 let removedDefaults   = {}; // si → [text, ...]
 let customSoftware    = []; // [{name}] — persists across checklist reloads
 
+// ── Section title i18n map ──────────────────────────────
+const SECTION_KEY_MAP = {
+  "1. Hardware Check":            "sec_hardware_check",
+  "1. Equipment Confirmation":    "sec_equipment_confirm",
+  "2. OS Setup":                  "sec_os_setup",
+  "3. Software Installation":     "sec_software_install",
+  "4. Network & Security":        "sec_network_security",
+  "4. Remote Access & Security":  "sec_remote_access_security",
+  "5. Accounts & Access":         "sec_accounts_access",
+  "6. Final Verification":        "sec_final_verify",
+  "Developer Environment":        "sec_dev_environment",
+  "Source Control & CI/CD":       "sec_source_control",
+  "Cloud & Infrastructure Access":"sec_cloud_infra",
+  "Design Tools Setup":           "sec_design_tools",
+  "Brand & Asset Access":         "sec_brand_asset",
+  "Design Workflow":              "sec_design_workflow",
+  "CRM & Sales Tools":            "sec_crm_sales",
+  "Sales Resources":              "sec_sales_resources",
+  "Territory & Pipeline Setup":   "sec_territory_pipeline",
+  "HR Systems Access":            "sec_hr_systems",
+  "Compliance & Documentation":   "sec_compliance_docs",
+  "People Ops Setup":             "sec_people_ops",
+  "Financial Systems Access":     "sec_financial_systems",
+  "Reporting & Analytics":        "sec_reporting_analytics",
+  "Compliance & Controls":        "sec_compliance_controls",
+  "Marketing Tools Setup":        "sec_marketing_tools",
+  "Brand & Content Access":       "sec_brand_content",
+  "Analytics & Reporting":        "sec_analytics_reporting",
+  "Operations Tools Access":      "sec_ops_tools",
+  "Vendor & Procurement":         "sec_vendor_procurement",
+  "Process & Documentation":      "sec_process_docs",
+};
+
+function tSection(title) {
+  const key = SECTION_KEY_MAP[title];
+  return key && typeof t === 'function' ? (t(key) || title) : title;
+}
+
 // ── Suggestion pools per section type ──────────────────
 const SUGGESTION_POOL = {
   hardware: [
@@ -704,7 +742,7 @@ function renderChecklist() {
     if (!visible.length) return;
     total += visible.length;
     html += `<div class="cl-section">
-      <div class="cl-section-title">${escHtml(section.title)}<span class="cl-section-count">${visible.length}</span></div>`;
+      <div class="cl-section-title">${escHtml(tSection(section.title))}<span class="cl-section-count">${visible.length}</span></div>`;
     section.steps.forEach((step, ii) => {
       if (step.removed) return;
       html += `<div class="cl-item" data-si="${si}" data-ii="${ii}">
