@@ -3,6 +3,17 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Apply the saved/system theme before first paint to avoid a flash of the wrong theme -->
+  <script>
+    (function() {
+      var stored = localStorage.getItem('theme');
+      var theme = stored === 'dark' || stored === 'light'
+        ? stored
+        : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
   <title>{% block title %}IT Onboarding Generator{% endblock %}</title>
 
   <!-- SEO -->
@@ -35,6 +46,15 @@
       <a href="/" class="logo" data-i18n="nav_brand">⬛ IT Onboarding Generator</a>
       <nav class="header-nav">
         <a href="/about" class="nav-about" data-i18n="nav_about">About</a>
+        <button type="button" id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" aria-label="Switch to light mode" aria-pressed="false">
+          <span class="theme-toggle-icon theme-toggle-icon-sun" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          </span>
+          <span class="theme-toggle-icon theme-toggle-icon-moon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </span>
+          <span class="theme-toggle-thumb"></span>
+        </button>
         <div class="lang-switcher" id="lang-switcher">
           <button id="lang-toggle" class="btn-lang" onclick="toggleLangDropdown()" aria-label="Switch language"><img src="https://flagcdn.com/16x12/us.png" width="16" height="12" alt="US flag" class="lang-flag-img"/> EN</button>
           <div class="lang-dropdown" id="lang-dropdown">

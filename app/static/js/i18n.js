@@ -1037,3 +1037,26 @@ document.addEventListener("click", function (e) {
 document.addEventListener("DOMContentLoaded", function () {
   applyLang(window.currentLang);
 });
+
+// ── Dark / light mode toggle ─────────────────────────────
+// data-theme is already set pre-paint by the inline script in base.html;
+// this just keeps the button state and localStorage in sync.
+function applyThemeButtonState(theme) {
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+  const isDark = theme === "dark";
+  btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+  btn.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  const next = current === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", next);
+  localStorage.setItem("theme", next);
+  applyThemeButtonState(next);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  applyThemeButtonState(document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
+});
