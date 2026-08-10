@@ -6,6 +6,10 @@
 <div class="share-expired-banner">
   <span data-i18n="share_expired_msg">This shared link has expired. Generate a new one from the form.</span>
 </div>
+{% elif share_error == 'invalid' %}
+<div class="share-expired-banner">
+  <span data-i18n="share_invalid_msg">This shared link looks broken or incomplete. Try copying it again, or start a new checklist below.</span>
+</div>
 {% endif %}
 
 {% if share_state %}
@@ -61,7 +65,7 @@
     <!-- Row 2: Company Size + Preparer -->
     <div class="form-row">
       <div class="form-group">
-        <label for="company_size" data-i18n="gen_label_company_size">Company Size</label>
+        <label for="company_size_select" data-i18n="gen_label_company_size">Company Size</label>
         <select id="company_size_select" onchange="handleSizeChange(this)">
           <option value="micro" data-i18n="size_micro">Micro · 1–5 employees</option>
           <option value="small" data-i18n="size_small">Small · 6–15 employees</option>
@@ -96,9 +100,9 @@
       <div class="form-group logo-upload-group">
         <label for="logo"><span data-i18n="gen_label_logo">Company Logo</span> <span class="optional-tag" data-i18n="gen_optional">optional</span></label>
         <div class="logo-upload-area" id="logo-upload-area" onclick="document.getElementById('logo').click()">
-          <input type="file" id="logo" name="logo" accept="image/*" onchange="handleLogoChange(event)" style="display:none"/>
+          <input type="file" id="logo" name="logo" accept="image/png,image/jpeg,image/gif,image/webp" onchange="handleLogoChange(event)" style="display:none"/>
           <div class="logo-upload-placeholder" id="logo-placeholder">
-            <span data-i18n="gen_logo_hint">&#128247; Upload PNG, JPG or SVG</span>
+            <span data-i18n="gen_logo_hint">&#128247; Upload PNG, JPG, GIF or WEBP</span>
           </div>
           <div class="logo-preview-wrap" id="logo-preview-wrap" style="display:none">
             <img id="logo-preview-img" src="" alt="Logo preview"/>
@@ -372,7 +376,7 @@
     </div>
     <div class="checklist-toolbar">
       <span class="cl-count" id="cl-count">—</span>
-      <button type="button" class="btn-refresh" id="btn-refresh" data-i18n="cl_refresh" onclick="loadChecklist()">↻ Refresh</button>
+      <button type="button" class="btn-refresh" id="btn-refresh" data-i18n="cl_refresh" onclick="loadChecklist(true)">↻ Refresh</button>
     </div>
     <div id="checklist-body">
       <div class="checklist-loading" data-i18n="cl_loading">Loading…</div>
@@ -397,7 +401,7 @@
     <button type="button" class="btn-share" id="btn-share" onclick="openShareModal()" data-i18n="share_btn">
       ↗ Share checklist
     </button>
-    <p class="gen-submit-note" data-i18n="gen_submit_note">Your PDF will download instantly. No data is stored.</p>
+    <p class="gen-submit-note" data-i18n="gen_submit_note">Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool. <a href="/about#privacy" data-i18n="gen_submit_note_link">Details</a>.</p>
   </div>
 
 </form>
@@ -438,6 +442,7 @@
       <label><input type="radio" name="share_exp" value="604800"><span data-i18n="share_1w">1 week</span></label>
       <label><input type="radio" name="share_exp" value="0"><span data-i18n="share_never">No expiry</span></label>
     </div>
+    <p class="share-modal-note" data-i18n="share_privacy_note">This link isn't encrypted — anyone who has it can view what's in it, so only share it the same way you'd share the data itself.</p>
     <div class="share-url-row">
       <input type="text" class="share-url-input" id="share-url-input" readonly/>
       <button class="btn-copy" id="btn-copy" onclick="copyShareUrl()" data-i18n="share_copy">Copy</button>
@@ -701,7 +706,7 @@ function getPool(title) {
 }
 
 // ── Load checklist from /items ──────────────────────────
-async function loadChecklist() {
+async function loadChecklist(resetCustom = false) {
   const os      = document.querySelector('input[name="os_type"]:checked')?.value || 'windows';
   const role    = document.querySelector('input[name="role"]:checked')?.value    || 'general';
   const size    = document.getElementById('company_size').value || 'medium';
@@ -721,9 +726,11 @@ async function loadChecklist() {
       title: s.title,
       steps: s.steps.map(text => ({ text, removed: false }))
     }));
-    customItems     = [];
-    openPools       = new Set();
-    removedDefaults = {};
+    if (resetCustom === true) {
+      customItems     = [];
+      removedDefaults = {};
+    }
+    openPools = new Set();
     renderChecklist();
   } catch {
     document.getElementById('checklist-body').innerHTML =
@@ -906,10 +913,15 @@ function populateHiddenInputs() {
 document.getElementById('gen-form').addEventListener('submit', function(e) {
   e.preventDefault();
   populateHiddenInputs();
-  document.getElementById('pre-download-overlay').classList.add('open');
+  if (localStorage.getItem('donationPromptSeen')) {
+    proceedToDownload();
+  } else {
+    document.getElementById('pre-download-overlay').classList.add('open');
+  }
 });
 
 function proceedToDownload(openKofi) {
+  localStorage.setItem('donationPromptSeen', '1');
   document.getElementById('pre-download-overlay').classList.remove('open');
   if (openKofi) window.open('https://ko-fi.com/cfuentesb30', '_blank', 'noopener');
   const btn  = document.getElementById('btn-generate');
@@ -1086,10 +1098,10 @@ function syncCustomSize() {
 
 // ── Listeners ───────────────────────────────────────────
 document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(el => {
-  el.addEventListener('change', loadChecklist);
+  el.addEventListener('change', () => loadChecklist());
 });
 document.querySelectorAll('input[name="software"]').forEach(el => {
-  el.addEventListener('change', loadChecklist);
+  el.addEventListener('change', () => loadChecklist());
 });
 document.getElementById('company_size_select').addEventListener('change', updateStepDots);
 
@@ -1128,48 +1140,65 @@ function removeLogo() {
 }
 
 // ── Share state pre-fill ─────────────────────────────────
+const KNOWN_OS_TYPES = ['windows', 'macos', 'linux', 'remote', 'custom'];
+const KNOWN_ROLES    = ['general', 'developer', 'designer', 'sales', 'hr', 'finance', 'marketing', 'operations', 'custom'];
+
 async function applyShareState(s) {
-  if (s.company)  document.getElementById('company_name').value = s.company;
-  if (s.employee) document.getElementById('employee').value     = s.employee;
-  if (s.preparer) document.getElementById('preparer').value     = s.preparer;
-  if (s.size) {
-    const sel = document.getElementById('company_size_select');
-    const known = ['micro','small','medium','large','enterprise'];
-    if (known.includes(s.size)) {
-      sel.value = s.size;
-    } else {
-      sel.value = 'custom';
-      document.getElementById('company_size_custom').value = s.size;
-      document.getElementById('company_size_custom_wrap').style.display = '';
+  try {
+    if (!s || typeof s !== 'object') throw new Error('Empty share state');
+
+    if (typeof s.company === 'string')  document.getElementById('company_name').value = s.company;
+    if (typeof s.employee === 'string') document.getElementById('employee').value     = s.employee;
+    if (typeof s.preparer === 'string') document.getElementById('preparer').value     = s.preparer;
+    if (s.size) {
+      const sel = document.getElementById('company_size_select');
+      const known = ['micro','small','medium','large','enterprise'];
+      if (known.includes(s.size)) {
+        sel.value = s.size;
+      } else {
+        sel.value = 'custom';
+        document.getElementById('company_size_custom').value = s.size;
+        document.getElementById('company_size_custom_wrap').style.display = '';
+      }
+      document.getElementById('company_size').value = s.size;
     }
-    document.getElementById('company_size').value = s.size;
-  }
 
-  const osEl = document.querySelector(`input[name="os_type"][value="${s.os}"]`);
-  if (osEl) osEl.checked = true;
+    if (KNOWN_OS_TYPES.includes(s.os)) {
+      const osEl = document.querySelector(`input[name="os_type"][value="${s.os}"]`);
+      if (osEl) osEl.checked = true;
+    }
 
-  const roleEl = document.querySelector(`input[name="role"][value="${s.role}"]`);
-  if (roleEl) roleEl.checked = true;
+    if (KNOWN_ROLES.includes(s.role)) {
+      const roleEl = document.querySelector(`input[name="role"][value="${s.role}"]`);
+      if (roleEl) roleEl.checked = true;
+    }
 
-  document.querySelectorAll('input[name="software"]').forEach(cb => {
-    cb.checked = (s.software || []).includes(cb.value);
-  });
-
-  await loadChecklist();
-
-  if (s.removed && s.removed.length) {
-    checklistSections.forEach(section => {
-      section.steps.forEach(step => {
-        if (s.removed.includes(step.text)) step.removed = true;
-      });
+    document.querySelectorAll('input[name="software"]').forEach(cb => {
+      cb.checked = Array.isArray(s.software) && s.software.includes(cb.value);
     });
-  }
-  if (s.custom && s.custom.length) {
-    customItems = s.custom.map(i => ({ section: i.section, text: i.text }));
-  }
 
-  renderChecklist();
-  updateStepDots();
+    await loadChecklist();
+
+    if (Array.isArray(s.removed) && s.removed.length) {
+      checklistSections.forEach(section => {
+        section.steps.forEach(step => {
+          if (s.removed.includes(step.text)) step.removed = true;
+        });
+      });
+    }
+    if (Array.isArray(s.custom) && s.custom.length) {
+      customItems = s.custom
+        .filter(i => i && typeof i.text === 'string')
+        .map(i => ({ section: i.section || 'Custom', text: i.text }));
+    }
+
+    renderChecklist();
+    updateStepDots();
+  } catch (err) {
+    console.error('Failed to apply shared checklist state:', err);
+    await loadChecklist();
+    updateStepDots();
+  }
 }
 
 // ── Share modal ──────────────────────────────────────────

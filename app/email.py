@@ -169,7 +169,7 @@ def send_suggestion(name: str, sender_email: str, message: str):
         <p style="margin:0;font-size:14px;color:#333333;line-height:1.7;white-space:pre-wrap;">{escape(message)}</p>
       </div>
 
-      {_BTN.format(url=f'mailto:{sender_email}', label='Reply to {name} &rarr;'.format(name=escape(name)))}
+      {_BTN.format(url=f'mailto:{escape(sender_email)}', label='Reply to {name} &rarr;'.format(name=escape(name)))}
     """
     resend.Emails.send({
         "from": _FROM,

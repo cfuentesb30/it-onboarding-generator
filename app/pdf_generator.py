@@ -2,11 +2,33 @@ import yaml
 import json
 from datetime import date
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from flask import current_app
 from weasyprint import HTML
 
 CHECKLIST_DIR = Path(__file__).parent.parent / "checklists"
-TEMPLATE_DIR  = Path(__file__).parent / "templates"
+
+OS_LABELS = {
+    "windows": "Windows",
+    "macos":   "macOS",
+    "linux":   "Linux",
+    "remote":  "Remote Employee",
+}
+
+
+def resolve_os_label(os_type: str, os_name: str = "") -> str:
+    """Single source of truth for the OS badge shown in preview and the PDF."""
+    if os_type == "custom":
+        return os_name.strip() or "Custom OS"
+    return OS_LABELS.get(os_type, os_type)
+
+
+def resolve_role_label(role: str, role_name: str = "") -> str:
+    """Single source of truth for the role badge shown in preview and the PDF."""
+    if role == "custom":
+        return role_name.strip() or "Custom"
+    if role == "general":
+        return ""
+    return role.capitalize()
 
 def _load_os_sections(os_type: str, software: list, company_size: str) -> list:
     path = CHECKLIST_DIR / f"{os_type}.yaml"
@@ -86,24 +108,28 @@ def build_pdf(
     role: str = "general",
     submitted_items: list = None,
     logo_data: str = None,
+    os_name: str = "",
+    display_role: str = None,
+    role_name: str = "",
 ) -> bytes:
+    """
+    `role` is the (already-normalized) role used to load checklist content.
+    `display_role`/`role_name`/`os_name` are only used for the label shown on
+    the PDF and may differ from `role` (e.g. "custom" isn't a real content role).
+    """
     if submitted_items:
         sections = sections_from_submitted(submitted_items)
     else:
         sections = load_checklist(os_type, software, company_size, role)
 
-    env = Environment(
-        loader=FileSystemLoader(str(TEMPLATE_DIR)),
-        autoescape=select_autoescape(["html"]),
-    )
-    template = env.get_template("pdf_checklist.html")
+    template = current_app.jinja_env.get_template("pdf_checklist.html")
 
-    os_labels = {"windows": "Windows", "macos": "macOS", "remote": "Remote Employee"}
+    label_role = display_role if display_role is not None else role
 
     html_str = template.render(
         company_name=company_name,
-        os_label=os_labels.get(os_type, os_type),
-        role_label=role.capitalize() if role != "general" else "",
+        os_label=resolve_os_label(os_type, os_name),
+        role_label=resolve_role_label(label_role, role_name),
         company_size=company_size,
         software=software,
         preparer=preparer,

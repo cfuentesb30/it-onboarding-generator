@@ -127,7 +127,7 @@ const TRANSLATIONS = {
     // Logo upload
     gen_label_logo:  "Company Logo",
     gen_optional:    "optional",
-    gen_logo_hint:   "&#128247; Upload PNG, JPG or SVG",
+    gen_logo_hint:   "&#128247; Upload PNG, JPG, GIF or WEBP",
 
     // Share
     share_btn:          "↗ Share checklist",
@@ -142,6 +142,8 @@ const TRANSLATIONS = {
     share_copy:         "Copy",
     share_copied:       "Copied!",
     share_expired_msg:  "This shared link has expired. Generate a new one from the form.",
+    share_invalid_msg:  "This shared link looks broken or incomplete. Try copying it again, or start a new checklist below.",
+    share_privacy_note: "This link isn't encrypted — anyone who has it can view what's in it, so only share it the same way you'd share the data itself.",
 
     // Generator — additional UI
     gen_back:            "&larr; Back to home",
@@ -202,7 +204,8 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Preview Checklist",
-    gen_submit_note:     "Your PDF will download instantly. No data is stored.",
+    gen_submit_note:     "Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool.",
+    gen_submit_note_link: "Details",
 
     // Checklist section titles (from YAML)
     sec_hardware_check:          "1. Hardware Check",
@@ -364,7 +367,7 @@ const TRANSLATIONS = {
     // Logo upload
     gen_label_logo:  "Logo de la Empresa",
     gen_optional:    "opcional",
-    gen_logo_hint:   "&#128247; Subir PNG, JPG o SVG",
+    gen_logo_hint:   "&#128247; Subir PNG, JPG, GIF o WEBP",
 
     // Share
     share_btn:          "↗ Compartir checklist",
@@ -379,6 +382,8 @@ const TRANSLATIONS = {
     share_copy:         "Copiar",
     share_copied:       "¡Copiado!",
     share_expired_msg:  "Este enlace ha expirado. Genera uno nuevo desde el formulario.",
+    share_invalid_msg:  "Este enlace parece estar roto o incompleto. Intenta copiarlo de nuevo, o empieza un checklist nuevo abajo.",
+    share_privacy_note: "Este enlace no está cifrado — cualquiera que lo tenga puede ver su contenido, así que compártelo solo como compartirías los datos mismos.",
 
     // Generator — additional UI
     gen_back:            "&larr; Volver al inicio",
@@ -439,7 +444,8 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Vista previa del checklist",
-    gen_submit_note:     "Tu PDF se descargar\u00e1 al instante. No se almacenan datos.",
+    gen_submit_note:     "Tu PDF no se guarda en nuestros servidores \u2014 pero enviamos un resumen (empresa, rol, sistema operativo) por correo para ayudar a mantener esta herramienta gratuita.",
+    gen_submit_note_link: "M\u00e1s informaci\u00f3n",
 
     // Checklist section titles (from YAML)
     sec_hardware_check:          "1. Verificaci\u00f3n de Hardware",
@@ -601,7 +607,7 @@ const TRANSLATIONS = {
     // Logo upload
     gen_label_logo:  "Logo da Empresa",
     gen_optional:    "opcional",
-    gen_logo_hint:   "&#128247; Enviar PNG, JPG ou SVG",
+    gen_logo_hint:   "&#128247; Enviar PNG, JPG, GIF ou WEBP",
 
     // Share
     share_btn:          "↗ Compartilhar checklist",
@@ -616,6 +622,8 @@ const TRANSLATIONS = {
     share_copy:         "Copiar",
     share_copied:       "Copiado!",
     share_expired_msg:  "Este link expirou. Gere um novo pelo formul\u00e1rio.",
+    share_invalid_msg:  "Este link parece estar quebrado ou incompleto. Tente copi\u00e1-lo novamente, ou comece um novo checklist abaixo.",
+    share_privacy_note: "Este link n\u00e3o \u00e9 criptografado \u2014 qualquer pessoa que o tenha pode ver seu conte\u00fado, ent\u00e3o compartilhe-o apenas como compartilharia os pr\u00f3prios dados.",
 
     // Generator — additional UI
     gen_back:            "&larr; Voltar ao in\u00edcio",
@@ -676,7 +684,8 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Pr\u00e9-visualizar checklist",
-    gen_submit_note:     "Seu PDF ser\u00e1 baixado instantaneamente. Nenhum dado \u00e9 armazenado.",
+    gen_submit_note:     "Seu PDF n\u00e3o \u00e9 armazenado em nossos servidores \u2014 mas enviamos um resumo (empresa, cargo, sistema operacional) por email para ajudar a manter esta ferramenta gratuita.",
+    gen_submit_note_link: "Saiba mais",
 
     // Checklist section titles (from YAML)
     sec_hardware_check:          "1. Verifica\u00e7\u00e3o de Hardware",
@@ -838,7 +847,7 @@ const TRANSLATIONS = {
     // Logo upload
     gen_label_logo:  "Logo de l'Entreprise",
     gen_optional:    "facultatif",
-    gen_logo_hint:   "&#128247; Importer PNG, JPG ou SVG",
+    gen_logo_hint:   "&#128247; Importer PNG, JPG, GIF ou WEBP",
 
     // Share
     share_btn:          "↗ Partager le checklist",
@@ -853,6 +862,8 @@ const TRANSLATIONS = {
     share_copy:         "Copier",
     share_copied:       "Copié\u00a0!",
     share_expired_msg:  "Ce lien a expir\u00e9. G\u00e9n\u00e9rez-en un nouveau depuis le formulaire.",
+    share_invalid_msg:  "Ce lien semble incorrect ou incomplet. Essayez de le copier \u00e0 nouveau, ou d\u00e9marrez un nouveau checklist ci-dessous.",
+    share_privacy_note: "Ce lien n'est pas chiffr\u00e9 \u2014 toute personne qui le poss\u00e8de peut voir son contenu, alors ne le partagez que comme vous partageriez les donn\u00e9es elles-m\u00eames.",
 
     // Generator — additional UI
     gen_back:            "&larr; Retour \u00e0 l\u2019accueil",
@@ -913,7 +924,8 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Aper\u00e7u du checklist",
-    gen_submit_note:     "Votre PDF se t\u00e9l\u00e9chargera instantan\u00e9ment. Aucune donn\u00e9e n\u2019est stock\u00e9e.",
+    gen_submit_note:     "Votre PDF n'est pas stock\u00e9 sur nos serveurs \u2014 mais un r\u00e9sum\u00e9 (entreprise, r\u00f4le, syst\u00e8me) nous est envoy\u00e9 par email pour soutenir cet outil gratuit.",
+    gen_submit_note_link: "En savoir plus",
 
     // Checklist section titles (from YAML)
     sec_hardware_check:          "1. V\u00e9rification du Mat\u00e9riel",

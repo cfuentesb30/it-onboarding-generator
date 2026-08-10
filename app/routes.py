@@ -1,16 +1,49 @@
 from flask import Blueprint, render_template, request, send_file, abort, jsonify, redirect, url_for, flash
-from .pdf_generator import build_pdf, load_checklist, sections_from_submitted
+from . import limiter
+from .pdf_generator import (
+    build_pdf, load_checklist, sections_from_submitted,
+    resolve_os_label, resolve_role_label,
+)
 from datetime import date
-import io, base64, json, time, os, threading
+import io, base64, json, time, os, threading, re, logging
+
+logger = logging.getLogger(__name__)
+
+MAX_LOGO_BYTES = 3 * 1024 * 1024  # 3 MB
+
+_IMAGE_SIGNATURES = (
+    (b"\x89PNG\r\n\x1a\n", "image/png"),
+    (b"\xff\xd8\xff",       "image/jpeg"),
+    (b"GIF87a",             "image/gif"),
+    (b"GIF89a",             "image/gif"),
+)
+
+def _sniff_image_mime(data: bytes):
+    for signature, mime in _IMAGE_SIGNATURES:
+        if data.startswith(signature):
+            return mime
+    if data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        return "image/webp"
+    return None
 
 def _logo_data_url(file_storage):
+    """Only accept real raster images, sniffed by content — never trust the
+    client-supplied filename/Content-Type, and never accept SVG (WeasyPrint
+    can be made to fetch remote/local resources referenced inside it)."""
     if not file_storage or not file_storage.filename:
         return None
-    data = file_storage.read()
-    if not data:
+    data = file_storage.read(MAX_LOGO_BYTES + 1)
+    if not data or len(data) > MAX_LOGO_BYTES:
         return None
-    mime = file_storage.content_type or "image/png"
+    mime = _sniff_image_mime(data)
+    if not mime:
+        return None
     return f"data:{mime};base64,{base64.b64encode(data).decode()}"
+
+_EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
+def _valid_email(addr: str) -> bool:
+    return bool(addr) and len(addr) <= 254 and bool(_EMAIL_RE.match(addr))
 
 main = Blueprint("main", __name__)
 
@@ -81,6 +114,10 @@ def _decode_share(token):
     except Exception:
         return None, 'invalid'
 
+@main.route("/healthz", methods=["GET"])
+def healthz():
+    return {"status": "ok"}, 200
+
 @main.route("/", methods=["GET"])
 def home():
     return render_template("home.html")
@@ -91,6 +128,7 @@ def about():
 
 
 @main.route("/suggest", methods=["GET", "POST"])
+@limiter.limit("5 per minute", methods=["POST"])
 def suggest():
     if request.method == "POST":
         name    = request.form.get("name", "").strip()
@@ -105,7 +143,7 @@ def suggest():
                 from .email import send_suggestion
                 send_suggestion(name, email, message)
             except Exception:
-                pass
+                logger.exception("Failed to send suggestion email")
 
         return render_template("suggest.html", success=True)
 
@@ -130,6 +168,7 @@ def index():
     )
 
 @main.route("/items", methods=["GET"])
+@limiter.limit("60 per minute")
 def items():
     os_type      = request.args.get("os_type", "windows")
     role         = request.args.get("role", "general")
@@ -138,11 +177,15 @@ def items():
 
     if os_type not in VALID_OS:
         return jsonify([]), 400
+    if role not in VALID_ROLES:
+        role = "general"
+    checklist_role = "general" if role == "custom" else role
 
-    sections = load_checklist(os_type, software, company_size, role)
+    sections = load_checklist(os_type, software, company_size, checklist_role)
     return jsonify(sections)
 
 @main.route("/preview", methods=["POST"])
+@limiter.limit("30 per minute")
 def preview():
     os_type      = request.form.get("os_type")
     role         = request.form.get("role", "general")
@@ -167,22 +210,13 @@ def preview():
     else:
         sections = load_checklist(os_type, software, company_size, checklist_role)
 
-    os_name   = request.form.get("os_name", "").strip()
-    os_labels = {"windows": "Windows", "macos": "macOS", "linux": "Linux",
-                 "remote": "Remote Employee", "custom": os_name or "Custom OS"}
-
-    if role == "custom":
-        role_label = role_name or "Custom"
-    elif role == "general":
-        role_label = ""
-    else:
-        role_label = role.capitalize()
+    os_name = request.form.get("os_name", "").strip()
 
     return render_template(
         "pdf_checklist.html",
         company_name=company_name,
-        os_label=os_labels.get(os_type, os_type),
-        role_label=role_label,
+        os_label=resolve_os_label(os_type, os_name),
+        role_label=resolve_role_label(role, role_name),
         company_size=company_size,
         software=software,
         preparer=preparer,
@@ -195,6 +229,7 @@ def preview():
 
 
 @main.route("/generate", methods=["POST"])
+@limiter.limit("10 per minute")
 def generate():
     os_type      = request.form.get("os_type")
     role         = request.form.get("role", "general")
@@ -206,6 +241,10 @@ def generate():
     submitted    = request.form.getlist("checklist_item")
     logo_data    = _logo_data_url(request.files.get("logo"))
     user_email   = request.form.get("user_email", "").strip()
+    os_name      = request.form.get("os_name", "").strip()
+
+    if not _valid_email(user_email):
+        user_email = ""
 
     if os_type not in VALID_OS:
         abort(400, "Invalid OS type.")
@@ -226,11 +265,13 @@ def generate():
             role=checklist_role,
             submitted_items=submitted if submitted else None,
             logo_data=logo_data,
+            os_name=os_name,
+            display_role=role,
+            role_name=role_name,
         )
-    except Exception as e:
-        import traceback
-        traceback.print_exc()
-        return f"<pre>PDF generation failed:\n{e}</pre>", 500
+    except Exception:
+        logger.exception("PDF generation failed (os_type=%s, role=%s)", os_type, role)
+        return render_template("error.html"), 500
 
     if role == "custom":
         role_suffix = f"-{role_name.replace(' ', '-')}" if role_name else "-Custom"
@@ -246,16 +287,12 @@ def generate():
             if user_email:
                 try:
                     send_pdf_to_user(user_email, pdf_bytes, filename, company_name, employee)
-                except Exception as e:
-                    import traceback
-                    traceback.print_exc()
-                    print(f"[email] user send failed: {e}", flush=True)
+                except Exception:
+                    logger.exception("Failed to email PDF to user")
             try:
                 notify_owner(os_type, role, company_name, employee, user_email or None)
-            except Exception as e:
-                import traceback
-                traceback.print_exc()
-                print(f"[email] owner notify failed: {e}", flush=True)
+            except Exception:
+                logger.exception("Failed to notify owner")
         threading.Thread(target=_send_emails, daemon=True).start()
 
     return send_file(

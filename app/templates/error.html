@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Something went wrong — IT Onboarding Generator{% endblock %}
+{% block content %}
+
+<div class="error-page">
+  <div class="error-icon">&#9888;</div>
+  <h1 data-i18n="error_h1">We couldn't generate your PDF</h1>
+  <p data-i18n="error_p">Something went wrong on our end. Your form data wasn't lost — go back and try again, and if it keeps happening, let us know.</p>
+  <div class="error-actions">
+    <a href="javascript:history.back()" class="btn-generate" data-i18n="error_back">&larr; Go back and try again</a>
+    <a href="/suggest" class="btn-share" data-i18n="error_report">Report this issue</a>
+  </div>
+</div>
+
+{% endblock %}

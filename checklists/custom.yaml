@@ -6,6 +6,7 @@ sections:
       - Confirm machine powers on and boots correctly
       - Check available storage meets role requirements
       - Verify RAM meets role requirements
+      - Record device serial number/asset tag in IT asset inventory and link to employee record
 
   - title: "2. OS Setup"
     items:
@@ -15,6 +16,8 @@ sections:
       - Configure time zone and regional settings
       - Enable OS firewall
       - Enable full-disk encryption
+      - Enroll device in MDM (Intune/Jamf/Google Endpoint Management) and confirm compliance policy applied
+      - Configure backup solution (OneDrive/Time Machine/company backup agent as applicable) and verify it is running
       - Set screen lock to activate after 5 minutes of inactivity
       - Disable unnecessary startup programs and services
 
@@ -28,7 +31,7 @@ sections:
       - { text: "Install Microsoft Teams", requires_software: [teams] }
       - { text: "Install antivirus — run initial scan", requires_software: [antivirus] }
       - { text: "Install VPN client and verify connection", requires_software: [vpn] }
-      - { text: "Install password manager", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Install password manager (Bitwarden or 1Password)", requires_software: [password_manager, 1password, lastpass, bitwarden] }
 
   - title: "4. Network & Security"
     items:
@@ -44,11 +47,11 @@ sections:
       - Create company email account and verify login
       - Grant access to shared drives and folders (role-appropriate only)
       - Add to relevant distribution lists and groups
-      - Set up access to company project management tools
+      - Set up access to general company collaboration tools (intranet, wiki, shared calendars) — role-specific project management tools are granted separately
       - { text: "Add to Slack workspace and relevant channels", requires_software: [slack] }
       - { text: "Add to Microsoft Teams workspace", requires_software: [teams] }
       - { text: "Set up Google Workspace account and Drive sharing", requires_software: [google_workspace] }
-      - { text: "Configure password manager vault and share company credentials", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Configure password manager vault and share company credentials", requires_software: [password_manager, 1password, lastpass, bitwarden] }
       - { text: "Set up shared calendars and conference rooms", requires_size: [medium, large] }
 
   - title: "6. Final Verification"

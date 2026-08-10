@@ -6,6 +6,7 @@ sections:
       - Confirm machine powers on and boots into Linux correctly
       - Check available storage (minimum 20 GB free) — run `df -h`
       - Verify RAM meets role requirements — run `free -h`
+      - Record device serial number/asset tag in IT asset inventory and link to employee record
 
   - title: "2. OS Setup"
     items:
@@ -17,6 +18,8 @@ sections:
       - Configure locale and keyboard layout
       - Enable UFW firewall — `sudo ufw enable && sudo ufw status`
       - Enable full-disk encryption (LUKS) — verify on reinstall if not already set
+      - Enroll device in MDM/endpoint management (e.g. Google Endpoint Management, Kandji, or equivalent) and confirm compliance policy applied
+      - Configure backup solution (company backup agent) and verify it is running
       - Disable unnecessary services and startup applications
 
   - title: "3. Software Installation"
@@ -29,7 +32,7 @@ sections:
       - { text: "Install Microsoft Teams for Linux", requires_software: [teams] }
       - { text: "Install antivirus (ClamAV or enterprise endpoint solution) — run initial scan", requires_software: [antivirus] }
       - { text: "Install VPN client (OpenVPN, WireGuard, or proprietary) and verify connection", requires_software: [vpn] }
-      - { text: "Install password manager (Bitwarden, 1Password CLI, or browser extension)", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Install password manager (Bitwarden, 1Password CLI, or browser extension)", requires_software: [password_manager, 1password, lastpass, bitwarden] }
 
   - title: "4. Network & Security"
     items:
@@ -39,18 +42,18 @@ sections:
       - Set up 2FA on all company accounts (authenticator app preferred)
       - Enable automatic screen lock after 5 minutes of inactivity
       - Verify UFW firewall is active — `sudo ufw status verbose`
-      - Confirm employee cannot install packages without sudo
+      - Confirm standard-user account lacks install rights (verified via absence from sudo group)
 
   - title: "5. Accounts & Access"
     items:
       - Create company email account and verify login
       - Grant access to shared drives and folders (role-appropriate only)
       - Add to relevant distribution lists and groups
-      - Set up access to company project management tools
+      - Set up access to general company collaboration tools (intranet, wiki, shared calendars) — role-specific project management tools are granted separately
       - { text: "Add to Slack workspace and relevant channels", requires_software: [slack] }
       - { text: "Add to Microsoft Teams workspace", requires_software: [teams] }
       - { text: "Set up Google Workspace account and Drive sharing", requires_software: [google_workspace] }
-      - { text: "Configure password manager vault and share company credentials", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Configure password manager vault and share company credentials", requires_software: [password_manager, 1password, lastpass, bitwarden] }
       - { text: "Set up shared calendars and conference rooms", requires_size: [medium, large] }
 
   - title: "6. Final Verification"

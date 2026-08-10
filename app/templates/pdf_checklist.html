@@ -3,8 +3,15 @@
 <head>
 <meta charset="UTF-8"/>
 <style>
+  @page {
+    size: Letter;
+    margin: 1.6cm 1.4cm;
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); font-family: Helvetica, Arial, sans-serif; font-size: 8pt; color: #999; }
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11pt; color: #1a1a1a; background: #fff; padding: 28px 32px; }
+  body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 11pt; color: #1a1a1a; background: #fff; padding: 0; }
+  /* Browser-preview mode isn't paginated by @page, so it needs its own margins */
+  body.is-preview { padding: 28px 32px; }
 
   .preview-banner { background: #1a1a1a; color: #fff; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: -28px -32px 28px -32px; font-size: 10pt; }
   .preview-banner strong { font-weight: 600; }
@@ -42,7 +49,7 @@
   .footer { margin-top: 22px; text-align: center; font-size: 8pt; color: #aaa; border-top: 0.5px solid #e0e0e0; padding-top: 10px; }
 </style>
 </head>
-<body>
+<body class="{{ 'is-preview' if preview_mode else '' }}">
 
 {% if preview_mode %}
 <div class="preview-banner">
@@ -59,7 +66,7 @@
       {% if logo_data %}<img src="{{ logo_data }}" class="company-logo" alt=""/>{% endif %}
       <div>
         <div class="company">{{ company_name }}</div>
-        <div class="doc-title">IT Onboarding Checklist</div>
+        <div class="doc-title">IT Onboarding Checklist{% if role_label %} &middot; {{ role_label }}{% endif %}</div>
       </div>
     </div>
     <div class="badge">{{ os_label }}</div>

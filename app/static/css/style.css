@@ -8,6 +8,7 @@
   --muted: #64748B;
   --accent: #4F46E5;
   --green: #16a34a;
+  --kofi: #C0392B; /* darker than the FF5E5B brand red — this shade passes WCAG AA both as white-on-color and as text-on-white */
 }
 
 body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
@@ -68,7 +69,7 @@ footer {
 .footer-link { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .15s; }
 .footer-link:hover { color: var(--accent); }
 .footer-kofi-link {
-  font-size: 13px; font-weight: 600; color: #FF5E5B;
+  font-size: 13px; font-weight: 600; color: var(--kofi);
   text-decoration: none; transition: opacity .15s;
 }
 .footer-kofi-link:hover { opacity: .8; }
@@ -188,9 +189,12 @@ input[type="text"], input[type="number"], input[type="email"], select {
   width: 100%; padding: 9px 12px; background: var(--bg);
   border: 1px solid var(--border); border-radius: 8px;
   font-family: inherit; font-size: 14px; color: var(--text); outline: none;
-  transition: border-color .15s;
+  transition: border-color .15s, box-shadow .15s;
 }
-input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, select:focus { border-color: var(--accent); }
+input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
 
 /* ── OS Cards ── */
 .os-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -205,6 +209,9 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
 .os-card input:checked + .os-card-inner {
   border-color: var(--accent); background: var(--surface);
   box-shadow: 0 0 0 2px var(--accent);
+}
+.os-card input:focus-visible + .os-card-inner {
+  outline: 2px solid var(--accent); outline-offset: 2px;
 }
 .os-icon { display: block; font-size: 32px; margin-bottom: 8px; }
 .os-label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 3px; }
@@ -233,6 +240,9 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
 .role-card input:checked + .role-card-inner {
   border-color: var(--accent); background: var(--surface);
   box-shadow: 0 0 0 2px var(--accent);
+}
+.role-card input:focus-visible + .role-card-inner {
+  outline: 2px solid var(--accent); outline-offset: 2px;
 }
 .role-icon { display: block; font-size: 26px; margin-bottom: 7px; }
 .role-label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 3px; }
@@ -967,10 +977,10 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
 .support-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
 .btn-kofi {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 13px 24px; background: #FF5E5B; color: #fff;
+  padding: 13px 24px; background: var(--kofi); color: #fff;
   border-radius: 12px; font-size: 15px; font-weight: 700;
   text-decoration: none; transition: opacity .18s, transform .18s;
-  box-shadow: 0 4px 14px rgba(255,94,91,0.3);
+  box-shadow: 0 4px 14px rgba(192,57,43,0.3);
 }
 .btn-kofi:hover { opacity: .9; transform: translateY(-2px); }
 .btn-suggest {
@@ -999,7 +1009,7 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
   text-wrap: balance;
 }
 .lp-final-cta p {
-  font-size: 17px; color: rgba(255,255,255,0.55);
+  font-size: 17px; color: rgba(255,255,255,0.85);
   line-height: 1.7; margin-bottom: 36px;
 }
 
@@ -1045,4 +1055,18 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
   .lp-trust { flex-direction: column; gap: 0; }
   .trust-item { border-right: none; border-bottom: 1px solid var(--border); justify-content: flex-start; }
   .trust-item:last-child { border-bottom: none; }
+
+  /* Header */
+  .header-inner { gap: 8px; }
+  .logo { font-size: 13px; }
+  .header-nav { gap: 4px; }
+  .nav-about { display: none; }
+  .nav-cta { padding: 7px 10px; font-size: 12px; }
+  .btn-lang { padding: 6px 6px; font-size: 11px; }
+}
+
+@media (max-width: 400px) {
+  .header-inner { gap: 6px; }
+  .logo { font-size: 12px; }
+  .nav-cta { padding: 6px 8px; font-size: 11px; }
 }

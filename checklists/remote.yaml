@@ -5,6 +5,7 @@ sections:
       - Verify machine powers on and meets minimum specs
       - Confirm reliable internet connection (minimum 25 Mbps download)
       - Check headset / webcam is working for video calls
+      - Record device serial number/asset tag in IT asset inventory and link to employee record
 
   - title: "2. OS Setup"
     items:
@@ -13,6 +14,8 @@ sections:
       - Create employee standard account (non-admin)
       - Enable full-disk encryption (BitLocker / FileVault)
       - Enable OS firewall
+      - Enroll device in MDM (Intune/Jamf/Google Endpoint Management) and confirm compliance policy applied
+      - Configure backup solution (OneDrive/Time Machine/company backup agent as applicable) and verify it is running
       - Set screen lock to activate after 5 minutes of inactivity
 
   - title: "3. Software Installation"
@@ -25,7 +28,7 @@ sections:
       - { text: "Install Microsoft Teams — test audio/video", requires_software: [teams] }
       - { text: "Install antivirus — run initial scan", requires_software: [antivirus] }
       - { text: "Install VPN client and verify connection", requires_software: [vpn] }
-      - { text: "Install password manager", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Install password manager (Bitwarden or 1Password)", requires_software: [password_manager, 1password, lastpass, bitwarden] }
 
   - title: "4. Remote Access & Security"
     items:
@@ -34,14 +37,14 @@ sections:
       - Confirm employee can access company intranet / internal tools via VPN
       - Brief employee on acceptable use policy for remote work
       - Confirm home network is password-protected (WPA2 or WPA3)
-      - { text: "Set up password manager — ensure all shared credentials are accessible", requires_software: [password_manager, 1password, lastpass] }
+      - { text: "Set up password manager — ensure all shared credentials are accessible", requires_software: [password_manager, 1password, lastpass, bitwarden] }
 
   - title: "5. Accounts & Access"
     items:
       - Create company email account and verify login
       - Grant access to shared drives and cloud storage (role-appropriate only)
       - Add to relevant distribution lists and groups
-      - Set up access to project management and ticketing tools
+      - Set up access to general company collaboration and ticketing tools (intranet, wiki, shared calendars) — role-specific project management tools are granted separately
       - { text: "Add to Slack workspace and all relevant channels", requires_software: [slack] }
       - { text: "Add to Microsoft Teams workspace and channels", requires_software: [teams] }
       - { text: "Set up Google Workspace account and Drive sharing", requires_software: [google_workspace] }
