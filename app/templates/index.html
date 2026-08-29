@@ -401,7 +401,7 @@
     <button type="button" class="btn-share" id="btn-share" onclick="openShareModal()" data-i18n="share_btn">
       ↗ Share checklist
     </button>
-    <p class="gen-submit-note" data-i18n="gen_submit_note">Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool. <a href="/about#privacy" data-i18n="gen_submit_note_link">Details</a>.</p>
+    <p class="gen-submit-note" data-i18n="gen_submit_note">Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool. <a href="/about#privacy">Details</a>.</p>
   </div>
 
 </form>
@@ -460,6 +460,7 @@ let customSoftware    = []; // [{name}] — persists across checklist reloads
 
 // ── Section title i18n map ──────────────────────────────
 const SECTION_KEY_MAP = {
+  "People & Orientation":         "sec_people_orientation",
   "1. Hardware Check":            "sec_hardware_check",
   "1. Equipment Confirmation":    "sec_equipment_confirm",
   "2. OS Setup":                  "sec_os_setup",
@@ -810,11 +811,10 @@ function renderChecklist() {
     customSoftware.forEach(sw => {
       html += `<div class="cl-item custom-item">
         <span class="cl-check-box custom">+</span>
-        <span class="cl-item-text" contenteditable="true"
-          onblur="editSwName('${escAttr(sw.name)}',this)"
+        <span class="cl-item-text" contenteditable="true" data-sw-name="${escAttr(sw.name)}"
           onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur()}"
         >${(typeof t === 'function' ? t('cl_install_prefix') : 'Install and configure ')}${escHtml(sw.name)}</span>
-        <button type="button" class="cl-remove" onclick="removeSwItem('${escAttr(sw.name)}')" title="Remove">×</button>
+        <button type="button" class="cl-remove cl-remove-sw" data-sw-name="${escAttr(sw.name)}" title="Remove">×</button>
       </div>`;
     });
     html += '</div>';
@@ -868,6 +868,19 @@ document.getElementById('custom-item-input').addEventListener('keydown', functio
   if (e.key === 'Enter') { e.preventDefault(); addCustomItem(); }
 });
 
+// Delegated handlers for "Additional Software" items — avoids ever
+// concatenating a user-controlled string into an inline JS-string literal
+// (onblur/onclick="...('name')"), which was exploitable via names like
+// x'); alert(1); //
+document.getElementById('checklist-body').addEventListener('focusout', function(e) {
+  const el = e.target.closest('.cl-item-text[data-sw-name]');
+  if (el) editSwName(el.dataset.swName, el);
+});
+document.getElementById('checklist-body').addEventListener('click', function(e) {
+  const btn = e.target.closest('.cl-remove-sw[data-sw-name]');
+  if (btn) removeSwItem(btn.dataset.swName);
+});
+
 function editItem(si, ii, el) {
   const text = el.textContent.trim();
   if (text) {
@@ -907,7 +920,11 @@ function populateHiddenInputs() {
     appendHidden(container, JSON.stringify({ section: 'Additional Software', text: `Install and configure ${sw.name}` }));
     hasItems = true;
   });
-  if (!hasItems) container.innerHTML = '';
+  // Always send a presence marker so the backend can tell "no items were ever
+  // submitted" (this field absent) apart from "the user removed every item"
+  // (this field present, zero checklist_item values) — an empty list is a
+  // deliberate edit, not a request to fall back to the default checklist.
+  appendMarker(container);
 }
 
 document.getElementById('gen-form').addEventListener('submit', function(e) {
@@ -925,10 +942,30 @@ function proceedToDownload(openKofi) {
   document.getElementById('pre-download-overlay').classList.remove('open');
   if (openKofi) window.open('https://ko-fi.com/cfuentesb30', '_blank', 'noopener');
   const btn  = document.getElementById('btn-generate');
+  const originalHtml = btn.innerHTML;
   btn.disabled    = true;
   btn.textContent = typeof t === 'function' ? t('gen_btn_loading') : 'Generating\u2026';
   btn.classList.add('btn-loading');
   document.getElementById('gen-form').submit();
+
+  // A same-page form submit that triggers a file download never fires a
+  // navigation/unload event, so there's no reliable "download finished"
+  // signal. Re-enable the button after a short delay, and also as soon as
+  // the tab regains focus/visibility (covers slower downloads).
+  let restored = false;
+  const restore = () => {
+    if (restored) return;
+    restored = true;
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+    btn.classList.remove('btn-loading');
+    document.removeEventListener('visibilitychange', onVisible);
+    window.removeEventListener('focus', restore);
+  };
+  const onVisible = () => { if (document.visibilityState === 'visible') restore(); };
+  document.addEventListener('visibilitychange', onVisible);
+  window.addEventListener('focus', restore);
+  setTimeout(restore, 2000);
 }
 
 function appendHidden(container, value) {
@@ -936,6 +973,14 @@ function appendHidden(container, value) {
   input.type  = 'hidden';
   input.name  = 'checklist_item';
   input.value = value;
+  container.appendChild(input);
+}
+
+function appendMarker(container) {
+  const input = document.createElement('input');
+  input.type  = 'hidden';
+  input.name  = 'items_submitted';
+  input.value = '1';
   container.appendChild(input);
 }
 
@@ -985,6 +1030,7 @@ function openPreview() {
   customSoftware.forEach(sw => {
     appendHidden(container, JSON.stringify({ section: 'Additional Software', text: `Install and configure ${sw.name}` }));
   });
+  appendMarker(container);
 
   const original = form.action;
   const originalTarget = form.target;
@@ -1097,8 +1143,12 @@ function syncCustomSize() {
 }
 
 // ── Listeners ───────────────────────────────────────────
+// Guarded so applyShareState() can dispatch synthetic 'change' events (to
+// reveal the custom OS/role name field) without triggering a redundant,
+// racy loadChecklist() call on top of the one it awaits itself.
+let restoringShareState = false;
 document.querySelectorAll('input[name="os_type"], input[name="role"]').forEach(el => {
-  el.addEventListener('change', () => loadChecklist());
+  el.addEventListener('change', () => { if (!restoringShareState) loadChecklist(); });
 });
 document.querySelectorAll('input[name="software"]').forEach(el => {
   el.addEventListener('change', () => loadChecklist());
@@ -1144,6 +1194,7 @@ const KNOWN_OS_TYPES = ['windows', 'macos', 'linux', 'remote', 'custom'];
 const KNOWN_ROLES    = ['general', 'developer', 'designer', 'sales', 'hr', 'finance', 'marketing', 'operations', 'custom'];
 
 async function applyShareState(s) {
+  restoringShareState = true;
   try {
     if (!s || typeof s !== 'object') throw new Error('Empty share state');
 
@@ -1165,12 +1216,26 @@ async function applyShareState(s) {
 
     if (KNOWN_OS_TYPES.includes(s.os)) {
       const osEl = document.querySelector(`input[name="os_type"][value="${s.os}"]`);
-      if (osEl) osEl.checked = true;
+      if (osEl) {
+        osEl.checked = true;
+        // Programmatically setting .checked doesn't fire 'change', which is
+        // what reveals #os-custom-wrap for a custom OS — dispatch it.
+        osEl.dispatchEvent(new Event('change'));
+      }
+    }
+    if (typeof s.os_name === 'string' && s.os_name) {
+      document.getElementById('os_name').value = s.os_name;
     }
 
     if (KNOWN_ROLES.includes(s.role)) {
       const roleEl = document.querySelector(`input[name="role"][value="${s.role}"]`);
-      if (roleEl) roleEl.checked = true;
+      if (roleEl) {
+        roleEl.checked = true;
+        roleEl.dispatchEvent(new Event('change'));
+      }
+    }
+    if (typeof s.role_name === 'string' && s.role_name) {
+      document.getElementById('role_name').value = s.role_name;
     }
 
     document.querySelectorAll('input[name="software"]').forEach(cb => {
@@ -1191,6 +1256,11 @@ async function applyShareState(s) {
         .filter(i => i && typeof i.text === 'string')
         .map(i => ({ section: i.section || 'Custom', text: i.text }));
     }
+    if (Array.isArray(s.customSoftware) && s.customSoftware.length) {
+      customSoftware = s.customSoftware
+        .filter(sw => sw && typeof sw.name === 'string' && sw.name.trim())
+        .map(sw => ({ name: sw.name.trim() }));
+    }
 
     renderChecklist();
     updateStepDots();
@@ -1198,6 +1268,8 @@ async function applyShareState(s) {
     console.error('Failed to apply shared checklist state:', err);
     await loadChecklist();
     updateStepDots();
+  } finally {
+    restoringShareState = false;
   }
 }
 
@@ -1226,6 +1298,8 @@ function buildShareUrl(expirySeconds) {
   const employee = document.getElementById('employee').value.trim();
   const preparer = document.getElementById('preparer').value.trim();
   const software = [...document.querySelectorAll('input[name="software"]:checked')].map(i => i.value);
+  const osName   = document.getElementById('os_name').value.trim();
+  const roleName = document.getElementById('role_name').value.trim();
 
   const removed = [];
   checklistSections.forEach(section => {
@@ -1236,11 +1310,13 @@ function buildShareUrl(expirySeconds) {
     v: 1,
     exp: expirySeconds > 0 ? Math.floor(Date.now() / 1000) + expirySeconds : 0,
     os, role, size, company, employee, preparer, software, removed,
-    custom: customItems.map(i => ({ section: i.section, text: i.text }))
+    os_name: osName, role_name: roleName,
+    custom: customItems.map(i => ({ section: i.section, text: i.text })),
+    customSoftware: customSoftware.map(sw => ({ name: sw.name }))
   };
 
   const token = btoa(unescape(encodeURIComponent(JSON.stringify(state))));
-  return `${location.origin}/generator?s=${token}`;
+  return `${location.origin}/generator?s=${encodeURIComponent(token)}`;
 }
 
 function copyShareUrl() {

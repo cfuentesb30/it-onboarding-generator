@@ -204,10 +204,10 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Preview Checklist",
-    gen_submit_note:     "Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool.",
-    gen_submit_note_link: "Details",
+    gen_submit_note:     "Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool. <a href=\"/about#privacy\">Details</a>.",
 
     // Checklist section titles (from YAML)
+    sec_people_orientation:      "People & Orientation",
     sec_hardware_check:          "1. Hardware Check",
     sec_equipment_confirm:       "1. Equipment Confirmation",
     sec_os_setup:                "2. OS Setup",
@@ -237,6 +237,12 @@ const TRANSLATIONS = {
     sec_ops_tools:               "Operations Tools Access",
     sec_vendor_procurement:      "Vendor & Procurement",
     sec_process_docs:            "Process & Documentation",
+
+    // Error page
+    error_h1:     "We couldn't generate your PDF",
+    error_p:      "Something went wrong on our end. Your form data wasn't lost — go back and try again, and if it keeps happening, let us know.",
+    error_back:   "&larr; Go back and try again",
+    error_report: "Report this issue",
   },
 
   es: {
@@ -444,10 +450,10 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Vista previa del checklist",
-    gen_submit_note:     "Tu PDF no se guarda en nuestros servidores \u2014 pero enviamos un resumen (empresa, rol, sistema operativo) por correo para ayudar a mantener esta herramienta gratuita.",
-    gen_submit_note_link: "M\u00e1s informaci\u00f3n",
+    gen_submit_note:     "Tu PDF no se guarda en nuestros servidores \u2014 pero enviamos un resumen (empresa, rol, sistema operativo) por correo para ayudar a mantener esta herramienta gratuita. <a href=\"/about#privacy\">M\u00e1s informaci\u00f3n</a>.",
 
     // Checklist section titles (from YAML)
+    sec_people_orientation:      "Personas y Orientaci\u00f3n",
     sec_hardware_check:          "1. Verificaci\u00f3n de Hardware",
     sec_equipment_confirm:       "1. Confirmaci\u00f3n de Equipos",
     sec_os_setup:                "2. Configuraci\u00f3n del Sistema Operativo",
@@ -477,6 +483,12 @@ const TRANSLATIONS = {
     sec_ops_tools:               "Acceso a Herramientas de Operaciones",
     sec_vendor_procurement:      "Proveedores y Compras",
     sec_process_docs:            "Procesos y Documentaci\u00f3n",
+
+    // Error page
+    error_h1:     "No pudimos generar tu PDF",
+    error_p:      "Algo sali\u00f3 mal de nuestro lado. Los datos de tu formulario no se perdieron \u2014 vuelve atr\u00e1s e int\u00e9ntalo de nuevo, y si sigue ocurriendo, av\u00edsanos.",
+    error_back:   "&larr; Volver e intentar de nuevo",
+    error_report: "Reportar este problema",
   },
 
   pt: {
@@ -684,10 +696,10 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Pr\u00e9-visualizar checklist",
-    gen_submit_note:     "Seu PDF n\u00e3o \u00e9 armazenado em nossos servidores \u2014 mas enviamos um resumo (empresa, cargo, sistema operacional) por email para ajudar a manter esta ferramenta gratuita.",
-    gen_submit_note_link: "Saiba mais",
+    gen_submit_note:     "Seu PDF n\u00e3o \u00e9 armazenado em nossos servidores \u2014 mas enviamos um resumo (empresa, cargo, sistema operacional) por email para ajudar a manter esta ferramenta gratuita. <a href=\"/about#privacy\">Saiba mais</a>.",
 
     // Checklist section titles (from YAML)
+    sec_people_orientation:      "Pessoas e Orienta\u00e7\u00e3o",
     sec_hardware_check:          "1. Verifica\u00e7\u00e3o de Hardware",
     sec_equipment_confirm:       "1. Confirma\u00e7\u00e3o de Equipamentos",
     sec_os_setup:                "2. Configura\u00e7\u00e3o do Sistema Operacional",
@@ -717,6 +729,12 @@ const TRANSLATIONS = {
     sec_ops_tools:               "Acesso a Ferramentas de Opera\u00e7\u00f5es",
     sec_vendor_procurement:      "Fornecedores e Compras",
     sec_process_docs:            "Processos e Documenta\u00e7\u00e3o",
+
+    // Error page
+    error_h1:     "N\u00e3o conseguimos gerar seu PDF",
+    error_p:      "Algo deu errado do nosso lado. Os dados do seu formul\u00e1rio n\u00e3o foram perdidos \u2014 volte e tente novamente, e se continuar acontecendo, nos avise.",
+    error_back:   "&larr; Voltar e tentar novamente",
+    error_report: "Reportar este problema",
   },
 
   fr: {
@@ -924,10 +942,10 @@ const TRANSLATIONS = {
 
     // Submit area
     btn_preview:         "&#128065; Aper\u00e7u du checklist",
-    gen_submit_note:     "Votre PDF n'est pas stock\u00e9 sur nos serveurs \u2014 mais un r\u00e9sum\u00e9 (entreprise, r\u00f4le, syst\u00e8me) nous est envoy\u00e9 par email pour soutenir cet outil gratuit.",
-    gen_submit_note_link: "En savoir plus",
+    gen_submit_note:     "Votre PDF n'est pas stock\u00e9 sur nos serveurs \u2014 mais un r\u00e9sum\u00e9 (entreprise, r\u00f4le, syst\u00e8me) nous est envoy\u00e9 par email pour soutenir cet outil gratuit. <a href=\"/about#privacy\">En savoir plus</a>.",
 
     // Checklist section titles (from YAML)
+    sec_people_orientation:      "Personnes et Int\u00e9gration",
     sec_hardware_check:          "1. V\u00e9rification du Mat\u00e9riel",
     sec_equipment_confirm:       "1. Confirmation du Mat\u00e9riel",
     sec_os_setup:                "2. Configuration du Syst\u00e8me d\u2019Exploitation",
@@ -957,6 +975,12 @@ const TRANSLATIONS = {
     sec_ops_tools:               "Acc\u00e8s aux Outils Op\u00e9rationnels",
     sec_vendor_procurement:      "Fournisseurs et Achats",
     sec_process_docs:            "Processus et Documentation",
+
+    // Error page
+    error_h1:     "Nous n'avons pas pu générer votre PDF",
+    error_p:      "Une erreur s'est produite de notre côté. Les données de votre formulaire n'ont pas été perdues — revenez en arrière et réessayez, et si le problème persiste, signalez-le-nous.",
+    error_back:   "&larr; Revenir en arrière et réessayer",
+    error_report: "Signaler ce problème",
   }
 };
 

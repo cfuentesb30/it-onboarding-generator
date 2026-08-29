@@ -30,6 +30,25 @@ def resolve_role_label(role: str, role_name: str = "") -> str:
         return ""
     return role.capitalize()
 
+def _filter_items(items: list, software: list, company_size: str) -> list:
+    """Normalize a YAML `items` list into plain step-text strings, honoring the
+    optional conditional-item schema (`{text:, requires_software:, requires_size:}`).
+    Shared by both OS and role checklist loaders so they support the same schema."""
+    filtered = []
+    for item in items:
+        if isinstance(item, str):
+            filtered.append(item)
+        elif isinstance(item, dict):
+            required_sw   = item.get("requires_software", [])
+            required_size = item.get("requires_size", [])
+            sw_match   = not required_sw   or any(s in software     for s in required_sw)
+            size_match = not required_size or company_size in required_size
+            if sw_match and size_match:
+                text = item.get("text", "")
+                if text:
+                    filtered.append(text)
+    return filtered
+
 def _load_os_sections(os_type: str, software: list, company_size: str) -> list:
     path = CHECKLIST_DIR / f"{os_type}.yaml"
     with open(path, "r") as f:
@@ -37,24 +56,12 @@ def _load_os_sections(os_type: str, software: list, company_size: str) -> list:
 
     sections = []
     for section in data.get("sections", []):
-        items = []
-        for item in section.get("items", []):
-            if isinstance(item, str):
-                items.append(item)
-            elif isinstance(item, dict):
-                required_sw   = item.get("requires_software", [])
-                required_size = item.get("requires_size", [])
-                sw_match   = not required_sw   or any(s in software     for s in required_sw)
-                size_match = not required_size or company_size in required_size
-                if sw_match and size_match:
-                    text = item.get("text", "")
-                    if text:
-                        items.append(text)
+        items = _filter_items(section.get("items", []), software, company_size)
         if items:
-            sections.append({"title": section["title"], "steps": items})
+            sections.append({"title": section.get("title", "Untitled"), "steps": items})
     return sections
 
-def _load_role_sections(role: str) -> list:
+def _load_role_sections(role: str, software: list, company_size: str) -> list:
     path = CHECKLIST_DIR / "roles" / f"{role}.yaml"
     if not path.exists():
         return []
@@ -62,14 +69,14 @@ def _load_role_sections(role: str) -> list:
         data = yaml.safe_load(f)
     sections = []
     for section in (data or {}).get("sections", []):
-        items = [item for item in section.get("items", []) if isinstance(item, str)]
+        items = _filter_items(section.get("items", []), software, company_size)
         if items:
-            sections.append({"title": section["title"], "steps": items})
+            sections.append({"title": section.get("title", "Untitled"), "steps": items})
     return sections
 
 def load_checklist(os_type: str, software: list, company_size: str, role: str = "general") -> list:
     os_sections   = _load_os_sections(os_type, software, company_size)
-    role_sections = _load_role_sections(role)
+    role_sections = _load_role_sections(role, software, company_size)
 
     if not role_sections:
         return os_sections
@@ -116,8 +123,14 @@ def build_pdf(
     `role` is the (already-normalized) role used to load checklist content.
     `display_role`/`role_name`/`os_name` are only used for the label shown on
     the PDF and may differ from `role` (e.g. "custom" isn't a real content role).
+
+    `submitted_items` is `None` when no submission occurred at all (e.g. called
+    programmatically), and a (possibly empty) list when the caller explicitly
+    submitted an edited item set — including deliberately clearing every item.
+    These two cases must be distinguished: `None` falls back to the default
+    checklist, `[]` means "render zero items", NOT "regenerate the default".
     """
-    if submitted_items:
+    if submitted_items is not None:
         sections = sections_from_submitted(submitted_items)
     else:
         sections = load_checklist(os_type, software, company_size, role)

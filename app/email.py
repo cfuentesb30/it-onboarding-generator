@@ -3,6 +3,13 @@ import os
 import resend
 from html import escape
 
+
+def _subject_safe(value: str) -> str:
+    """Strip CR/LF from a field before interpolating it into an email subject
+    line, as defense-in-depth against header injection — independent of
+    whatever sanitization Resend's API does on its end."""
+    return (value or "").replace("\r", "").replace("\n", "")
+
 _FROM = os.getenv("RESEND_FROM", "onboarding@resend.dev")
 _OWNER = os.getenv("OWNER_EMAIL", "")
 _APP_URL = os.getenv("APP_URL", "https://it-onboarding-generator.onrender.com")
@@ -106,7 +113,7 @@ def send_pdf_to_user(
     resend.Emails.send({
         "from": _FROM,
         "to": to_email,
-        "subject": f"Your IT Onboarding Checklist — {company_name}",
+        "subject": f"Your IT Onboarding Checklist — {_subject_safe(company_name)}",
         "html": _render(body),
         "attachments": [{"filename": filename, "content": base64.b64encode(pdf_bytes).decode()}],
     })
@@ -142,7 +149,7 @@ def notify_owner(
     resend.Emails.send({
         "from": _FROM,
         "to": _OWNER,
-        "subject": f"⬛ New checklist — {company_name}",
+        "subject": f"⬛ New checklist — {_subject_safe(company_name)}",
         "html": _render(body),
     })
 
@@ -175,6 +182,6 @@ def send_suggestion(name: str, sender_email: str, message: str):
         "from": _FROM,
         "to": _OWNER,
         "reply_to": sender_email,
-        "subject": f"💬 Suggestion from {name}",
+        "subject": f"💬 Suggestion from {_subject_safe(name)}",
         "html": _render(body),
     })

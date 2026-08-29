@@ -6,6 +6,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv()
 
@@ -17,6 +18,11 @@ logger = logging.getLogger(__name__)
 
 MAX_UPLOAD_BYTES = 5 * 1024 * 1024  # total request size cap (form + logo)
 
+# NOTE: default in-memory storage is per-process. With gunicorn's multiple
+# workers (see Dockerfile CMD), each worker tracks its own counters, so
+# configured limits (e.g. 10/min) are enforced approximately per-worker,
+# not exactly/globally across the whole app — roughly workers-times looser
+# than configured, and counters reset on every deploy/restart.
 limiter = Limiter(key_func=get_remote_address, default_limits=[])
 
 
@@ -37,6 +43,15 @@ def create_app():
     app.secret_key = secret_key
 
     app.config["MAX_CONTENT_LENGTH"] = MAX_UPLOAD_BYTES
+
+    # Render terminates TLS and proxies into the container over exactly one
+    # hop, so request.remote_addr would otherwise be Render's proxy address
+    # for every visitor (collapsing everyone into one rate-limit bucket).
+    # x_for=1 trusts exactly one hop of X-Forwarded-For — trusting more hops
+    # than actually exist would let a client spoof its own IP via that
+    # header, so this value must track the real proxy topology, not be
+    # bumped up "to be safe".
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
     limiter.init_app(app)
 

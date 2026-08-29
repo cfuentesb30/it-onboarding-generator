@@ -205,27 +205,39 @@ def preview():
     role_name     = request.form.get("role_name", "").strip()
     checklist_role = "general" if role == "custom" else role
 
-    if submitted:
-        sections = sections_from_submitted(submitted)
-    else:
-        sections = load_checklist(os_type, software, company_size, checklist_role)
+    # "items_submitted" is present whenever the live editor populated the
+    # hidden checklist_item inputs (even to zero of them, e.g. the user
+    # deliberately removed every item) — that's distinct from no submission
+    # having occurred at all, which should fall back to the default checklist.
+    items_were_submitted = "items_submitted" in request.form
 
     os_name = request.form.get("os_name", "").strip()
 
-    return render_template(
-        "pdf_checklist.html",
-        company_name=company_name,
-        os_label=resolve_os_label(os_type, os_name),
-        role_label=resolve_role_label(role, role_name),
-        company_size=company_size,
-        software=software,
-        preparer=preparer,
-        employee=employee,
-        sections=sections,
-        logo_data=logo_data,
-        generated_date=date.today().strftime("%B %d, %Y"),
-        preview_mode=True,
-    )
+    try:
+        if items_were_submitted:
+            sections = sections_from_submitted(submitted)
+        else:
+            sections = load_checklist(os_type, software, company_size, checklist_role)
+
+        html = render_template(
+            "pdf_checklist.html",
+            company_name=company_name,
+            os_label=resolve_os_label(os_type, os_name),
+            role_label=resolve_role_label(role, role_name),
+            company_size=company_size,
+            software=software,
+            preparer=preparer,
+            employee=employee,
+            sections=sections,
+            logo_data=logo_data,
+            generated_date=date.today().strftime("%B %d, %Y"),
+            preview_mode=True,
+        )
+    except Exception:
+        logger.exception("Preview rendering failed (os_type=%s, role=%s)", os_type, role)
+        return render_template("error.html"), 500
+
+    return html
 
 
 @main.route("/generate", methods=["POST"])
@@ -254,6 +266,11 @@ def generate():
     role_name      = request.form.get("role_name", "").strip()
     checklist_role = "general" if role == "custom" else role
 
+    # See the matching comment in /preview: presence of "items_submitted"
+    # (not truthiness of the resulting list) is what distinguishes "no
+    # submission occurred" from "the user submitted zero items on purpose".
+    items_were_submitted = "items_submitted" in request.form
+
     try:
         pdf_bytes = build_pdf(
             os_type=os_type,
@@ -263,7 +280,7 @@ def generate():
             preparer=preparer,
             employee=employee,
             role=checklist_role,
-            submitted_items=submitted if submitted else None,
+            submitted_items=submitted if items_were_submitted else None,
             logo_data=logo_data,
             os_name=os_name,
             display_role=role,
