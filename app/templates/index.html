@@ -23,9 +23,12 @@
     <div>
       <h1 data-i18n="gen_h1">Generate your IT onboarding checklist</h1>
       <p data-i18n="gen_p">Fill in the four sections below. Your PDF downloads instantly.</p>
+      <p class="gen-how" data-i18n="gen_how">A checklist is generated automatically from your choices — every item can be removed, edited, or added to before you create the PDF.</p>
     </div>
     <div class="gen-steps-indicator">
       <span class="gen-step-dot active"></span>
+      <span class="gen-step-line"></span>
+      <span class="gen-step-dot"></span>
       <span class="gen-step-line"></span>
       <span class="gen-step-dot"></span>
       <span class="gen-step-line"></span>
@@ -392,9 +395,6 @@
 
   <!-- Generate -->
   <div class="gen-submit-area">
-    <button type="button" class="btn-preview" id="btn-preview" data-i18n="btn_preview" onclick="openPreview()">
-      &#128065; Preview Checklist
-    </button>
     <button type="submit" class="btn-generate" id="btn-generate" data-i18n="gen_btn">
       &#11015; Generate PDF Checklist
     </button>
@@ -1010,35 +1010,6 @@ function addSuggestion(si, btn) {
     removedDefaults[si] = removedDefaults[si].filter(t => t !== text);
   }
   renderChecklist();
-}
-
-// ── Preview ─────────────────────────────────────────────
-function openPreview() {
-  const form = document.getElementById('gen-form');
-
-  // Populate hidden inputs first (same as submit)
-  const container = document.getElementById('checklist-hidden-inputs');
-  container.innerHTML = '';
-  checklistSections.forEach(section => {
-    section.steps.filter(s => !s.removed).forEach(step => {
-      appendHidden(container, JSON.stringify({ section: section.title, text: step.text }));
-    });
-  });
-  customItems.forEach(item => {
-    appendHidden(container, JSON.stringify({ section: item.section, text: item.text }));
-  });
-  customSoftware.forEach(sw => {
-    appendHidden(container, JSON.stringify({ section: 'Additional Software', text: `Install and configure ${sw.name}` }));
-  });
-  appendMarker(container);
-
-  const original = form.action;
-  const originalTarget = form.target;
-  form.action = '/preview';
-  form.target = '_blank';
-  form.submit();
-  form.action = original;
-  form.target = originalTarget;
 }
 
 // ── Step progress dots ──────────────────────────────────

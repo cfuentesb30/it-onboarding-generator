@@ -67,6 +67,7 @@ const TRANSLATIONS = {
     // Generator page
     gen_h1:       "Generate your IT onboarding checklist",
     gen_p:        "Fill in the four sections below. Your PDF downloads instantly.",
+    gen_how:      "A checklist is generated automatically from your choices — every item can be removed, edited, or added to before you create the PDF.",
     gen_section_company: "Company Info",
     gen_label_company_name: "Company Name",
     gen_label_company_size: "Company Size",
@@ -203,7 +204,6 @@ const TRANSLATIONS = {
     cl_items_many:       "items",
 
     // Submit area
-    btn_preview:         "&#128065; Preview Checklist",
     gen_submit_note:     "Your PDF isn't stored on our servers — but a summary (company, role, OS) is emailed to us to help support this free tool. <a href=\"/about#privacy\">Details</a>.",
 
     // Checklist section titles (from YAML)
@@ -313,6 +313,7 @@ const TRANSLATIONS = {
     // Generator page
     gen_h1:       "Genera tu checklist de incorporación IT",
     gen_p:        "Completa las cuatro secciones a continuación. Tu PDF se descarga al instante.",
+    gen_how:      "El checklist se genera automáticamente a partir de tus elecciones: puedes eliminar, editar o añadir cualquier elemento antes de crear el PDF.",
     gen_section_company: "Información de la Empresa",
     gen_label_company_name: "Nombre de la Empresa",
     gen_label_company_size: "Tamaño de la Empresa",
@@ -449,7 +450,6 @@ const TRANSLATIONS = {
     cl_items_many:       "elementos",
 
     // Submit area
-    btn_preview:         "&#128065; Vista previa del checklist",
     gen_submit_note:     "Tu PDF no se guarda en nuestros servidores \u2014 pero enviamos un resumen (empresa, rol, sistema operativo) por correo para ayudar a mantener esta herramienta gratuita. <a href=\"/about#privacy\">M\u00e1s informaci\u00f3n</a>.",
 
     // Checklist section titles (from YAML)
@@ -559,6 +559,7 @@ const TRANSLATIONS = {
     // Generator page
     gen_h1:       "Gere seu checklist de integração de TI",
     gen_p:        "Preencha as quatro seções abaixo. Seu PDF é baixado instantaneamente.",
+    gen_how:      "O checklist é gerado automaticamente a partir das suas escolhas: você pode remover, editar ou adicionar qualquer item antes de criar o PDF.",
     gen_section_company: "Informações da Empresa",
     gen_label_company_name: "Nome da Empresa",
     gen_label_company_size: "Tamanho da Empresa",
@@ -695,7 +696,6 @@ const TRANSLATIONS = {
     cl_items_many:       "itens",
 
     // Submit area
-    btn_preview:         "&#128065; Pr\u00e9-visualizar checklist",
     gen_submit_note:     "Seu PDF n\u00e3o \u00e9 armazenado em nossos servidores \u2014 mas enviamos um resumo (empresa, cargo, sistema operacional) por email para ajudar a manter esta ferramenta gratuita. <a href=\"/about#privacy\">Saiba mais</a>.",
 
     // Checklist section titles (from YAML)
@@ -805,6 +805,7 @@ const TRANSLATIONS = {
     // Generator page
     gen_h1:       "Générez votre checklist d'intégration IT",
     gen_p:        "Remplissez les quatre sections ci-dessous. Votre PDF se télécharge instantanément.",
+    gen_how:      "La checklist est générée automatiquement à partir de vos choix : vous pouvez supprimer, modifier ou ajouter n'importe quel élément avant de créer le PDF.",
     gen_section_company: "Informations sur l'Entreprise",
     gen_label_company_name: "Nom de l'Entreprise",
     gen_label_company_size: "Taille de l'Entreprise",
@@ -941,7 +942,6 @@ const TRANSLATIONS = {
     cl_items_many:       "\u00e9l\u00e9ments",
 
     // Submit area
-    btn_preview:         "&#128065; Aper\u00e7u du checklist",
     gen_submit_note:     "Votre PDF n'est pas stock\u00e9 sur nos serveurs \u2014 mais un r\u00e9sum\u00e9 (entreprise, r\u00f4le, syst\u00e8me) nous est envoy\u00e9 par email pour soutenir cet outil gratuit. <a href=\"/about#privacy\">En savoir plus</a>.",
 
     // Checklist section titles (from YAML)
