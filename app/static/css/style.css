@@ -691,34 +691,45 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
 }
 .btn-share:hover { color: var(--accent); border-color: var(--accent); background: var(--tint-accent-soft); }
 
-/* ── Pre-download donation overlay ── */
+/* ── Pre-download donation overlay ──
+   Shows on every PDF download, so it's a light, compact card (not a big
+   modal interruption) that borrows the .form-section card language:
+   surface bg, hairline border, colored top accent, rounded corners, soft shadow. */
 .pre-download-overlay {
   display: none; position: fixed; inset: 0;
-  background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(3px);
   z-index: 150; align-items: center; justify-content: center; padding: 20px;
 }
 .pre-download-overlay.open { display: flex; }
 .pre-download-card {
-  background: var(--surface); border-radius: 20px;
-  padding: 44px 40px; width: 100%; max-width: 500px; text-align: center;
-  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.25);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--kofi);
+  border-radius: 16px;
+  padding: 22px 24px 20px; width: 100%; max-width: 340px; text-align: center;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16), 0 2px 6px rgba(15, 23, 42, 0.06);
 }
-.pre-download-icon { font-size: 44px; margin-bottom: 16px; line-height: 1; }
-.pre-download-card h2 {
-  font-size: 22px; font-weight: 700; letter-spacing: -0.4px;
-  margin-bottom: 12px;
-}
+.pre-download-icon { font-size: 26px; margin-bottom: 8px; line-height: 1; }
 .pre-download-card p {
-  font-size: 15px; color: var(--muted); line-height: 1.7; margin-bottom: 28px;
+  font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-bottom: 18px;
 }
 .pre-download-actions {
-  display: flex; flex-direction: column; gap: 12px; align-items: center;
-  margin-bottom: 16px;
+  display: flex; flex-direction: column; gap: 8px; align-items: center;
+  margin-bottom: 12px;
 }
 .pre-download-actions .btn-kofi,
-.pre-download-actions .btn-generate { width: 100%; max-width: 340px; justify-content: center; }
+.pre-download-actions .btn-generate { width: 100%; max-width: 260px; justify-content: center; }
+.pre-download-actions .btn-kofi {
+  padding: 10px 20px; font-size: 13.5px; box-shadow: none;
+}
+.pre-download-actions .btn-generate {
+  padding: 11px 20px; font-size: 13.5px; box-shadow: none;
+}
+.pre-download-actions .btn-generate:hover:not(:disabled) {
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
+}
 .pre-download-skip {
-  background: none; border: none; font-size: 13px; color: var(--muted);
+  background: none; border: none; font-size: 12px; color: var(--muted);
   cursor: pointer; text-decoration: underline; padding: 0; font-family: inherit;
   transition: color .15s;
 }

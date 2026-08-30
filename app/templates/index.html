@@ -410,8 +410,7 @@
 <div class="pre-download-overlay" id="pre-download-overlay">
   <div class="pre-download-card">
     <div class="pre-download-icon">☕</div>
-    <h2 data-i18n="predown_h2">One sec before your PDF downloads.</h2>
-    <p data-i18n="predown_p">This tool is free and self-funded. If it saved you time today, consider buying me a coffee — it goes directly toward keeping this running and improving.</p>
+    <p data-i18n="predown_p">This stays free thanks to folks buying a coffee — no pressure.</p>
     <div class="pre-download-actions">
       <a href="https://ko-fi.com/cfuentesb30" target="_blank" rel="noopener" class="btn-kofi" data-i18n="support_kofi_btn">
         &#9749; Support on Ko-fi
@@ -930,15 +929,10 @@ function populateHiddenInputs() {
 document.getElementById('gen-form').addEventListener('submit', function(e) {
   e.preventDefault();
   populateHiddenInputs();
-  if (localStorage.getItem('donationPromptSeen')) {
-    proceedToDownload();
-  } else {
-    document.getElementById('pre-download-overlay').classList.add('open');
-  }
+  document.getElementById('pre-download-overlay').classList.add('open');
 });
 
 function proceedToDownload(openKofi) {
-  localStorage.setItem('donationPromptSeen', '1');
   document.getElementById('pre-download-overlay').classList.remove('open');
   if (openKofi) window.open('https://ko-fi.com/cfuentesb30', '_blank', 'noopener');
   const btn  = document.getElementById('btn-generate');
