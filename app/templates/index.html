@@ -409,8 +409,13 @@
 <!-- Pre-download donation overlay -->
 <div class="pre-download-overlay" id="pre-download-overlay">
   <div class="pre-download-card">
+    <button type="button" class="pre-download-close" onclick="closePreDownloadModal()" data-i18n-aria="predown_close_aria" aria-label="Close">&times;</button>
     <div class="pre-download-icon">☕</div>
     <p data-i18n="predown_p">This stays free thanks to folks buying a coffee — no pressure.</p>
+    <div class="pre-download-email-row" id="pre-download-email-row">
+      <label for="pre-download-email"><span data-i18n="predown_email_label">Email me a copy</span> <span class="optional-tag" data-i18n="gen_optional">optional</span></label>
+      <input type="email" id="pre-download-email" placeholder="jane@example.com" data-i18n-ph="ph_email" maxlength="120"/>
+    </div>
     <div class="pre-download-actions">
       <a href="https://ko-fi.com/cfuentesb30" target="_blank" rel="noopener" class="btn-kofi" data-i18n="support_kofi_btn">
         &#9749; Support on Ko-fi
@@ -929,10 +934,42 @@ function populateHiddenInputs() {
 document.getElementById('gen-form').addEventListener('submit', function(e) {
   e.preventDefault();
   populateHiddenInputs();
-  document.getElementById('pre-download-overlay').classList.add('open');
+  openPreDownloadModal();
 });
 
+function openPreDownloadModal() {
+  // Only ask for an email in the popup if Step 1's field is still empty —
+  // re-checked every time the popup opens, since the user may have filled
+  // it in (or cancelled and edited it) since the last time it was shown.
+  const mainEmail = document.getElementById('user_email');
+  const row = document.getElementById('pre-download-email-row');
+  const popupEmail = document.getElementById('pre-download-email');
+  const hasMainEmail = !!(mainEmail && mainEmail.value.trim());
+  row.style.display = hasMainEmail ? 'none' : '';
+  if (!hasMainEmail) popupEmail.value = '';
+  document.getElementById('pre-download-overlay').classList.add('open');
+}
+
+function closePreDownloadModal() {
+  document.getElementById('pre-download-overlay').classList.remove('open');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('pre-download-overlay').classList.contains('open')) {
+    closePreDownloadModal();
+  }
+});
+
+function syncPreDownloadEmail() {
+  const popupEmail = document.getElementById('pre-download-email');
+  const mainEmail  = document.getElementById('user_email');
+  if (popupEmail && mainEmail && popupEmail.value.trim()) {
+    mainEmail.value = popupEmail.value.trim();
+  }
+}
+
 function proceedToDownload(openKofi) {
+  syncPreDownloadEmail();
   document.getElementById('pre-download-overlay').classList.remove('open');
   if (openKofi) window.open('https://ko-fi.com/cfuentesb30', '_blank', 'noopener');
   const btn  = document.getElementById('btn-generate');

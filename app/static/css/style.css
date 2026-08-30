@@ -702,6 +702,7 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
 }
 .pre-download-overlay.open { display: flex; }
 .pre-download-card {
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-top: 3px solid var(--kofi);
@@ -709,9 +710,35 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus,
   padding: 22px 24px 20px; width: 100%; max-width: 340px; text-align: center;
   box-shadow: 0 16px 40px rgba(15, 23, 42, 0.16), 0 2px 6px rgba(15, 23, 42, 0.06);
 }
+.pre-download-close {
+  position: absolute; top: 10px; right: 10px;
+  background: none; border: none; font-size: 18px; line-height: 1;
+  color: var(--muted); cursor: pointer; padding: 4px;
+  border-radius: 6px; transition: color .15s, background-color .15s;
+}
+.pre-download-close:hover { color: var(--text); background: var(--bg); }
 .pre-download-icon { font-size: 26px; margin-bottom: 8px; line-height: 1; }
 .pre-download-card p {
   font-size: 13.5px; color: var(--muted); line-height: 1.5; margin-bottom: 18px;
+}
+.pre-download-email-row {
+  text-align: left; margin: -8px 0 16px; padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.pre-download-email-row label {
+  display: block; font-size: 12px; font-weight: 500; color: var(--text);
+  margin-bottom: 5px;
+}
+.pre-download-email-row label .optional-tag { margin-left: 4px; }
+.pre-download-email-row input[type="email"] {
+  width: 100%; padding: 8px 11px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: inherit; font-size: 13.5px; color: var(--text); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.pre-download-email-row input[type="email"]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
 }
 .pre-download-actions {
   display: flex; flex-direction: column; gap: 8px; align-items: center;

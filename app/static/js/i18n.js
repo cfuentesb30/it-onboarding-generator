@@ -88,9 +88,11 @@ const TRANSLATIONS = {
     ph_preparer:  "Your name",
 
     // Pre-download overlay
-    predown_p:        "This stays free thanks to folks buying a coffee — no pressure.",
-    predown_download: "&#11015; Download my PDF",
-    predown_skip:     "No thanks, just download",
+    predown_p:            "This stays free thanks to folks buying a coffee — no pressure.",
+    predown_download:     "&#11015; Download my PDF",
+    predown_skip:         "No thanks, just download",
+    predown_email_label:  "Email me a copy",
+    predown_close_aria:   "Close",
 
     // Support / donation section
     support_eyebrow:   "Free &amp; donation-supported",
@@ -333,9 +335,11 @@ const TRANSLATIONS = {
     ph_preparer:  "Tu nombre",
 
     // Pre-download overlay
-    predown_p:        "Esto sigue siendo gratis gracias a quienes invitan un café — sin presión.",
-    predown_download: "&#11015; Descargar mi PDF",
-    predown_skip:     "No gracias, solo descargar",
+    predown_p:            "Esto sigue siendo gratis gracias a quienes invitan un café — sin presión.",
+    predown_download:     "&#11015; Descargar mi PDF",
+    predown_skip:         "No gracias, solo descargar",
+    predown_email_label:  "Enviarme una copia por correo",
+    predown_close_aria:   "Cerrar",
 
     // Support / donation section
     support_eyebrow:   "Gratis y financiado por donaciones",
@@ -578,9 +582,11 @@ const TRANSLATIONS = {
     ph_preparer:  "Seu nome",
 
     // Pre-download overlay
-    predown_p:        "Isso continua gratuito graças a quem paga um café — sem pressão.",
-    predown_download: "&#11015; Baixar meu PDF",
-    predown_skip:     "Não obrigado, só baixar",
+    predown_p:            "Isso continua gratuito graças a quem paga um café — sem pressão.",
+    predown_download:     "&#11015; Baixar meu PDF",
+    predown_skip:         "Não obrigado, só baixar",
+    predown_email_label:  "Enviar uma cópia para meu e-mail",
+    predown_close_aria:   "Fechar",
 
     // Support / donation section
     support_eyebrow:   "Gratuito e financiado por doações",
@@ -823,9 +829,11 @@ const TRANSLATIONS = {
     ph_preparer:  "Votre nom",
 
     // Pre-download overlay
-    predown_p:        "Cet outil reste gratuit grâce à celles et ceux qui offrent un café — sans pression.",
-    predown_download: "&#11015; Télécharger mon PDF",
-    predown_skip:     "Non merci, juste télécharger",
+    predown_p:            "Cet outil reste gratuit grâce à celles et ceux qui offrent un café — sans pression.",
+    predown_download:     "&#11015; Télécharger mon PDF",
+    predown_skip:         "Non merci, juste télécharger",
+    predown_email_label:  "M'envoyer une copie par e-mail",
+    predown_close_aria:   "Fermer",
 
     // Support / donation section
     support_eyebrow:   "Gratuit et financé par des dons",
@@ -1004,6 +1012,12 @@ function applyLang(lang) {
   document.querySelectorAll("[data-i18n-ph]").forEach(el => {
     const key = el.getAttribute("data-i18n-ph");
     if (t[key] !== undefined) el.setAttribute("placeholder", t[key]);
+  });
+
+  // Translate aria-labels
+  document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+    const key = el.getAttribute("data-i18n-aria");
+    if (t[key] !== undefined) el.setAttribute("aria-label", t[key]);
   });
 
   // Update toggle button to show current language with flag
