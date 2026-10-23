@@ -938,15 +938,11 @@ document.getElementById('gen-form').addEventListener('submit', function(e) {
 });
 
 function openPreDownloadModal() {
-  // Only ask for an email in the popup if Step 1's field is still empty —
-  // re-checked every time the popup opens, since the user may have filled
-  // it in (or cancelled and edited it) since the last time it was shown.
+  // Always shown, pre-filled from Step 1's field if it already has a value
+  // so the user isn't asked to retype an address they gave earlier.
   const mainEmail = document.getElementById('user_email');
-  const row = document.getElementById('pre-download-email-row');
   const popupEmail = document.getElementById('pre-download-email');
-  const hasMainEmail = !!(mainEmail && mainEmail.value.trim());
-  row.style.display = hasMainEmail ? 'none' : '';
-  if (!hasMainEmail) popupEmail.value = '';
+  popupEmail.value = mainEmail ? mainEmail.value.trim() : '';
   document.getElementById('pre-download-overlay').classList.add('open');
 }
 
@@ -961,9 +957,12 @@ document.addEventListener('keydown', function(e) {
 });
 
 function syncPreDownloadEmail() {
+  // The popup is the final word on the email address — pre-filled from
+  // Step 1 when opened, but clearing it here means "don't email me" even
+  // if Step 1 had a value, so this always overwrites (not just when non-empty).
   const popupEmail = document.getElementById('pre-download-email');
   const mainEmail  = document.getElementById('user_email');
-  if (popupEmail && mainEmail && popupEmail.value.trim()) {
+  if (popupEmail && mainEmail) {
     mainEmail.value = popupEmail.value.trim();
   }
 }
