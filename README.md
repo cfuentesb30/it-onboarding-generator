@@ -1,6 +1,6 @@
 # IT Onboarding Generator
 
-> Stop setting up new employees from memory. Fill in the form, download a print-ready IT checklist PDF — tailored to your OS, role, and software stack. Free. No account. No friction.
+> Stop setting up new employees from memory. Fill in the form, download a print-ready IT checklist PDF tailored to your OS, role, and software stack. Free. No account. No friction.
 
 **Live:** [it-onboarding-generator.onrender.com](https://it-onboarding-generator.onrender.com)  
 **Built by:** [Carlos Fuentes](https://www.linkedin.com/in/cfuentes30) · Honduras  
@@ -12,38 +12,38 @@
 
 A free, open-source Flask web app that generates custom IT onboarding checklist PDFs in under a minute.
 
-- Tailored to **Windows, macOS, Linux, or remote** employee setup
-- **8 role-specific templates** — General, Developer, Designer, Sales, HR, Finance, Marketing, Operations
-- Includes only the software you actually use — Office, Slack, Zoom, VPN, and more
-- **Editable checklist** — remove items or add your own before generating
-- **Live preview** — see the checklist before downloading the PDF
-- **Shareable links** — share a pre-filled checklist with configurable expiry
-- **Company logo upload** — embedded in the PDF header at generation time
+- Tailored to **Windows, macOS, Linux, or remote/BYOD** setups, plus a free-text **Custom** OS
+- **8 role templates** (General, Developer, Designer, Sales, HR, Finance, Marketing, Operations) plus a free-text **Custom** role
+- Includes only the software you actually use, with suggestions per group and free-text entries for anything missing
+- **Editable checklist**: remove items, edit them inline, or add your own before generating
+- **Shareable links** that pre-fill the whole form, with configurable expiry
+- **Company logo** embedded in the PDF header, never stored on the server
 - Security steps (MFA, antivirus, password policy) built into every checklist
-- **EN / ES / PT / FR** — full UI translation including all dynamic content
-- **Email delivery** — optional field to receive the PDF directly in your inbox (Resend)
-- Mobile-friendly, no account, no signup
+- **Email delivery**: optionally receive the PDF in your inbox
+- **EN / ES / PT / FR** UI, light/dark theme, mobile-friendly
+- No account, no signup, no database
 
 ---
 
-## Pages
+## Pages and endpoints
 
-| Route | Description |
-|---|---|
-| `/` | Landing page |
-| `/generator` | Checklist form — OS, role, software, edit, preview, generate, share |
-| `/generator?s=<token>` | Pre-filled form loaded from a share link |
-| `/about` | About the project |
-| `/suggest` | Suggest a feature |
-| `/items` | JSON endpoint — checklist items for a given OS + role + software |
-| `/preview` | POST — HTML checklist preview |
-| `/generate` | POST — builds and returns the PDF |
+| Route | Method | Description |
+|---|---|---|
+| `/` | GET | Landing page |
+| `/generator` | GET | Checklist form: OS, role, software, edit, generate, share |
+| `/generator?s=<token>` | GET | Form pre-filled from a share link |
+| `/about` | GET | About the project and privacy details |
+| `/suggest` | GET/POST | Suggest a feature |
+| `/items` | GET | JSON: merged checklist items for an OS + role + software selection |
+| `/preview` | POST | HTML render of the checklist |
+| `/generate` | POST | Builds and returns the PDF |
+| `/healthz` | GET | Health check |
 
 ---
 
 ## Features
 
-### Role-specific templates
+### Role templates
 
 | Role | Extra sections |
 |---|---|
@@ -57,28 +57,28 @@ A free, open-source Flask web app that generates custom IT onboarding checklist 
 | Operations | Ops tools, vendor management, process docs |
 
 ### Editable checklist
-Before generating, a live checklist loads in the form. You can remove any item, add custom items, or reload if you change OS, role, or software.
-
-### Live preview
-Click **Preview Checklist** to open a formatted HTML view of all items before downloading.
+As soon as you pick an OS, role, and software, the checklist loads in the form and updates live as you change your selections. Remove any item, edit its text, or add custom items. What you see is exactly what ends up in the PDF.
 
 ### Shareable links
-Encodes the full form state — OS, role, software, names, custom/removed items — as base64 JSON in the URL. No database required. Configurable expiry: 1h / 24h / 48h / 1 week / no expiry.
+The full form state (OS, role, software, names, custom and removed items) is encoded as base64 JSON in the URL, so no server storage is needed. Expiry options: 1h / 24h / 48h / 1 week / never.
 
-### Company logo upload
-PNG, JPG, or SVG. Converted to base64 at generation time — never stored on the server.
+### Company logo
+PNG, JPG, GIF, or WebP, checked by file signature rather than extension. The logo is converted to base64 in memory at generation time and never written to disk.
 
 ### Email delivery
-Optional email field sends the PDF to the user's inbox. Powered by [Resend](https://resend.com).
+An optional email field sends the PDF to your inbox, powered by [Resend](https://resend.com). Right before the download, a short popup gives you a last chance to add or change that address (or clear it to skip the email), alongside a small Ko-fi link. It can be dismissed with × or Escape.
 
 | Email | Recipient | Trigger |
 |---|---|---|
-| Checklist delivery | User (if email provided) | Every PDF generation |
-| Owner notification | `OWNER_EMAIL` env var | Every PDF generation |
-| Suggestion | Owner | Suggest a feature form submission |
+| Checklist delivery | User (if an email was provided) | Every PDF generation |
+| Owner notification | `OWNER_EMAIL` | Every PDF generation |
+| Suggestion | `OWNER_EMAIL` | Suggest-a-feature form |
 
-### i18n — EN / ES / PT / FR
-Full translation coverage: static labels, placeholders, dropdown options, OS/role card descriptions, dynamic checklist states (loading, error, empty, item count), and JS-generated section titles. Language saved to `localStorage`, with a first-visit picker on arrival.
+### Languages
+Full EN / ES / PT / FR coverage: labels, placeholders, dropdowns, OS/role descriptions, dynamic checklist states, and JS-generated section titles. A language picker appears on the first visit and the choice is saved in `localStorage`.
+
+### Abuse protection
+Per-IP rate limits on `/generate`, `/preview`, `/items`, and `/suggest` (Flask-Limiter), with user input escaped before it reaches the PDF or email templates.
 
 ---
 
@@ -86,35 +86,37 @@ Full translation coverage: static labels, placeholders, dropdown options, OS/rol
 
 | Layer | Tech |
 |---|---|
-| Backend | Python 3 · Flask |
+| Backend | Python 3.11 · Flask · Flask-Limiter |
 | PDF generation | WeasyPrint |
 | Templates | Jinja2 |
-| Styling | Vanilla CSS (Inter font) |
+| Styling | Vanilla CSS (custom-property light/dark theming, Inter font) |
 | i18n | Vanilla JS (`i18n.js`) |
-| Checklists | YAML files per OS + role |
+| Checklists | YAML files per OS and per role |
 | Share links | Base64-encoded JSON with embedded expiry |
 | Email | Resend API |
-| Deployment | Render (Docker) |
+| Deployment | Render (Docker, gunicorn) |
 
 ---
 
 ## Local setup
 
-**Requirements:** Python 3.11+, WeasyPrint system dependencies
+**Requirements:** Python 3.11+ and the WeasyPrint system libraries.
 
 ```bash
 git clone https://github.com/cfuentesb30/it-onboarding-generator.git
 cd it-onboarding-generator
 
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 
 cp .env.example .env
-# Edit .env — add RESEND_API_KEY and OWNER_EMAIL to enable email
+# Edit .env and add RESEND_API_KEY and OWNER_EMAIL to enable email
 
 python run.py
 ```
 
-App runs at `http://localhost:5000`.
+The app runs at `http://localhost:5000`.
 
 ### WeasyPrint system deps (Ubuntu/Debian)
 
@@ -134,11 +136,11 @@ brew install pango fontconfig freetype
 
 | Variable | Required | Description |
 |---|---|---|
-| `SECRET_KEY` | Yes | Flask secret key |
-| `RESEND_API_KEY` | No | Enables email delivery (Resend) |
-| `RESEND_FROM` | No | Sender address after domain verification |
-| `OWNER_EMAIL` | No | Email that receives owner notifications |
-| `APP_URL` | No | Base URL for email CTA links (default: Render URL) |
+| `SECRET_KEY` | Yes | Flask secret key. If unset, a random per-process key is used and a warning is logged. |
+| `RESEND_API_KEY` | No | Enables email delivery. Without it, no emails are sent. |
+| `RESEND_FROM` | No | Sender address on a domain verified in Resend. Defaults to Resend's sandbox sender, which only delivers to the Resend account owner. |
+| `OWNER_EMAIL` | No | Receives owner notifications and feature suggestions |
+| `APP_URL` | No | Base URL used in email links (defaults to the Render URL) |
 
 ---
 
@@ -146,14 +148,16 @@ brew install pango fontconfig freetype
 
 ```bash
 docker build -t it-onboarding-generator .
-docker run -p 5000:5000 --env-file .env it-onboarding-generator
+docker run -p 5000:10000 --env-file .env it-onboarding-generator
 ```
+
+The container listens on port 10000 (Render's default), so the command above serves it at `http://localhost:5000`.
 
 ---
 
 ## Deploy your own
 
-Fork the repo, connect it to [Render](https://render.com), set your environment variables, and it auto-deploys on push to `main`. Config is in `render.yaml`.
+Fork the repo, connect it to [Render](https://render.com), and set your environment variables. Render auto-deploys on every push to `main`. The service config is in `render.yaml`.
 
 ---
 
@@ -162,35 +166,27 @@ Fork the repo, connect it to [Render](https://render.com), set your environment 
 ```
 it-onboarding-generator/
 ├── app/
-│   ├── __init__.py
-│   ├── routes.py              # URL routes, share token decode
-│   ├── pdf_generator.py       # YAML loading, role merging, PDF build
-│   ├── email.py               # Branded HTML email templates (Resend)
+│   ├── __init__.py            # App factory, rate limiter, proxy config
+│   ├── routes.py              # Routes, share token decode, upload checks
+│   ├── pdf_generator.py       # YAML loading, OS + role merging, PDF build
+│   ├── email.py               # HTML email templates (Resend)
 │   ├── templates/
-│   │   ├── base.html          # Shared layout, nav, lang toggle, OG tags
+│   │   ├── base.html          # Shared layout, nav, language + theme toggles, OG tags
 │   │   ├── home.html          # Landing page
-│   │   ├── about.html         # About page
-│   │   ├── index.html         # Generator form, preview, share modal
+│   │   ├── about.html         # About / privacy page
+│   │   ├── index.html         # Generator form, checklist editor, share + download popups
 │   │   ├── suggest.html       # Feature suggestion form
+│   │   ├── error.html         # Friendly error page
 │   │   └── pdf_checklist.html # PDF output template
 │   └── static/
 │       ├── css/style.css
-│       └── js/i18n.js         # EN/ES/PT/FR translations + t() helper
+│       ├── js/i18n.js         # EN/ES/PT/FR translations + t() helper
+│       └── og-image.png       # Social preview image
 ├── checklists/
-│   ├── windows.yaml
-│   ├── macos.yaml
-│   ├── linux.yaml
-│   ├── remote.yaml
-│   ├── custom.yaml
+│   ├── windows.yaml · macos.yaml · linux.yaml · remote.yaml · custom.yaml
 │   └── roles/
-│       ├── general.yaml
-│       ├── developer.yaml
-│       ├── designer.yaml
-│       ├── sales.yaml
-│       ├── hr.yaml
-│       ├── finance.yaml
-│       ├── marketing.yaml
-│       └── operations.yaml
+│       ├── general.yaml · developer.yaml · designer.yaml · sales.yaml
+│       └── hr.yaml · finance.yaml · marketing.yaml · operations.yaml
 ├── .env.example
 ├── Dockerfile
 ├── render.yaml
@@ -203,28 +199,27 @@ it-onboarding-generator/
 ## How it works
 
 **PDF generation**
-1. User fills in company info, selects OS, role, software, optional logo
-2. `/items` fetches and merges the OS + role YAML checklists
-3. User edits items in the browser — changes tracked in JS state
-4. On submit, a Ko-fi donation card appears before the download
-5. **Download my PDF** opens Ko-fi in a new tab then downloads; **No thanks** skips directly
-6. `pdf_generator.py` renders the checklist to PDF via WeasyPrint
-7. Flask sends the file as a download; Resend emails are dispatched in a background thread
+1. The user fills in company info and picks an OS, role, software, and an optional logo.
+2. `/items` loads and merges the OS and role YAML checklists, filtered by the selected software.
+3. The user edits the checklist in the browser.
+4. On submit, the download popup appears (email confirmation + optional Ko-fi link).
+5. `pdf_generator.py` renders the checklist to PDF with WeasyPrint.
+6. Flask returns the file as a download; Resend emails go out in a background thread.
 
 **Share links**
-1. JS encodes the full form state + expiry timestamp as base64 JSON
-2. URL becomes `/generator?s=<token>` — no server storage needed
-3. On load, Flask decodes the token, checks expiry, and pre-fills the form
+1. The browser encodes the full form state plus an expiry timestamp as base64 JSON.
+2. The URL becomes `/generator?s=<token>`, with nothing stored on the server.
+3. On load, Flask decodes the token, checks the expiry, and pre-fills the form.
 
 ---
 
 ## Contributing
 
-Issues and pull requests are welcome. If you want to add a new role, checklist section, or language — open an issue first so we can align on scope.
+Issues and pull requests are welcome. If you want to add a role, checklist section, or language, please open an issue first so we can agree on scope.
 
-To add a new role: create `checklists/roles/<role>.yaml` following the existing format, then add the role to `ROLE_OPTIONS` in `routes.py`.
-
-To add a new language: add a translation block to `app/static/js/i18n.js` and a button to the language picker in `base.html`.
+- **New role:** create `checklists/roles/<role>.yaml` following the existing format, then add it to `ROLE_OPTIONS` in `app/routes.py`.
+- **New OS:** create `checklists/<os>.yaml`, then add it to `OS_OPTIONS` and `VALID_OS` in `app/routes.py`.
+- **New language:** add a translation block to `app/static/js/i18n.js` and a button to the language picker in `base.html`.
 
 ---
 
@@ -232,22 +227,18 @@ To add a new language: add a translation block to `app/static/js/i18n.js` and a 
 
 - [x] Role-specific checklist templates
 - [x] Editable checklist before generating
-- [x] Live preview before download
-- [x] EN / ES / PT / FR full i18n
-- [x] First-visit language picker
-- [x] Mobile-responsive layout
+- [x] Linux and custom OS / custom role options
+- [x] EN / ES / PT / FR translations with first-visit language picker
 - [x] Shareable links with configurable expiry
 - [x] Company logo upload
-- [x] Pre-download Ko-fi donation prompt
-- [x] Email delivery via Resend
-- [x] Branded HTML email templates
-- [x] Open Graph / Twitter card meta tags
-- [x] Open source
-- [ ] OG image for social link previews
-- [ ] V2 — dynamic generator with custom software stacks
+- [x] Email delivery with branded HTML templates
+- [x] Open Graph / Twitter card previews
+- [x] Light / dark theme
+- [ ] Custom domain with a verified email sender
+- [ ] More checklist templates and software integrations
 
 ---
 
 ## License
 
-MIT — free to use, fork, and self-host. If this saves you time, a [Ko-fi donation](https://ko-fi.com/cfuentesb30) is always appreciated.
+MIT. Free to use, fork, and self-host. If this saves you time, a [Ko-fi donation](https://ko-fi.com/cfuentesb30) is always appreciated.
