@@ -1,0 +1,43 @@
+# Base configuration shared by development and production.
+#
+#   Development (laptop):  docker compose up --build
+#                          (Compose also loads docker-compose.override.yml automatically)
+#   Production (server):   set COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml
+#                          in .env, then: docker compose up -d --build
+#
+# Both images are multi-arch (amd64 + arm64) and the app image is built on
+# each machine from the Dockerfile, so the same files work on both.
+# Passwords and SECRET_KEY come from .env, which is never committed.
+
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:?Falta POSTGRES_USER en .env}:${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en .env}@db:5432/${POSTGRES_DB:?Falta POSTGRES_DB en .env}
+    ports:
+      # Bound to 127.0.0.1 only: Docker writes its own iptables rules and
+      # bypasses ufw, so 0.0.0.0 would expose the app to the internet.
+      - "127.0.0.1:${APP_PORT:-5000}:10000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?Falta POSTGRES_USER en .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en .env}
+      POSTGRES_DB: ${POSTGRES_DB:?Falta POSTGRES_DB en .env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    # No `ports:` on purpose: only the app reaches PostgreSQL, over Docker's
+    # internal network. Nothing outside Docker can connect to it.
+
+volumes:
+  pgdata:

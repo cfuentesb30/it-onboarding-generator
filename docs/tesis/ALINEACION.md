@@ -52,8 +52,8 @@ Estados: **Sí** = existe y cubre el requisito. **Parcial** = existe algo relaci
 | 2 | Principio de mínimo privilegio | Parcial | `checklists/windows.yaml:16`, `checklists/windows.yaml:42`, `checklists/roles/developer.yaml:29`, `app/templates/index.html:571` | Aparece como ítems de texto ("cuenta estándar sin permisos de administrador", "permisos según el rol"). La demostración práctica está en las filas 11 y 12. |
 | 3 | Cuentas huérfanas | No | (solo `checklists/roles/hr.yaml:29` menciona "offboarding") | El concepto no aparece. La demostración práctica está en las filas 13 y 14. |
 | 4 | Flask | Sí | `app/__init__.py`, `app/routes.py`, `requirements.txt` (Flask 3.0.3) | La aplicación completa está hecha en Flask. |
-| 5 | PostgreSQL | No | — | La aplicación no tiene base de datos. Hoy es un diseño sin estado: el estado de los links compartibles viaja dentro de la URL. |
-| 6 | Docker | Sí | `Dockerfile`, `render.yaml` (`env: docker`) | La imagen se basa en `python:3.11-slim`. Falta Docker Compose para levantar la aplicación junto con PostgreSQL. |
+| 5 | PostgreSQL | Parcial | `docker-compose.yml`, `app/extensions.py`, `app/__init__.py`, ruta `/healthz/db` en `app/routes.py` | Fase 0 lista: PostgreSQL 17 corre en Docker Compose y la aplicación se conecta. Faltan las tablas (Fase 1). |
+| 6 | Docker | Sí | `Dockerfile`, `docker-compose.yml`, `docker-compose.override.yml`, `docker-compose.prod.yml` | La imagen se basa en `python:3.11-slim`. Docker Compose levanta la aplicación y PostgreSQL, con configuración separada para desarrollo y producción. |
 
 ### Capítulo VI: Prototipo
 
@@ -68,7 +68,7 @@ Estados: **Sí** = existe y cubre el requisito. **Parcial** = existe algo relaci
 | 13 | Cuentas huérfanas: registro de accesos por empleado a sistemas | No | — | No hay empleados, sistemas ni accesos guardados. |
 | 14 | Cuentas huérfanas: detección y visualización de empleados de baja con accesos activos | No | — | Depende de la fila 13 y del flujo de offboarding (fila 8). |
 
-**Resumen (14 requisitos):** 2 cubiertos (Flask, Docker), 4 parciales (IAM, mínimo privilegio en teoría, onboarding, accesos por puesto) y 8 sin cubrir (cuentas huérfanas en teoría, PostgreSQL, offboarding, inventario de activos, bitácora, roles de usuarios, registro de accesos, detección de cuentas huérfanas).
+**Resumen (14 requisitos):** 2 cubiertos (Flask, Docker), 5 parciales (IAM, mínimo privilegio en teoría, PostgreSQL, onboarding, accesos por puesto) y 7 sin cubrir (cuentas huérfanas en teoría, offboarding, inventario de activos, bitácora, roles de usuarios, registro de accesos, detección de cuentas huérfanas).
 
 **Observación principal:** todos los requisitos de las filas 7 a 14 necesitan guardar datos. Por eso PostgreSQL (fila 5) es la brecha de la que dependen las demás: alinear el prototipo implica pasar del diseño actual sin estado a uno con base de datos y con inicio de sesión. El diseño propuesto está en [modelo-datos.md](modelo-datos.md).
 
@@ -85,7 +85,14 @@ Estos temas no forman parte del trabajo de tesis y no se trabajarán en la rama 
 
 ---
 
-## 4. Forma de trabajo con las ramas
+## 4. Delimitaciones
+
+- **Una sola empresa.** El prototipo gestiona los empleados, sistemas y activos de una sola empresa. El soporte para varias empresas en la misma instalación (multiempresa) queda como trabajo futuro.
+- **Registro, no integración.** La aplicación *registra* el otorgamiento y la revocación de accesos, pero no los ejecuta en los sistemas externos (Microsoft 365, Google Workspace, ERP). El técnico hace el cambio en el sistema externo y lo deja registrado en la aplicación. Las integraciones automáticas quedan como trabajo futuro.
+
+---
+
+## 5. Forma de trabajo con las ramas
 
 - `ver.proyecto` es la rama principal del proyecto de graduación.
 - Cada cambio nuevo se hace en una rama creada desde `ver.proyecto` y se fusiona de vuelta a `ver.proyecto`.

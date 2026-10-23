@@ -11,3 +11,4 @@ instance/
 !docs/
 docs/*
 !docs/tesis/
+backups/

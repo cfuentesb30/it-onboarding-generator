@@ -1,0 +1,14 @@
+# Production overrides. Use together with the base file:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.prod.yml   (in .env)
+#
+# The app runs with gunicorn (the Dockerfile's default command) and the code
+# baked into the image; nothing is mounted from the host.
+
+services:
+  app:
+    restart: unless-stopped
+    environment:
+      FLASK_ENV: production
+
+  db:
+    restart: unless-stopped

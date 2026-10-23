@@ -55,6 +55,19 @@ def create_app():
 
     limiter.init_app(app)
 
+    # The public generator never touches the database, so it keeps working
+    # without DATABASE_URL (e.g. `python run.py` on its own); only the
+    # management panel and /healthz/db need it.
+    database_url = os.getenv("DATABASE_URL")
+    if database_url:
+        from .extensions import db, migrate, normalize_database_url
+        app.config["SQLALCHEMY_DATABASE_URI"] = normalize_database_url(database_url)
+        app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {"pool_pre_ping": True}
+        db.init_app(app)
+        migrate.init_app(app, db)
+    else:
+        logger.warning("DATABASE_URL is not set — database features are disabled.")
+
     from .routes import main
     app.register_blueprint(main)
 

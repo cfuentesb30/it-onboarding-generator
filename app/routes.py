@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, send_file, abort, jsonify, redirect, url_for, flash
+from flask import Blueprint, render_template, request, send_file, abort, jsonify, redirect, url_for, flash, current_app
 from . import limiter
 from .pdf_generator import (
     build_pdf, load_checklist, sections_from_submitted,
@@ -117,6 +117,21 @@ def _decode_share(token):
 @main.route("/healthz", methods=["GET"])
 def healthz():
     return {"status": "ok"}, 200
+
+@main.route("/healthz/db", methods=["GET"])
+@limiter.limit("30 per minute")
+def healthz_db():
+    if "sqlalchemy" not in current_app.extensions:
+        return {"status": "error", "detail": "DATABASE_URL no configurada"}, 503
+    from .extensions import db
+    from sqlalchemy import text
+    try:
+        version = db.session.execute(text("SHOW server_version")).scalar()
+    except Exception:
+        # Never echo the exception: it can contain the connection string.
+        logger.exception("Database health check failed")
+        return {"status": "error", "detail": "no se pudo conectar a la base de datos"}, 503
+    return {"status": "ok", "database": "postgresql", "server_version": version}, 200
 
 @main.route("/", methods=["GET"])
 def home():
