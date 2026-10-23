@@ -52,7 +52,7 @@ Estados: **Sí** = existe y cubre el requisito. **Parcial** = existe algo relaci
 | 2 | Principio de mínimo privilegio | Parcial | `checklists/windows.yaml:16`, `checklists/windows.yaml:42`, `checklists/roles/developer.yaml:29`, `app/templates/index.html:571` | Aparece como ítems de texto ("cuenta estándar sin permisos de administrador", "permisos según el rol"). La demostración práctica está en las filas 11 y 12. |
 | 3 | Cuentas huérfanas | No | (solo `checklists/roles/hr.yaml:29` menciona "offboarding") | El concepto no aparece. La demostración práctica está en las filas 13 y 14. |
 | 4 | Flask | Sí | `app/__init__.py`, `app/routes.py`, `requirements.txt` (Flask 3.0.3) | La aplicación completa está hecha en Flask. |
-| 5 | PostgreSQL | Parcial | `docker-compose.yml`, `app/extensions.py`, `app/__init__.py`, ruta `/healthz/db` en `app/routes.py` | Fase 0 lista: PostgreSQL 17 corre en Docker Compose y la aplicación se conecta. Faltan las tablas (Fase 1). |
+| 5 | PostgreSQL | Parcial | `docker-compose.yml`, `app/extensions.py`, `app/__init__.py`, ruta `/healthz/db` en `app/routes.py` | Fase 0 lista: PostgreSQL 18 corre en Docker Compose y la aplicación se conecta. Faltan las tablas (Fase 1). |
 | 6 | Docker | Sí | `Dockerfile`, `docker-compose.yml`, `docker-compose.override.yml`, `docker-compose.prod.yml` | La imagen se basa en `python:3.11-slim`. Docker Compose levanta la aplicación y PostgreSQL, con configuración separada para desarrollo y producción. |
 
 ### Capítulo VI: Prototipo
